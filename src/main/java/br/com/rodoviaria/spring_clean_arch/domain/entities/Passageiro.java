@@ -1,6 +1,7 @@
-package br.com.rodoviaria.spring_clean_arch.domain.entitities;
+package br.com.rodoviaria.spring_clean_arch.domain.entities;
 
 import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
+import br.com.rodoviaria.spring_clean_arch.domain.exception.passageiro.NomeInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.vo.Cpf;
 import br.com.rodoviaria.spring_clean_arch.domain.vo.Email;
 import br.com.rodoviaria.spring_clean_arch.domain.vo.Senha;
@@ -21,6 +22,10 @@ public final class Passageiro {
 
     public Passageiro(UUID id, String nome, Email email, Senha senha, Cpf cpf, Telefone telefone, Role role) {
         this.id = id;
+        // Validação do nome
+        if(nome == null || nome.isEmpty()){
+            throw new NomeInvalidoException("Nome vazio ou nulo.");
+        }
         this.nome = nome;
         this.email = email;
         this.senha = senha;

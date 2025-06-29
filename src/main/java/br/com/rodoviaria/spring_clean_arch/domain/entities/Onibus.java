@@ -1,27 +1,29 @@
-package br.com.rodoviaria.spring_clean_arch.domain.entitities;
+package br.com.rodoviaria.spring_clean_arch.domain.entities;
+
+import br.com.rodoviaria.spring_clean_arch.domain.exception.onibus.CapacidadeInvalidaException;
+import br.com.rodoviaria.spring_clean_arch.domain.exception.onibus.PlacaInvalidaException;
 
 import java.util.UUID;
 
 public final class Onibus {
-    private UUID id;
-    private String placa;
-    private String modelo;
-    private int capacidade;
+    private final UUID id;
+    private final String placa;
+    private final String modelo;
+    private final int capacidade;
 
-    public Onibus(){}
     public Onibus(UUID id, String placa, String modelo, int capacidade) {
         this.id = id;
         // Validação para a placa
         // Preciso criar um pacote para exceções
         if(placa == null || placa.isBlank()){
-            throw new IllegalArgumentException("Placa inválida: Não pode ser nula ou vazia");
+            throw new PlacaInvalidaException("Placa inválida: Não pode ser nula ou vazia");
         }
         this.placa = placa;
         this.modelo = modelo;
         // Validação para a capacidade
         // Preciso criar um pacote para exceções
         if(capacidade <= 0){
-            throw new IllegalArgumentException("Capacidade não pode ser negativa.");
+            throw new CapacidadeInvalidaException("Capacidade não pode ser negativa.");
         }
         this.capacidade = capacidade;
     }

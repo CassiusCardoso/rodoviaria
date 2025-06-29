@@ -1,7 +1,8 @@
-package br.com.rodoviaria.spring_clean_arch.domain.entitities;
+package br.com.rodoviaria.spring_clean_arch.domain.entities;
 
 import br.com.rodoviaria.spring_clean_arch.domain.enums.FormaPagamento;
 import br.com.rodoviaria.spring_clean_arch.domain.enums.StatusViagem;
+import br.com.rodoviaria.spring_clean_arch.domain.exception.ticket.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,36 +20,46 @@ public final class Ticket {
     private final Passageiro passageiro; // Relacionamento 2: Quem comprou o ticket;
     private final Viagem viagem; // Relacionamento 1: A qual a viagem o ticket pertence
 
-    public Ticket(UUID id, String nomePassageiroTicket, String documentoPassageiroTicket, int numeroAssento, BigDecimal preco, FormaPagamento formaPagamento, StatusViagem status, LocalDate dataCompra, Passageiro comprador, Viagem viagem) {
+    // Não vou passar o LocalDate dataCompra no construtor porque eu quero que ao criar um ticket, a data pegar a partir desse momento
+    public Ticket(UUID id, String nomePassageiroTicket, String documentoPassageiroTicket, int numeroAssento, BigDecimal preco, FormaPagamento formaPagamento, StatusViagem status, Passageiro comprador, Viagem viagem) {
         this.id = id;
         // Validação Nome passageiro e Documento Passageiro
         if(nomePassageiroTicket.isBlank()){
-            throw new IllegalArgumentException("O nome do passageiro está vazio no ticket.");
+            throw new NomePassageiroTicketInvalidoException("O nome do passageiro está vazio no ticket.");
         }
         if(documentoPassageiroTicket.isBlank()){
-            throw new IllegalArgumentException("O documento do passageiro está vazio no ticket.");
+            throw new DocumentoPassageiroInvalidoException("O documento do passageiro está vazio no ticket.");
         }
         this.nomePassageiroTicket = nomePassageiroTicket;
         this.documentoPassageiroTicket = documentoPassageiroTicket;
+
+        // Validação do numero de assento
+        if(numeroAssento > viagem.getOnibus().getCapacidade()){
+            throw new NumeroAssentoInvalidoException("O número do assento excede a capacidade do ônibus.");
+        }
         if(numeroAssento < 0){
-            throw new IllegalArgumentException("O número do assento não pode ser negativo.");
+            throw new NumeroAssentoInvalidoException("O número do assento não pode ser negativo.");
         }
         this.numeroAssento = numeroAssento;
         // Validação do preço
         if (preco == null || preco.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("O preço do ticket não pode ser nulo ou negativo.");
+            throw new PrecoInvalidoException("O preço do ticket não pode ser nulo ou negativo.");
         }
         this.preco = preco;
         if( formaPagamento == null){
-            throw new IllegalArgumentException("A forma de pagamento não pode ser nula");
+            throw new FormaPagamentoInvalidaException("A forma de pagamento não pode ser nula");
         }
         this.formaPagamento = formaPagamento;
+        this.dataCompra = LocalDate.now();
         if( dataCompra == null){
-            throw new IllegalArgumentException("A data de compra não pode ser vazia");
+            throw new DataCompraInvalidaException("A data de compra não pode ser vazia");
         }
-        this.dataCompra = dataCompra;
+        if(this.dataCompra.atStartOfDay().isAfter(viagem.getData_partida())){
+            throw new DataCompraInvalidaException("Não é possível comprar um ticket para uma viagem que já partiu.");
+
+        }
         if(status == null){
-            throw new IllegalArgumentException("O status não pode ser nulo");
+            throw new StatusInvalidoException("O status não pode ser nulo");
         }
         this.status = status;
         this.passageiro = comprador;

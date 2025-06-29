@@ -1,4 +1,8 @@
-package br.com.rodoviaria.spring_clean_arch.domain.entitities;
+package br.com.rodoviaria.spring_clean_arch.domain.entities;
+
+import br.com.rodoviaria.spring_clean_arch.domain.exception.linha.DestinoInvalidoException;
+import br.com.rodoviaria.spring_clean_arch.domain.exception.linha.DuracaoPrevistaException;
+import br.com.rodoviaria.spring_clean_arch.domain.exception.linha.OrigemInvalidoException;
 
 import java.util.UUID;
 
@@ -13,17 +17,21 @@ public final class Linha {
         // Validação para destino e origem
         // Preciso criar um pacote para exceções
         if(destino.isBlank()){
-            throw new IllegalArgumentException("O destino está vazio.");
+            throw new DestinoInvalidoException("O destino é inválido, pois está vazio.");
         }
         if(origem.isBlank()){
-            throw new IllegalArgumentException("O destino está vazio.");
+            throw new OrigemInvalidoException("A origem é invalida, pois está vazia.");
+        }
+        // Validação para a origem não ser igual ao destino
+        if(origem.equals(destino)){
+            throw new OrigemInvalidoException("A origem e o destino não podem ser o mesmo endereço.");
         }
         this.origem = origem;
         this.destino = destino;
         // Validação para duração
         // Preciso criar um pacote para exceções
         if(duracao_prevista_minutos <= 0){
-            throw new IllegalArgumentException("O tempo da viagem não poder ser igual ou inferior a 0");
+            throw new DuracaoPrevistaException("O tempo da viagem não poder ser igual ou inferior a 0");
         }
         this.duracao_prevista_minutos =  duracao_prevista_minutos;
     }
