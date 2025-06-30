@@ -19,6 +19,6 @@ public interface LinhaRepository {
 
     // Buscar linha pela origem e destino
     // Suggest: Gemini 30/06 - 09:46
-    Optional<Linha> buscarPorOrigemEDestino(String origem, String destino)
+    Optional<Linha> buscarPorOrigemEDestino(String origem, String destino);
 
 }
