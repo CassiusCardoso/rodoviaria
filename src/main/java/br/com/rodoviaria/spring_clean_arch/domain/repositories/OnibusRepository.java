@@ -19,5 +19,5 @@ public interface OnibusRepository {
 
     // Buscar ônibus pela placa
     // Suggest: Gemini 30/06 - 09:46
-    Optional<Onibus> buscarPelaPlaca(String placa)
+    Optional<Onibus> buscarPelaPlaca(String placa);
 }

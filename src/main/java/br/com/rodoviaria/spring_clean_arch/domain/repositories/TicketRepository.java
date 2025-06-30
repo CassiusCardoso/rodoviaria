@@ -21,7 +21,4 @@ public interface TicketRepository {
     // Lista todos os tickets de um passageiro
     List<Ticket> listarTicketsPorId(UUID passageiroId);
 
-    //
-    // Suggest: Gemini 30/06 - 09:46
-
 }
