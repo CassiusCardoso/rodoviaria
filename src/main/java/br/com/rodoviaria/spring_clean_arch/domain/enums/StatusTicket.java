@@ -1,7 +1,0 @@
-package br.com.rodoviaria.spring_clean_arch.domain.enums;
-
-public enum StatusTicket {
-    CONFIRMADO,
-    CANCELADO,
-    UTILIZADO
-}

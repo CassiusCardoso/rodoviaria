@@ -1,0 +1,11 @@
+package br.com.rodoviaria.spring_clean_arch.Application.Dto.Response.Linha;
+
+import java.util.UUID;
+
+public record LinhaResponse (
+        UUID id,
+        String origem,
+        String destino,
+        int duracaoPrevistaMinutos
+){
+}
