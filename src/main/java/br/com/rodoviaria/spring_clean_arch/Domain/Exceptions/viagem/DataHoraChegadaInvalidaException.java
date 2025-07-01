@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.domain.Exceptions.viagem;
+package br.com.rodoviaria.spring_clean_arch.Domain.Exceptions.viagem;
 
 public class DataHoraChegadaInvalidaException extends RuntimeException {
     public DataHoraChegadaInvalidaException(String message) {
