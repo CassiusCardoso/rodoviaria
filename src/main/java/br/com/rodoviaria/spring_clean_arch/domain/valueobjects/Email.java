@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.domain.ValueObjects;
+package br.com.rodoviaria.spring_clean_arch.domain.valueobjects;
 
 public class Email {
     private final String email;

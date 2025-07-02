@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.app_temp.dto.Request.Passageiro;
+package br.com.rodoviaria.spring_clean_arch.Application.dto.Request.Passageiro;
 
 public record CadastrarPassageiroRequest(
         // O ID não deve vir no request de criação, ele será gerado pelo sistema.

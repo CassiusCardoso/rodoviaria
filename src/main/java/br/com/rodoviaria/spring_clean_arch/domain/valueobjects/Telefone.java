@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.domain.ValueObjects;
+package br.com.rodoviaria.spring_clean_arch.domain.valueobjects;
 
 public class Telefone {
     private final String telefone;
