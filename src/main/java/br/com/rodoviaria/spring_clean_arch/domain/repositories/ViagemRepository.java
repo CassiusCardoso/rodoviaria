@@ -2,7 +2,7 @@ package br.com.rodoviaria.spring_clean_arch.domain.repositories;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,5 +20,13 @@ public interface ViagemRepository {
 
     // Buscar pela data, origem e destino
     // Suggest: Gemini 30/06 - 09:46
-    List<Viagem> buscarPorDataOrigemDestino(LocalDate data, String origem, String destino);
+    List<Viagem> buscarPorDataOrigemDestino(LocalDateTime data, String origem, String destino);
+
+    // EDIT 02/07 13:47
+    // Buscar viagens por linha
+    List<Viagem> buscarViagensPorLinha(UUID linhaId);
+
+    // EDIT 02/07 14:31
+    // Buscar viagens por passageiro
+    List<Viagem> buscarViagensPorPassageiro(UUID passageiroId);
 }
