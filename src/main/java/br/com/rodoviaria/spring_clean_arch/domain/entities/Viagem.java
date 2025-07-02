@@ -1,9 +1,9 @@
-package br.com.rodoviaria.spring_clean_arch.domain.Entities;
+package br.com.rodoviaria.spring_clean_arch.domain.entities;
 
-import br.com.rodoviaria.spring_clean_arch.domain.Enums.StatusViagem;
-import br.com.rodoviaria.spring_clean_arch.domain.Exceptions.viagem.DataHoraChegadaInvalidaException;
-import br.com.rodoviaria.spring_clean_arch.domain.Exceptions.viagem.LinhaInvalidaException;
-import br.com.rodoviaria.spring_clean_arch.domain.Exceptions.viagem.StatusViagemInvalidoException;
+import br.com.rodoviaria.spring_clean_arch.domain.enums.StatusViagem;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.DataHoraChegadaInvalidaException;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.LinhaInvalidaException;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.StatusViagemInvalidoException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

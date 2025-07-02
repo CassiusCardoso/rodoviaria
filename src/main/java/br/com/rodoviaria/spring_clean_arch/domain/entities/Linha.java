@@ -1,8 +1,8 @@
-package br.com.rodoviaria.spring_clean_arch.domain.Entities;
+package br.com.rodoviaria.spring_clean_arch.domain.entities;
 
-import br.com.rodoviaria.spring_clean_arch.domain.Exceptions.linha.DestinoInvalidoException;
-import br.com.rodoviaria.spring_clean_arch.domain.Exceptions.linha.DuracaoPrevistaException;
-import br.com.rodoviaria.spring_clean_arch.domain.Exceptions.linha.OrigemInvalidoException;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.linha.DestinoInvalidoException;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.linha.DuracaoPrevistaException;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.linha.OrigemInvalidoException;
 
 import java.util.UUID;
 

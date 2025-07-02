@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.Application.Dto.Response.Linha;
+package br.com.rodoviaria.spring_clean_arch.app_temp.dto.Response.Linha;
 
 import java.util.UUID;
 

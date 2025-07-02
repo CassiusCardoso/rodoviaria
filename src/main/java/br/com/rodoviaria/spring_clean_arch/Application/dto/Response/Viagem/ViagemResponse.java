@@ -1,7 +1,7 @@
-package br.com.rodoviaria.spring_clean_arch.Application.Dto.Response.Viagem;
+package br.com.rodoviaria.spring_clean_arch.app_temp.dto.Response.Viagem;
 
-import br.com.rodoviaria.spring_clean_arch.Application.Dto.Response.Linha.LinhaResponse;
-import br.com.rodoviaria.spring_clean_arch.Application.Dto.Response.Onibus.OnibusResponse;
+import br.com.rodoviaria.spring_clean_arch.app_temp.dto.Response.Linha.LinhaResponse;
+import br.com.rodoviaria.spring_clean_arch.app_temp.dto.Response.Onibus.OnibusResponse;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

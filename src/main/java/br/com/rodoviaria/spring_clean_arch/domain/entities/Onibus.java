@@ -1,7 +1,7 @@
-package br.com.rodoviaria.spring_clean_arch.domain.Entities;
+package br.com.rodoviaria.spring_clean_arch.domain.entities;
 
-import br.com.rodoviaria.spring_clean_arch.domain.Exceptions.onibus.CapacidadeInvalidaException;
-import br.com.rodoviaria.spring_clean_arch.domain.Exceptions.onibus.PlacaInvalidaException;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.onibus.CapacidadeInvalidaException;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.onibus.PlacaInvalidaException;
 
 import java.util.UUID;
 

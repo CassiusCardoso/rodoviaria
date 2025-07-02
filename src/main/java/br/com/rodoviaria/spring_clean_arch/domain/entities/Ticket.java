@@ -1,8 +1,8 @@
-package br.com.rodoviaria.spring_clean_arch.domain.Entities;
+package br.com.rodoviaria.spring_clean_arch.domain.entities;
 
-import br.com.rodoviaria.spring_clean_arch.domain.Enums.FormaPagamento;
-import br.com.rodoviaria.spring_clean_arch.domain.Enums.StatusViagem;
-import br.com.rodoviaria.spring_clean_arch.domain.Exceptions.ticket.*;
+import br.com.rodoviaria.spring_clean_arch.domain.enums.FormaPagamento;
+import br.com.rodoviaria.spring_clean_arch.domain.enums.StatusViagem;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,11 +1,11 @@
-package br.com.rodoviaria.spring_clean_arch.domain.Entities;
+package br.com.rodoviaria.spring_clean_arch.domain.entities;
 
-import br.com.rodoviaria.spring_clean_arch.domain.Enums.Role;
-import br.com.rodoviaria.spring_clean_arch.domain.Exceptions.passageiro.NomeInvalidoException;
-import br.com.rodoviaria.spring_clean_arch.domain.ValueObjects.Cpf;
-import br.com.rodoviaria.spring_clean_arch.domain.ValueObjects.Email;
-import br.com.rodoviaria.spring_clean_arch.domain.ValueObjects.Senha;
-import br.com.rodoviaria.spring_clean_arch.domain.ValueObjects.Telefone;
+import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.NomeInvalidoException;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Cpf;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Telefone;
 
 import java.util.UUID;
 

@@ -1,7 +1,7 @@
-package br.com.rodoviaria.spring_clean_arch.Application.Dto.Response.Ticket;
+package br.com.rodoviaria.spring_clean_arch.app_temp.dto.Response.Ticket;
 
-import br.com.rodoviaria.spring_clean_arch.Application.Dto.Response.Passageiro.PassageiroResponse;
-import br.com.rodoviaria.spring_clean_arch.Application.Dto.Response.Viagem.ViagemResponse;
+import br.com.rodoviaria.spring_clean_arch.app_temp.dto.Response.Passageiro.PassageiroResponse;
+import br.com.rodoviaria.spring_clean_arch.app_temp.dto.Response.Viagem.ViagemResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
