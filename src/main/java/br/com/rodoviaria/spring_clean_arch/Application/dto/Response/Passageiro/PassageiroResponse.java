@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.Application.dto.Response.Passageiro;
+package br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro;
 
 import java.util.UUID;
 

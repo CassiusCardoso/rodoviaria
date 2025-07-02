@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.Application.dto.Request.Viagem;
+package br.com.rodoviaria.spring_clean_arch.application.dto.request.viagem;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

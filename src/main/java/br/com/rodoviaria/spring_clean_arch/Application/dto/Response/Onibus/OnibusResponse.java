@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.Application.dto.Response.Onibus;
+package br.com.rodoviaria.spring_clean_arch.application.dto.response.onibus;
 
 import java.util.UUID;
 

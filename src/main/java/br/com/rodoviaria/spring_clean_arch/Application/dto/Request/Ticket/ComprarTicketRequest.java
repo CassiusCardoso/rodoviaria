@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.Application.dto.Request.Ticket;
+package br.com.rodoviaria.spring_clean_arch.application.dto.request.ticket;
 
 import java.math.BigDecimal;
 import java.util.UUID;
