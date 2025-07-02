@@ -38,7 +38,6 @@ public final class Viagem {
     public UUID getId() {
         return id;
     }
-
     public LocalDateTime getDataPartida() {
         return dataPartida;
     }
