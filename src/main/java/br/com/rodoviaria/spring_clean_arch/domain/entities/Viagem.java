@@ -44,11 +44,23 @@ public final class Viagem {
     public LocalDateTime getDataHoraChegada() {
         return dataHoraChegada;
     }
+    public Linha getLinha() { return linha;}
     public StatusViagem getStatusViagem() {
         return statusViagem;
     }
     public Onibus getOnibus() {
         return onibus;
+    }
+
+    public Viagem cancelar(){
+        return new Viagem(
+                this.id,
+                this.dataPartida,
+                this.dataHoraChegada,
+                StatusViagem.CANCELADA,
+                this.linha,
+                this.onibus
+        );
     }
 
 }
