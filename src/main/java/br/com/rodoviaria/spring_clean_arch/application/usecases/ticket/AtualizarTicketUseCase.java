@@ -3,7 +3,6 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.ticket;// Em: b
 // ... outros imports
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.ticket.AtualizarTicketRequest; // Importe o novo DTO
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.ticket.TicketResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.ticket.TicketMapper; // Importe o Mapper
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 import br.com.rodoviaria.spring_clean_arch.domain.enums.StatusTicket;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.StatusInvalidoException;
