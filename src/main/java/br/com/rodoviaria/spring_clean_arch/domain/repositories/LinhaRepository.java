@@ -1,6 +1,6 @@
-package br.com.rodoviaria.spring_clean_arch.domain.Repositories;
+package br.com.rodoviaria.spring_clean_arch.domain.repositories;
 
-import br.com.rodoviaria.spring_clean_arch.domain.Entities.Linha;
+import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 
 import java.util.List;
 import java.util.Optional;

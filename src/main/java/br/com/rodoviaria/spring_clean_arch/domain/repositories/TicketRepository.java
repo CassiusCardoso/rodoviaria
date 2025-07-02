@@ -1,7 +1,7 @@
-package br.com.rodoviaria.spring_clean_arch.domain.Repositories;
+package br.com.rodoviaria.spring_clean_arch.domain.repositories;
 
-import br.com.rodoviaria.spring_clean_arch.domain.Entities.Ticket;
-import br.com.rodoviaria.spring_clean_arch.domain.Entities.Viagem;
+import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
+import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 
 import java.util.List;
 import java.util.Optional;
