@@ -5,8 +5,10 @@ public record CadastrarPassageiroRequest(
         // O Role não deve ser definido pelo usuário, como veremos a seguir.
         String nome,
         String email,
+        String senha,
         String cpf,
-        String telefone
+        String telefone,
+        String role
 
 ) {
 }
