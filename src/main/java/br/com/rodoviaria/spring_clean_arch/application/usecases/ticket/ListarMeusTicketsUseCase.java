@@ -1,6 +1,7 @@
 package br.com.rodoviaria.spring_clean_arch.application.usecases.ticket;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.ticket.TicketResponse;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.ticket.TicketMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.TicketInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
