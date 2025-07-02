@@ -3,7 +3,7 @@ package br.com.rodoviaria.spring_clean_arch.application.dto.request.ticket;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public record CriarTicketRequest(
+public record ComprarTicketRequest(
         String nomePassageiroTicket,
         String documentoPassageiroTicket,
         int numeroAssento,
