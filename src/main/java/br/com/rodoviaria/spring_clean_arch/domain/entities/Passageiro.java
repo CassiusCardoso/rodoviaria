@@ -18,9 +18,9 @@ public final class Passageiro {
     private final Cpf cpf;
     private final Telefone telefone;
     private final Role role;
+    private final Boolean ativo;
 
-
-    public Passageiro(UUID id, String nome, Email email, Senha senha, Cpf cpf, Telefone telefone, Role role) {
+    public Passageiro(UUID id, String nome, Email email, Senha senha, Cpf cpf, Telefone telefone, Role role, Boolean ativo) {
         this.id = id;
         // Validação do nome
         if(nome == null || nome.isEmpty()){
@@ -32,6 +32,7 @@ public final class Passageiro {
         this.cpf = cpf;
         this.telefone = telefone;
         this.role = role;
+        this.ativo = ativo;
     }
     public UUID getId() {
         return id;
@@ -55,5 +56,23 @@ public final class Passageiro {
     public Role getRole() {
         return role;
     }
+    public Boolean getAtivo() { return ativo;}
 
+    /**
+     * Retorna uma nova instância do Passageiro com o atributo ativo alterado para false
+     * Este método é usado para implementar o "Soft Delete".
+     * @return um novo objeto Passageiro com o false no atributo ativo
+     */
+
+    public Passageiro desativar(){
+        return new Passageiro(
+                this.id,
+                this.nome,
+                this.email,
+                this.senha,
+                this.cpf,
+                this.telefone,
+                this.role,
+                false); // <<-- Correção: Atribui diretamente o valor 'false', em vez de this.ativo = false
+    }
 }
