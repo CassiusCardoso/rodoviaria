@@ -11,8 +11,9 @@ public final class Linha {
     private final String origem;
     private final String destino;
     private final int duracaoPrevistaMinutos;
+    private final Boolean ativo;
 
-    public Linha(UUID id, String origem, String destino, int duracao_prevista_minutos) {
+    public Linha(UUID id, String origem, String destino, int duracaoPrevistaMinutos, Boolean ativo) {
         this.id = id;
         // Validação para destino e origem
         // Preciso criar um pacote para exceções
@@ -30,10 +31,11 @@ public final class Linha {
         this.destino = destino;
         // Validação para duração
         // Preciso criar um pacote para exceções
-        if(duracao_prevista_minutos <= 0){
+        if(duracaoPrevistaMinutos <= 0){
             throw new DuracaoPrevistaException("O tempo da viagem não poder ser igual ou inferior a 0");
         }
-        this.duracaoPrevistaMinutos =  duracao_prevista_minutos;
+        this.duracaoPrevistaMinutos =  duracaoPrevistaMinutos;
+        this.ativo = ativo;
     }
     public UUID getId() {
         return id;
@@ -47,5 +49,16 @@ public final class Linha {
     }
     public int getDuracaoPrevistaMinutos() {
         return duracaoPrevistaMinutos;
+    }
+    public  Boolean getAtivo() { return ativo;}
+
+    public Linha desativar(){
+        return new Linha(
+                this.id,
+                this.origem,
+                this.destino,
+                this.duracaoPrevistaMinutos,
+                false
+        );
     }
 }
