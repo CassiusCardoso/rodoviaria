@@ -29,4 +29,10 @@ public interface ViagemRepository {
     // EDIT 02/07 14:31
     // Buscar viagens por passageiro
     List<Viagem> buscarViagensPorPassageiro(UUID passageiroId);
+
+    // EDIT 03/07 14:51
+    boolean existeViagemEmTransitoParaOnibus(UUID onibusId);
+
+    boolean existeViagemFuturaNaoCanceladaParaOnibus(UUID onibusId);
+
 }
