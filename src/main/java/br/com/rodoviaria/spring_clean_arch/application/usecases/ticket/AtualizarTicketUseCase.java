@@ -22,11 +22,11 @@ public class AtualizarTicketUseCase {
     }
 
     // O método agora recebe o ID e o DTO com os novos dados
-    public TicketResponse execute(UUID id, AtualizarTicketRequest request) {
+    public TicketResponse execute(UUID ticketId, AtualizarTicketRequest request) {
 
         // 1. Buscando o Ticket que já existe (seu código original, está perfeito!)
-        Ticket ticketAtual = ticketRepository.buscarTicketPorId(id)
-                .orElseThrow(() -> new TicketInvalidoException("Ticket com ID " + id + " não existe."));
+        Ticket ticketAtual = ticketRepository.buscarTicketPorId(ticketId)
+                .orElseThrow(() -> new TicketInvalidoException("Ticket com ID " + ticketId + " não existe."));
 
         // 2. Verificando regras de negócio (seu código original, perfeito!)
         if(ticketAtual.getViagem().getDataPartida().isBefore(LocalDateTime.now())){ // Usei getData_partida() que é mais preciso
