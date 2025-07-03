@@ -6,6 +6,7 @@ public record OnibusResponse(
         UUID id,
         String placa,
         String modelo,
-        int capacidade
+        int capacidade,
+        Boolean ativo
         ) {
 }
