@@ -24,4 +24,10 @@ public interface PassageiroRepository {
     // Buscar por email
     // Suggest: Gemini 30/06 - 09:46
     Optional<Passageiro> buscarPorEmail(String email);
+
+    // Buscar passageiros por viagem
+    // EDIT 03/07 09:00
+    List<Passageiro> buscarPassageirosPorViagem(UUID viagemId);
+
+    Optional<Passageiro> buscarPassageiroAtivo(Boolean ativo);
 }

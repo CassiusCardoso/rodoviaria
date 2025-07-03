@@ -21,4 +21,8 @@ public interface TicketRepository {
     // Lista todos os tickets de um passageiro
     List<Ticket> listarTicketsPorId(UUID passageiroId);
 
+    // Listar tickets por viagem
+    // EDIT 03/07 09:14
+    List<Ticket> buscarTicketsPorViagem(UUID viagemId);
+
 }
