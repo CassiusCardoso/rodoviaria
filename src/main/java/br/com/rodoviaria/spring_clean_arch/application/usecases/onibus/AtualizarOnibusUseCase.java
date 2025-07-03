@@ -28,10 +28,15 @@ public class AtualizarOnibusUseCase {
         Onibus onibus = onibusRepository.buscarOnibusPorId(onibusId)
                 .orElseThrow(() -> new OnibusInvalidoException("Não há nenhum registro de ônibus com esse identificador"));
 
-        // NOVA VALIDAÇÃO: Usa o novo contrato do repositório
+        // SUGESTÃO DE NOVA VALIDAÇÃO
+        if (!onibus.getAtivo()) {
+            throw new OnibusInvalidoException("Não é possível alterar um ônibus que já está desativado.");
+        }
+
         if (viagemRepository.existeViagemEmTransitoParaOnibus(onibusId)) {
             throw new OnibusInvalidoException("Não é possível alterar um ônibus que está atualmente em trânsito.");
         }
+
         // Atualizar a entidade
         Onibus onibusAtualizado = new Onibus(
                 onibus.getId(),

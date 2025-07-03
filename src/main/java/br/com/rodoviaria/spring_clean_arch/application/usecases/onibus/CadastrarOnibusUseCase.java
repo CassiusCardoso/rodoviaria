@@ -30,7 +30,8 @@ public class CadastrarOnibusUseCase {
                 UUID.randomUUID(),
                 novaPlaca,
                 request.modelo(),
-                request.capacidade()
+                request.capacidade(),
+                true // Assim que um ônibus é instanciado ele já está como ativo
 
         );
 
