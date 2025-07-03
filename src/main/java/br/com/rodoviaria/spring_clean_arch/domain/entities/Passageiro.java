@@ -2,10 +2,10 @@ package br.com.rodoviaria.spring_clean_arch.domain.entities;
 
 import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.NomeInvalidoException;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Cpf;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Telefone;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Cpf;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Email;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Senha;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Telefone;
 
 import java.util.UUID;
 
