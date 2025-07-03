@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 
-@Mapper(uses = {OnibusMapper.class, LinhaMapper.class})
+@Mapper()
 public interface LinhaMapper {
 
     LinhaMapper INSTANCE = Mappers.getMapper(LinhaMapper.class);
