@@ -21,11 +21,11 @@ public class BuscarDetalhesDoTicketUseCase {
 
     public TicketResponse execute(UUID ticketId, UUID usuarioLogadoId) {
 
-        // 1. BUSCANDO A ENTIDADE TICKET (Seu código, está perfeito)
+        // 1. BUSCANDO A ENTIDADE TICKET
         Ticket ticketBuscado = ticketRepository.buscarTicketPorId(ticketId)
                 .orElseThrow(() -> new TicketInvalidoException("O ticket com ID " + ticketId + " não existe."));
 
-        // 2. VERIFICANDO A AUTORIZAÇÃO (Seu código, está perfeito)
+        // 2. VERIFICANDO A AUTORIZAÇÃO
         if (!ticketBuscado.getPassageiro().getId().equals(usuarioLogadoId)) {
             // Futuramente, você pode adicionar uma verificação de Role de ADMIN aqui também
             throw new AutorizacaoInvalidaException("O usuário não tem permissão para visualizar este ticket.");
