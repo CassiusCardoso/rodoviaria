@@ -1,6 +1,6 @@
 package br.com.rodoviaria.spring_clean_arch.application.dto.request.onibus;
 
-public record CriarOnibusRequest(
+public record CadastrarOnibusRequest(
         String placa,
         String modelo,
         int capacidade
