@@ -32,11 +32,11 @@ public class DesativarPassageiroUseCase {
         // Modifica o estado da entidade
         // Como Passageiro é imutável, pois não tem set, É PRECISO criar um novo objeto com o estado atualizado
         // Precisa criar o método cancelar() na entidade Passageiro
-        Passageiro passageiroCancelado = passageiro.desativar();
+        Passageiro passageiroDesativado = passageiro.desativar();
 
         // Salvar o estado atualizado
         // O mesmo método "salvar" serve para criar e para atualizar.
-        passageiroRepository.salvar(passageiroCancelado);
+        passageiroRepository.salvar(passageiroDesativado);
 
 
     }

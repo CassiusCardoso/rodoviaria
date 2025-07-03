@@ -10,10 +10,10 @@ import br.com.rodoviaria.spring_clean_arch.application.ports.out.senha.SenhaEnco
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
 import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Cpf;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Telefone;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Cpf;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Email;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Senha;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Telefone;
 
 import java.util.UUID;
 
