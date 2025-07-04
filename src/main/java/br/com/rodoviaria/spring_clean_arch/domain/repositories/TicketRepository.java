@@ -23,6 +23,6 @@ public interface TicketRepository {
 
     // Listar tickets por viagem
     // EDIT 03/07 09:14
-    List<Ticket> buscarTicketsPorViagem(UUID viagemId);
+    List<Ticket> listarTicketsPorViagem(UUID viagemId);
 
 }

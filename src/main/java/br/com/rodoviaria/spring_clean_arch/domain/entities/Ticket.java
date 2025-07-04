@@ -7,6 +7,7 @@ import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.DataCompraIn
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public final class Ticket {
@@ -113,4 +114,6 @@ public final class Ticket {
     public Viagem getViagem() {
         return viagem;
     }
+
+
 }

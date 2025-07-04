@@ -16,6 +16,7 @@ public final class Viagem {
     private final Linha linha;
     private final Onibus onibus;
 
+
     public Viagem(UUID id, LocalDateTime data_partida, LocalDateTime data_hora_chegada, StatusViagem statusViagem, Linha linha, Onibus onibus) {
         this.id = id;
         // Validação da relação entre os atributos
@@ -51,6 +52,7 @@ public final class Viagem {
     public Onibus getOnibus() {
         return onibus;
     }
+
 
     public Viagem cancelar(){
         return new Viagem(
