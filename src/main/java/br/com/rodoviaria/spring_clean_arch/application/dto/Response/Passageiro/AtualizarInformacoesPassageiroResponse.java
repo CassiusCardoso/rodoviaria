@@ -1,10 +1,14 @@
 package br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro;
 
+import java.time.LocalDateTime;
+
 public record AtualizarInformacoesPassageiroResponse(
         String nome,
         String email,
-        String senha,
         String cpf,
-        String telefone
+        String telefone,
+        String role,
+        Boolean ativo,           // 2. Adicione o novo campo
+        LocalDateTime criadoEm   // 3. Adicione o novo campo
 ) {
 }
