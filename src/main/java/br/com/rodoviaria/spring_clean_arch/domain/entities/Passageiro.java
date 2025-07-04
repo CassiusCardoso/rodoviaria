@@ -7,6 +7,7 @@ import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Email;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Senha;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Telefone;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public final class Passageiro {
@@ -19,13 +20,17 @@ public final class Passageiro {
     private final Telefone telefone;
     private final Role role;
     private final Boolean ativo;
+    private final LocalDateTime criadoEm;
 
+    // Construtor público
     public Passageiro(UUID id, String nome, Email email, Senha senha, Cpf cpf, Telefone telefone, Role role, Boolean ativo) {
+        this(id, nome, email, senha, cpf, telefone, role, ativo, LocalDateTime.now());
+    }
+    // Construtor privado
+    private Passageiro(UUID id, String nome, Email email, Senha senha, Cpf cpf, Telefone telefone, Role role, Boolean ativo, LocalDateTime criadoEm) {
+        if(nome == null || nome.isEmpty()) throw new NomeInvalidoException("Nome vazio ou nulo.");
+
         this.id = id;
-        // Validação do nome
-        if(nome == null || nome.isEmpty()){
-            throw new NomeInvalidoException("Nome vazio ou nulo.");
-        }
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -33,6 +38,7 @@ public final class Passageiro {
         this.telefone = telefone;
         this.role = role;
         this.ativo = ativo;
+        this.criadoEm = criadoEm;
     }
     public UUID getId() {
         return id;
@@ -57,6 +63,7 @@ public final class Passageiro {
         return role;
     }
     public Boolean getAtivo() { return ativo;}
+    public LocalDateTime getCriadoEm() { return criadoEm;}
 
     /**
      * Retorna uma nova instância do Passageiro com o atributo ativo alterado para false
@@ -73,6 +80,8 @@ public final class Passageiro {
                 this.cpf,
                 this.telefone,
                 this.role,
-                false); // <<-- Correção: Atribui diretamente o valor 'false', em vez de this.ativo = false
+                false, // <<-- Correção: Atribui diretamente o valor 'false', em vez de this.ativo = false
+                this.criadoEm
+        );
     }
 }

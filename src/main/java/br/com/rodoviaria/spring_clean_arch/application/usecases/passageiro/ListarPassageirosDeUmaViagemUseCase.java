@@ -27,7 +27,7 @@ public class ListarPassageirosDeUmaViagemUseCase {
 
         // Verificando se o ticket existe
         // É a partir dos tickets que temos a relação entre passageiro e viagem.
-        List<Ticket> ticketsDaViagem = ticketRepository.buscarTicketsPorViagem(viagemId);
+        List<Ticket> ticketsDaViagem = ticketRepository.listarTicketsPorViagem(viagemId);
         // Se a lista estiver vazia, você pode optar por retornar uma lista vazia
         // ou lançar uma exceção, dependendo da sua regra de negócio.
         // Lançar exceção pode ser mais informativo para o usuário.
