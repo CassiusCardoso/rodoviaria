@@ -20,7 +20,7 @@ public class AutenticarPassageiroUseCase {
         this.service = service;
     }
 
-    public AutenticarPassageiroResponse execute(AutenticarPassageiroRequest request, Boolean ativo){
+    public AutenticarPassageiroResponse execute(AutenticarPassageiroRequest request){
         // Verificar se o passageiro existe pelo email
         Passageiro passageiro = passageiroRepository.buscarPorEmail(request.email())
                 .orElseThrow(() -> new AutorizacaoInvalidaException("Email ou senha inválidos."));

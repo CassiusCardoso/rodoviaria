@@ -22,9 +22,9 @@ public class AtualizarInformacoesPassageiroUseCase {
         this.passageiroRepository = passageiroRepository;
     }
 
-    public AtualizarInformacoesPassageiroResponse execute(AtualizarInformacoesPassageiroRequest request, UUID passageiroId, UUID usuarioLogadoId, Role usuarioRole){
+    public AtualizarInformacoesPassageiroResponse execute(AtualizarInformacoesPassageiroRequest request, UUID passageiroId, UUID usuarioLogadoId, Role usuarioRole) {
         // Verificar se o passageiro existe
-        Passageiro passageiroAtual =  passageiroRepository.buscarPassageiroPorId(passageiroId)
+        Passageiro passageiroAtual = passageiroRepository.buscarPassageiroPorId(passageiroId)
                 .orElseThrow(() -> new PassageiroInvalidoException("Não encontramos nenhum passageiro com o identificador " + passageiroId + " no sistema."));
 
         // Adicionar validação de autorização aqui
@@ -41,26 +41,26 @@ public class AtualizarInformacoesPassageiroUseCase {
         Cpf novoCpf = new Cpf(request.cpf());
         Telefone novoTelefone = new Telefone(request.telefone());
 
-        // EDIT 03/07 11:42
-        if(!passageiroAtual.getAtivo() == false){
-            throw new PassageiroInvalidoException("Você não pode alterar as informações, pois a sua conta está desativada.");
+        // EDIT 04/07 10:42
+        if (!passageiroAtual.getAtivo()) {
+            throw new PassageiroInvalidoException("Não é possível atualizar as informações de uma conta desativada.");
         }
-        // 3. Criar uma nova entidade com os dados atualizados
-        Passageiro passageiroAtualizado = new Passageiro(
-                passageiroAtual.getId(),
-                request.nome(), //  Novo valor do request
-                novoEmail, // Passa o VO Email
-                novaSenha, // Passa o VO Senha
-                novoCpf, // Passa o VO Cpf
-                novoTelefone, // Passa o VO Telefone
-                passageiroAtual.getRole(),
-                passageiroAtual.getAtivo()
-        );
+            // 3. Criar uma nova entidade com os dados atualizados
+            Passageiro passageiroAtualizado = new Passageiro(
+                    passageiroAtual.getId(),
+                    request.nome(), //  Novo valor do request
+                    novoEmail, // Passa o VO Email
+                    novaSenha, // Passa o VO Senha
+                    novoCpf, // Passa o VO Cpf
+                    novoTelefone, // Passa o VO Telefone
+                    passageiroAtual.getRole(),
+                    passageiroAtual.getAtivo()
+            );
 
-        // Persistir o passageiroAtualizado no banco de dados
-        Passageiro novoPassageiro = passageiroRepository.salvar(passageiroAtualizado);
+            // Persistir o passageiroAtualizado no banco de dados
+            Passageiro novoPassageiro = passageiroRepository.salvar(passageiroAtualizado);
 
-        // 5. CONVERTER A ENTIDADE SALVA PARA O DTO DE RESPOSTA USANDO O MAPPER
-        return PassageiroMapper.INSTANCE.toAtualizarInformacoesResponse(novoPassageiro);
+            // 5. CONVERTER A ENTIDADE SALVA PARA O DTO DE RESPOSTA USANDO O MAPPER
+            return PassageiroMapper.INSTANCE.toAtualizarInformacoesResponse(novoPassageiro);
+        }
     }
-}
