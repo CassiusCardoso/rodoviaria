@@ -1,5 +1,6 @@
 package br.com.rodoviaria.spring_clean_arch.application.dto.response.onibus;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record OnibusResponse(
@@ -7,6 +8,7 @@ public record OnibusResponse(
         String placa,
         String modelo,
         int capacidade,
-        Boolean ativo
-        ) {
+        Boolean ativo,
+        LocalDateTime criadoEm // 2. Adicione o novo campo
+) {
 }
