@@ -14,4 +14,6 @@ public interface OnibusMapper {
     // pegue o objeto 'placa' da entidade e acesse seu atributo 'valor'.
     @Mapping(source = "placa.valor", target = "placa")
     OnibusResponse toResponse(Onibus onibus);
+    // O MapStruct vai mapear 'criadoEm' para 'criadoEm' automaticamente.
+
 }

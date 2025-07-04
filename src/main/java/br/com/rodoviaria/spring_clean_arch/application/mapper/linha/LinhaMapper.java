@@ -9,10 +9,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-
 @Mapper()
 public interface LinhaMapper {
 
+    // O MapStruct vai mapear 'id', 'origem', 'destino', 'duracaoPrevistaMinutos',
+    // 'ativo' e 'criadoEm' automaticamente, pois os nomes coincidem.
     LinhaMapper INSTANCE = Mappers.getMapper(LinhaMapper.class);
     LinhaResponse toResponse(Linha linha);
 
