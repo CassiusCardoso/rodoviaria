@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring") // Adicione componentModel = "spring" para o Spring injetá-lo
 public interface PassageiroPersistenceMapper {
     PassageiroPersistenceMapper INSTANCE = Mappers.getMapper(PassageiroPersistenceMapper.class);
 

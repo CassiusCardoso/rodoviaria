@@ -1,15 +1,16 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.springdata;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.springdata.passageiro;
 
 import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.PassageiroModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface JpaPassageiroRepository extends JpaRepository<PassageiroModel, UUID> {
+public interface PassageiroJpaRepository extends JpaRepository<PassageiroModel, UUID> {
     // 2. MÉTODOS DE BUSCA CUSTOMIZADOS
     // A mágica do Spring Data: basta declarar um método seguindo a convenção de nomenclatura,
     // e o Spring cria a query para você.
@@ -35,4 +36,6 @@ public interface JpaPassageiroRepository extends JpaRepository<PassageiroModel, 
     Optional<PassageiroModel> findByNome(String nome);
 
     Optional<PassageiroModel> findByRole(Role role);
+
+    List<PassageiroModel> buscarPassageiroPorViagem(UUID viagemId);
 }
