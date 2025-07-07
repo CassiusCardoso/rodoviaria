@@ -19,10 +19,11 @@ public interface TicketRepository {
     boolean assentoOcupado(Viagem viagem, int numeroAssento);
 
     // Lista todos os tickets de um passageiro
-    List<Ticket> listarTicketsPorId(UUID passageiroId);
+    List<Ticket> listarTicketsPorPassageiroId(UUID passageiroId);
 
     // Listar tickets por viagem
     // EDIT 03/07 09:14
     List<Ticket> listarTicketsPorViagem(UUID viagemId);
 
+    List<Ticket> listarTickets();
 }

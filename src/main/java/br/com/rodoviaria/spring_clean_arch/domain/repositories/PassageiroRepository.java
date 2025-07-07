@@ -29,5 +29,6 @@ public interface PassageiroRepository {
     // EDIT 03/07 09:00
     List<Passageiro> buscarPassageirosPorViagem(UUID viagemId);
 
+
     Optional<Passageiro> buscarPassageiroAtivo(Boolean ativo);
 }
