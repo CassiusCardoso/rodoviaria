@@ -26,7 +26,7 @@ public class ListarMeusTicketsUseCase {
 
         // 1. Busca a lista de entidades de domínio diretamente pelo repositório.
         // O repositório já garante que só virão tickets do passageiro correto.
-        List<Ticket> tickets = ticketRepository.listarTicketsPorId(passageiroId);
+        List<Ticket> tickets = ticketRepository.listarTicketsPorPassageiroId(passageiroId);
 
         // 2. Validação (Opcional, mas boa prática):
         // Se a lista estiver vazia, você pode optar por retornar uma lista vazia
