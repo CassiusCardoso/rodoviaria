@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.springdata.passageiro;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.passageiro;
 
 import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.PassageiroModel;
