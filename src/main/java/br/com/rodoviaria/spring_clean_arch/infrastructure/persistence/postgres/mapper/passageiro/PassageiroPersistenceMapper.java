@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.passageiro;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.PassageiroModel;
