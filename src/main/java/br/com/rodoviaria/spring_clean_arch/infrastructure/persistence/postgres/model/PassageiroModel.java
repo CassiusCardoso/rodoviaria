@@ -5,6 +5,7 @@ import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -12,17 +13,22 @@ import java.util.UUID;
 public class PassageiroModel {
     @Id
     private UUID id;
-    // Para nome, email, cpf, senha e telefone não vamos utilizar ValueObjects. Vamos utilizar tipos primitivos
     private String nome;
     private String email;
     private String senha;
     private String cpf;
     private String telefone;
 
-    @Enumerated(EnumType.STRING) // Diz ao JPA para salvar o Enum como texto (ex: "ADMINISTRADOR")
+    @Enumerated(EnumType.STRING)
     private Role role;
     private Boolean ativo;
     private LocalDateTime criadoEm;
+
+    // RELACIONAMENTO: Um Passageiro pode ter muitos Tickets.
+    // cascade = CascadeType.ALL: Se um passageiro for salvo, seus tickets também serão.
+    // fetch = FetchType.LAZY: Os tickets só serão carregados do banco quando forem explicitamente solicitados.
+    @OneToMany(mappedBy = "passageiro", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TicketModel> tickets;
 
     public PassageiroModel(){}
     public PassageiroModel(UUID id, String nome, String email, String senha, String cpf, String telefone, Role role, Boolean ativo, LocalDateTime criadoEm) {
