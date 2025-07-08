@@ -1,6 +1,10 @@
 package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.passageiro;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Cpf;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Email;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Senha;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Telefone;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.PassageiroModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,21 +14,44 @@ import org.mapstruct.factory.Mappers;
 public interface PassageiroPersistenceMapper {
     PassageiroPersistenceMapper INSTANCE = Mappers.getMapper(PassageiroPersistenceMapper.class);
 
-    /**
-     * Converte a Entidade de Domínio (com VOs) para o Modelo de Persistência (com tipos primitivos).
-     */
-    @Mapping(source = "email.email", target = "email")
-    @Mapping(source = "senha.senhaHash", target = "senha")
-    @Mapping(source = "cpf.cpf", target = "cpf")
-    @Mapping(source = "telefone.telefone", target = "telefone")
+    // MapStruct usará os métodos default abaixo para mapear os campos automaticamente
     PassageiroModel toModel(Passageiro passageiro);
-
-
-    /**
-     * Converte o Modelo de Persistência (com tipos primitivos) de volta para a Entidade de Domínio (com VOs).
-     * O MapStruct é inteligente o suficiente para chamar os construtores dos VOs.
-     */
-    // Não precisamos de @Mapping aqui, pois o MapStruct tentará chamar 'new Email(model.getEmail())' etc.
-    // Se isso falhar, podemos adicionar o mapeamento explícito.
     Passageiro toDomain(PassageiroModel model);
+
+    // --- MÉTODOS DE CONVERSÃO PARA CPF ---
+    default String mapCpfToString(Cpf cpf) {
+        return cpf == null ? null : cpf.getCpf();
+    }
+    default Cpf mapStringToCpf(String cpf) {
+        return cpf == null ? null : new Cpf(cpf);
+    }
+
+    // --- MÉTODOS DE CONVERSÃO PARA EMAIL ---
+    default String mapEmailToString(Email email) {
+        // A linha incorreta foi removida daqui.
+        return email == null ? null : email.getEmail();
+    }
+    // Método que estava faltando foi adicionado.
+    default Email mapStringToEmail(String email) {
+        return email == null ? null : new Email(email);
+    }
+
+    // --- MÉTODOS DE CONVERSÃO PARA SENHA (ADICIONADOS) ---
+    default String mapSenhaToString(Senha senha) {
+        // Assumindo que o getter é getSenhaHash() como nos arquivos anteriores.
+        return senha == null ? null : senha.getSenhaHash();
+    }
+    default Senha mapStringToSenha(String senha) {
+        return senha == null ? null : new Senha(senha);
+    }
+
+    // --- MÉTODOS DE CONVERSÃO PARA TELEFONE ---
+    default String mapTelefoneToString(Telefone telefone) {
+        return telefone == null ? null : telefone.getTelefone();
+    }
+    default Telefone mapStringToTelefone(String telefone) {
+        return telefone == null ? null : new Telefone(telefone);
+    }
+
+
 }
