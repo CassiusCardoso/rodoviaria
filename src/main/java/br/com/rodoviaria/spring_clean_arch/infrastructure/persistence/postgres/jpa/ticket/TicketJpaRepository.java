@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Repository
 public interface TicketJpaRepository extends JpaRepository<TicketModel, UUID> {
-    Optional<TicketModel> findByTicketId(UUID ticketId);
+    // Removido findByTicketId e vou usar findById do próprio Jpa
     List<TicketModel> findByPassageiroId(UUID passageiroId);
     List<TicketModel> findByViagemId(UUID viagemId);
     // Verifica se um assento está ocupado em uma determinada viagem

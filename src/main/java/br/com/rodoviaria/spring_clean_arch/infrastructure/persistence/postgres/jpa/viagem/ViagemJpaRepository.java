@@ -17,12 +17,20 @@ public interface ViagemJpaRepository extends JpaRepository<ViagemModel, UUID> {
     List<ViagemModel> findByDataPartidaAndLinhaOrigemAndLinhaDestino(
             LocalDateTime data, String origem, String destino);
 
-    List<ViagemModel> findByViagensPorLinha(UUID linhaId);
-    // Query para buscar viagens associadas a um passageiro através dos tickets
+    // --- CORREÇÃO COM @Query ---
+    // Para buscas complexas que não seguem o padrão, precisamos escrever a query.
+    // Aqui, buscamos as viagens de um passageiro olhando através da tabela de tickets.
     @Query("SELECT t.viagem FROM TicketModel t WHERE t.passageiro.id = :passageiroId")
     List<ViagemModel> findViagensByPassageiroId(@Param("passageiroId") UUID passageiroId);
-    boolean existsByViagemEmTransitoParaOnibus(UUID onibusId);
-    boolean existsByViagemFuturaNaoCanceladaParaOnibus(UUID onibusId);
-    List<ViagemModel> findByTicketsPorId(UUID viagemId);
+
+    // --- CORREÇÃO COM @Query ---
+    // Exemplo de como uma query para "viagem em trânsito para ônibus" poderia ser.
+    @Query("SELECT CASE WHEN COUNT(v) > 0 THEN TRUE ELSE FALSE END FROM ViagemModel v WHERE v.onibus.id = :onibusId AND v.statusViagem = 'EM_TRANSITO'")
+    boolean existsViagemEmTransitoParaOnibus(@Param("onibusId") UUID onibusId);
+
+    // --- CORREÇÃO COM @Query ---
+    // Exemplo para "viagem futura não cancelada".
+    @Query("SELECT CASE WHEN COUNT(v) > 0 THEN TRUE ELSE FALSE END FROM ViagemModel v WHERE v.onibus.id = :onibusId AND v.dataPartida > CURRENT_TIMESTAMP AND v.statusViagem <> 'CANCELADA'")
+    boolean existsViagemFuturaNaoCanceladaParaOnibus(@Param("onibusId") UUID onibusId);
 
 }

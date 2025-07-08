@@ -3,6 +3,7 @@ package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.
 import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.PassageiroModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,6 +37,12 @@ public interface PassageiroJpaRepository extends JpaRepository<PassageiroModel, 
     Optional<PassageiroModel> findByNome(String nome);
 
     Optional<PassageiroModel> findByRole(Role role);
-
-    List<PassageiroModel> buscarPassageiroPorViagem(UUID viagemId);
+    /**
+     * Busca passageiros associados a uma viagem específica através dos tickets.
+     * @param viagemId O ID da viagem.
+     * @return Lista de PassageiroModel associados à viagem.
+     */
+    @Query("SELECT DISTINCT p FROM PassageiroModel p JOIN p.tickets t JOIN t.viagem v WHERE v.id = :viagemId")
+    List<PassageiroModel> findByPassageiroPorViagem(UUID viagemId);
 }
+
