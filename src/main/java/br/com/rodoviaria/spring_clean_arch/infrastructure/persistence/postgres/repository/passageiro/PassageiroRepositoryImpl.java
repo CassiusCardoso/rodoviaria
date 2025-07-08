@@ -52,7 +52,7 @@ public class PassageiroRepositoryImpl implements PassageiroRepository {
 
     @Override
     public List<Passageiro> buscarPassageirosPorViagem(UUID viagemId){
-        return jpaPassageiroRepository.buscarPassageiroPorViagem(viagemId).stream().map(mapper::toDomain).collect(Collectors.toList());
+        return jpaPassageiroRepository.findByPassageiroPorViagem(viagemId).stream().map(mapper::toDomain).collect(Collectors.toList());
     }
 
     @Override

@@ -5,12 +5,14 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.viagem.ViagemPersistenceMapper;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.ViagemModel;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.viagem.ViagemJpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Repository
 public class ViagemRepositoryImpl implements ViagemRepository {
     private final ViagemJpaRepository jpaRepository;
     private final ViagemPersistenceMapper mapper;
@@ -46,21 +48,17 @@ public class ViagemRepositoryImpl implements ViagemRepository {
 
     @Override
     public List<Viagem> buscarViagensPorLinha(UUID linhaId){
-        return jpaRepository.findByViagensPorLinha(linhaId).stream().map(mapper::toDomain).toList();
+        return jpaRepository.findByLinhaId(linhaId).stream().map(mapper::toDomain).toList();
     }
 
     @Override
     public boolean existeViagemEmTransitoParaOnibus(UUID onibusId) {
-        return jpaRepository.existsByViagemEmTransitoParaOnibus(onibusId);
+        return jpaRepository.existsViagemEmTransitoParaOnibus(onibusId);
     }
 
     @Override
     public boolean existeViagemFuturaNaoCanceladaParaOnibus(UUID onibusId) {
-        return jpaRepository.existsByViagemFuturaNaoCanceladaParaOnibus(onibusId);
-    }
-    @Override
-    public List<Viagem> listarTicketsPorId(UUID viagemId) {
-        return jpaRepository.findByTicketsPorId(viagemId).stream().map(mapper::toDomain).toList();
+        return jpaRepository.existsViagemFuturaNaoCanceladaParaOnibus(onibusId);
     }
 
 }
