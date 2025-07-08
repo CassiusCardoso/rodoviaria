@@ -15,8 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class BeanConfiguration {
 
+        // Você REMOVE o bean daqui.
+    /*
     @Bean
-    public PasswordEncoder passwordEncoder(){ return new BCryptPasswordEncoder();}
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    */
 
     @Bean
     public SenhaEncoderPort senhaEncoderPort(PasswordEncoder encoder){
