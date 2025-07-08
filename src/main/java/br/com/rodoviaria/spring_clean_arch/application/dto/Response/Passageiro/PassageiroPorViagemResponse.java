@@ -8,6 +8,7 @@ public record PassageiroPorViagemResponse(
         String nome,
         String telefone,
         String origem,
-        String destino
+        String destino,
+        String placaOnibus
 ) {
 }
