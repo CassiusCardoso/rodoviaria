@@ -2,7 +2,7 @@ package br.com.rodoviaria.spring_clean_arch.domain.entities;
 
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.onibus.CapacidadeInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.onibus.PlacaInvalidaException;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.onibus.Placa;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Placa;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
