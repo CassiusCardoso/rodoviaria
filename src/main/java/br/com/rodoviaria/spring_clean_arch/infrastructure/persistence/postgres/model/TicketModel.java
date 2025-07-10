@@ -22,6 +22,8 @@ import java.util.UUID;
 @Table(name="tickets")
 public class TicketModel {
     @Id
+    // --- ADICIONE ESTA ANOTAÇÃO ---
+    @GeneratedValue(strategy = GenerationType.UUID) // Diz ao BD para gerar o UUID
     private UUID id;
     private String nomePassageiroTicket;
     private String documentoPassageiroTicket;
@@ -73,5 +75,44 @@ public class TicketModel {
         return documentoPassageiroTicket;
     }
 
+    // EDIT 18:01 08/07
+    // Setters para todos (menos para id e criadoEm)
+
+
+    public void setNomePassageiroTicket(String nomePassageiroTicket) {
+        this.nomePassageiroTicket = nomePassageiroTicket;
+    }
+
+    public void setDocumentoPassageiroTicket(String documentoPassageiroTicket) {
+        this.documentoPassageiroTicket = documentoPassageiroTicket;
+    }
+
+    public void setNumeroAssento(int numeroAssento) {
+        this.numeroAssento = numeroAssento;
+    }
+
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public void setStatus(StatusTicket status) {
+        this.status = status;
+    }
+
+    public void setDataCompra(LocalDate dataCompra) {
+        this.dataCompra = dataCompra;
+    }
+
+    public void setPassageiro(PassageiroModel passageiro) {
+        this.passageiro = passageiro;
+    }
+
+    public void setViagem(ViagemModel viagem) {
+        this.viagem = viagem;
+    }
 }
 

@@ -11,6 +11,8 @@ import java.util.UUID;
 @Table(name = "viagens")
 public class ViagemModel {
     @Id
+    // --- ADICIONE ESTA ANOTAÇÃO ---
+    @GeneratedValue(strategy = GenerationType.UUID) // Diz ao BD para gerar o UUID
     private UUID id;
     private LocalDateTime dataPartida;
     private LocalDateTime dataHoraChegada;
@@ -70,5 +72,32 @@ public class ViagemModel {
 
     public OnibusModel getOnibus() {
         return onibus;
+    }
+
+    // EDIT 18:01 08/07
+    // Setters para todos (menos para id e criadoEm)
+
+    public void setDataPartida(LocalDateTime dataPartida) {
+        this.dataPartida = dataPartida;
+    }
+
+    public void setDataHoraChegada(LocalDateTime dataHoraChegada) {
+        this.dataHoraChegada = dataHoraChegada;
+    }
+
+    public void setStatusViagem(StatusViagem statusViagem) {
+        this.statusViagem = statusViagem;
+    }
+
+    public void setLinha(LinhaModel linha) {
+        this.linha = linha;
+    }
+
+    public void setOnibus(OnibusModel onibus) {
+        this.onibus = onibus;
+    }
+
+    public void setTickets(List<TicketModel> tickets) {
+        this.tickets = tickets;
     }
 }

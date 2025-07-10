@@ -17,6 +17,8 @@ import java.util.UUID;
 @Table(name="linhas")
 public class LinhaModel {
     @Id
+    // --- ADICIONE ESTA ANOTAÇÃO ---
+    @GeneratedValue(strategy = GenerationType.UUID) // Diz ao BD para gerar o UUID
     private UUID id;
     private String origem;
     private String destino;
@@ -65,5 +67,27 @@ public class LinhaModel {
 
     public List<ViagemModel> getViagens() {
         return viagens;
+    }
+    // EDIT 18:01 08/07
+    // Setters para todos (menos para id e criadoEm)
+
+    public void setOrigem(String origem) {
+        this.origem = origem;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
+
+    public void setDuracaoPrevistaMinutos(int duracaoPrevistaMinutos) {
+        this.duracaoPrevistaMinutos = duracaoPrevistaMinutos;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public void setViagens(List<ViagemModel> viagens) {
+        this.viagens = viagens;
     }
 }

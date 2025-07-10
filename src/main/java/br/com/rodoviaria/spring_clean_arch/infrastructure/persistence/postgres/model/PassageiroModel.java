@@ -1,8 +1,7 @@
 package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model;
 
-import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
-
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +11,8 @@ import java.util.UUID;
 @Table(name = "passageiros")
 public class PassageiroModel {
     @Id
+    // --- ADICIONE ESTA ANOTAÇÃO ---
+    @GeneratedValue(strategy = GenerationType.UUID) // Diz ao BD para gerar o UUID
     private UUID id;
     private String nome;
     private String email;
@@ -19,9 +20,9 @@ public class PassageiroModel {
     private String cpf;
     private String telefone;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
     private Boolean ativo;
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime criadoEm;
 
     // RELACIONAMENTO: Um Passageiro pode ter muitos Tickets.
@@ -31,14 +32,13 @@ public class PassageiroModel {
     private List<TicketModel> tickets;
 
     public PassageiroModel(){}
-    public PassageiroModel(UUID id, String nome, String email, String senha, String cpf, String telefone, Role role, Boolean ativo, LocalDateTime criadoEm) {
+    public PassageiroModel(UUID id, String nome, String email, String senha, String cpf, String telefone, Boolean ativo, LocalDateTime criadoEm) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.cpf = cpf;
         this.telefone = telefone;
-        this.role = role;
         this.ativo = ativo;
         this.criadoEm = criadoEm;
     }
@@ -67,10 +67,6 @@ public class PassageiroModel {
         return telefone;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
     public Boolean getAtivo() {
         return ativo;
     }
@@ -79,10 +75,8 @@ public class PassageiroModel {
         return criadoEm;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
+    // EDIT 18:01 08/07
+    // Setters para todos (menos para id e criadoEm)
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -103,16 +97,9 @@ public class PassageiroModel {
         this.telefone = telefone;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
-    }
-
-    public void setCriadoEm(LocalDateTime criadoEm) {
-        this.criadoEm = criadoEm;
     }
 
     public void setTickets(List<TicketModel> tickets) {
