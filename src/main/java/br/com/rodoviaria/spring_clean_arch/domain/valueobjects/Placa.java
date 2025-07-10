@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.domain.valueobjects.onibus;
+package br.com.rodoviaria.spring_clean_arch.domain.valueobjects;
 
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.onibus.PlacaInvalidaException;
 

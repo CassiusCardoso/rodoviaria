@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro;
+package br.com.rodoviaria.spring_clean_arch.domain.valueobjects;
 
 public class Cpf {
     private final String cpf;
