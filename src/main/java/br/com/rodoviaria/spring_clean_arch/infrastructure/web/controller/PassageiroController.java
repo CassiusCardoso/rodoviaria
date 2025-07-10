@@ -1,14 +1,14 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.web.controller.passageiro;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.web.controller;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.AtualizarInformacoesPassageiroRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.AutenticarPassageiroRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.CadastrarPassageiroRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.AtualizarInformacoesPassageiroResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.AutenticarPassageiroResponse;
-import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.PassageiroPorViagemResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.PassageiroResponse;
+import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemPorPassageiroResponse;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.passageiro.*;
-import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
+import br.com.rodoviaria.spring_clean_arch.application.usecases.viagem.ListarViagensPorPassageiro;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.UsuarioAutenticado;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,100 +22,68 @@ import java.util.UUID;
 @RequestMapping("/passageiros")
 public class PassageiroController {
 
-    private final ListarPassageirosDeUmaViagemUseCase listarPassageirosDeUmaViagemUseCase;
-    private final DesativarPassageiroUseCase desativarPassageiroUseCase;
-    private final AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase;
+    // Casos de uso relevantes para o passageiro
     private final AutenticarPassageiroUseCase autenticarPassageiroUseCase;
     private final CadastrarPassageiroUseCase cadastrarPassageiroUseCase;
     private final BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase;
+    private final AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase;
+    private final DesativarPassageiroUseCase desativarPassageiroUseCase;
+    private final ListarViagensPorPassageiro listarViagensPorPassageiro;
 
-    public PassageiroController(ListarPassageirosDeUmaViagemUseCase listarPassageirosDeUmaViagemUseCase, DesativarPassageiroUseCase desativarPassageiroUseCase, AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase, AutenticarPassageiroUseCase autenticarPassageiroUseCase, CadastrarPassageiroUseCase cadastrarPassageiroUseCase, BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase){
-        this.listarPassageirosDeUmaViagemUseCase = listarPassageirosDeUmaViagemUseCase; // S
-        this.desativarPassageiroUseCase = desativarPassageiroUseCase; // S
-        this.atualizarInformacoesPassageiroUseCase = atualizarInformacoesPassageiroUseCase; // S
-        this.autenticarPassageiroUseCase = autenticarPassageiroUseCase; // S
-        this.cadastrarPassageiroUseCase = cadastrarPassageiroUseCase; // S
-        this.buscarInformacoesPassageiroUseCase = buscarInformacoesPassageiroUseCase; // S
+    public PassageiroController(
+            AutenticarPassageiroUseCase autenticarPassageiroUseCase,
+            CadastrarPassageiroUseCase cadastrarPassageiroUseCase,
+            BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase,
+            AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase,
+            DesativarPassageiroUseCase desativarPassageiroUseCase,
+            ListarViagensPorPassageiro listarViagensPorPassageiro
+    ) {
+        this.autenticarPassageiroUseCase = autenticarPassageiroUseCase;
+        this.cadastrarPassageiroUseCase = cadastrarPassageiroUseCase;
+        this.buscarInformacoesPassageiroUseCase = buscarInformacoesPassageiroUseCase;
+        this.atualizarInformacoesPassageiroUseCase = atualizarInformacoesPassageiroUseCase;
+        this.desativarPassageiroUseCase = desativarPassageiroUseCase;
+        this.listarViagensPorPassageiro = listarViagensPorPassageiro;
+    }
+
+    // --- Endpoints Públicos ---
+
+    @PostMapping("/login")
+    public ResponseEntity<AutenticarPassageiroResponse> autenticar(@RequestBody AutenticarPassageiroRequest request) {
+        return ResponseEntity.ok(autenticarPassageiroUseCase.execute(request));
     }
 
     @PostMapping
-    public ResponseEntity<PassageiroResponse> cadastrar(@RequestBody CadastrarPassageiroRequest request){
-        //O Controller apenas orquestra: recebe o DTO de request e passa para o caso de uso.
-        PassageiroResponse passageiroResponse = cadastrarPassageiroUseCase.execute(request);
-
-        // Retorna um ResponseEntity com o DTO de response.
-        return ResponseEntity.status(HttpStatus.CREATED).body(passageiroResponse);
+    public ResponseEntity<PassageiroResponse> cadastrar(@RequestBody CadastrarPassageiroRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(cadastrarPassageiroUseCase.execute(request));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PassageiroResponse> buscar(@PathVariable UUID usuarioId){
-        // Supondo que o caso de uso 'execute' receba o ID
-        // (Nota: Você precisará ajustar o caso de uso para talvez receber o ID do usuário logado para segurança)
-        PassageiroResponse passageiroResponse = buscarInformacoesPassageiroUseCase.execute(usuarioId);
-        return ResponseEntity.ok(passageiroResponse);
+    // --- Endpoints Protegidos para o Passageiro Logado ---
+
+    @GetMapping("/me")
+    public ResponseEntity<PassageiroResponse> buscarMinhasInformacoes(@AuthenticationPrincipal UsuarioAutenticado usuarioLogado) {
+        return ResponseEntity.ok(buscarInformacoesPassageiroUseCase.execute(usuarioLogado.getId()));
     }
 
-    @GetMapping("/viagem/{viagemId}")
-    public ResponseEntity<List<PassageiroPorViagemResponse>> listarPorViagem(@PathVariable UUID viagemId){
-        List<PassageiroPorViagemResponse> passageiros = listarPassageirosDeUmaViagemUseCase.execute(viagemId);
-        return ResponseEntity.ok(passageiros);
-    }
-
-    @PutMapping("/{passageiroId}")
-    public ResponseEntity<AtualizarInformacoesPassageiroResponse> atualizar(
-            @PathVariable UUID passageiroId,
+    @PutMapping("/me")
+    public ResponseEntity<AtualizarInformacoesPassageiroResponse> atualizarMinhasInformacoes(
             @RequestBody AtualizarInformacoesPassageiroRequest request,
             @AuthenticationPrincipal UsuarioAutenticado usuarioLogado
-            ){
-
-        // Extrair informações de forma segura do principal autenticado
-        UUID usuarioLogadoId = usuarioLogado.getId();
-        Role usuarioRole = usuarioLogado.getRole();
-
-        // Chama o caso de uso com todos os parâmetros
-        AtualizarInformacoesPassageiroResponse response = atualizarInformacoesPassageiroUseCase.execute(request, passageiroId, usuarioLogadoId, usuarioRole);
-        return ResponseEntity.ok(response);
+    ) {
+        return ResponseEntity.ok(atualizarInformacoesPassageiroUseCase.execute(request, usuarioLogado.getId()));
     }
 
-    // --- ENDPOINT DE DESATIVAÇÃO ---
-    /**
-     * Desativa a conta de um passageiro (Soft Delete).
-     * Um usuário só pode desativar a própria conta.
-     * (Futuramente, um ADMIN poderia ter permissão para desativar outras).
-     */
-    @DeleteMapping("/{passageiroId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT) // Define o status de sucesso padrão para 204 No Content
-    public void desativar(
-            @PathVariable UUID passageiroId,
-            @AuthenticationPrincipal UsuarioAutenticado usuarioLogado){
-        // Extrair informações de forma segura do principal autenticado
-        UUID usuarioLogadoId = usuarioLogado.getId();
-        Role usuarioRole = usuarioLogado.getRole();
-
-        // Chama o caso de uso, que contém toda a lógica de negócio
-        // incluindo a verificação de permissão (ex: usuarioLogadoId deve ser igual a passageiroId)
-        desativarPassageiroUseCase.execute(usuarioLogadoId, passageiroId);
-
-        // Para um DELETE bem-sucedido, a convenção é não retornar corpo.
-        // A anotação @ResponseStatus(HttpStatus.NO_CONTENT) já cuida do status HTTP.
+    @DeleteMapping("/me")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void desativarMinhaConta(@AuthenticationPrincipal UsuarioAutenticado usuarioLogado) {
+        desativarPassageiroUseCase.execute(usuarioLogado.getId());
     }
 
-    // --- ENDPOINT DE AUTENTICAÇÃO CORRIGIDO ---
-
-    /**
-     * Autentica um passageiro e retorna um token JWT se as credenciais forem válidas.
-     * Usa o método POST, que é o padrão para login/autenticação.
-     */
-    @PostMapping("/login")
-    public ResponseEntity<AutenticarPassageiroResponse> autenticar(@RequestBody AutenticarPassageiroRequest request){
-        AutenticarPassageiroResponse response = autenticarPassageiroUseCase.execute(request);
-        return ResponseEntity.ok(response);
-    }
-
-    // MELHORIA: Endpoint mais seguro para buscar informações do próprio usuário.
-    @GetMapping("/me")
-    public ResponseEntity<PassageiroResponse> buscarMinhasInformacoes(@AuthenticationPrincipal UsuarioAutenticado usuarioLogado){
-        PassageiroResponse response = buscarInformacoesPassageiroUseCase.execute(usuarioLogado.getId());
+    @GetMapping("/me/viagens")
+    public ResponseEntity<List<ViagemPorPassageiroResponse>> listarMinhasViagens(
+            @AuthenticationPrincipal UsuarioAutenticado usuarioLogado
+    ) {
+        List<ViagemPorPassageiroResponse> response = listarViagensPorPassageiro.execute(usuarioLogado.getId());
         return ResponseEntity.ok(response);
     }
 }
