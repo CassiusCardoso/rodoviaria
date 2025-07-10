@@ -1,9 +1,6 @@
 package br.com.rodoviaria.spring_clean_arch.infrastructure.security;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
-import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Email;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Senha;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +14,6 @@ public class UsuarioAutenticado implements UserDetails {
     private final String email;
     private final String senha;
     private final String nome;
-    private final Role role;
     private final Boolean ativo;
 
     // Um construtor que recebe a entidade de domínio completa é muito útil
@@ -28,7 +24,6 @@ public class UsuarioAutenticado implements UserDetails {
         this.email = passageiro.getEmail().getEmail();
         this.senha = passageiro.getSenha().getSenhaHash();
         this.nome = passageiro.getNome();
-        this.role = passageiro.getRole();
         this.ativo = passageiro.getAtivo();
     }
 
@@ -37,15 +32,12 @@ public class UsuarioAutenticado implements UserDetails {
         return id;
     }
 
-    public Role getRole() {
-        return role;
-    }
 
     // --- MÉTODOS DA INTERFACE UserDetails ---
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // 2. Mapeia a sua Role para o formato que o Spring Security entende
-        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+        // CORREÇÃO: Retorna uma permissão fixa, já que o atributo 'role' foi removido.
+        return List.of(new SimpleGrantedAuthority("ROLE_PASSAGEIRO"));
     }
 
     @Override
