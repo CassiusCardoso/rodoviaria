@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.viagem;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa;
 
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.ViagemModel;
 import org.springframework.data.jpa.repository.JpaRepository;
