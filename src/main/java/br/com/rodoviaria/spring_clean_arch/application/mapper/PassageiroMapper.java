@@ -1,7 +1,6 @@
-package br.com.rodoviaria.spring_clean_arch.application.mapper.passageiro;
+package br.com.rodoviaria.spring_clean_arch.application.mapper;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.AtualizarInformacoesPassageiroResponse;
-import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.PassageiroPorViagemResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.PassageiroResponse;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
 import org.mapstruct.Mapper;

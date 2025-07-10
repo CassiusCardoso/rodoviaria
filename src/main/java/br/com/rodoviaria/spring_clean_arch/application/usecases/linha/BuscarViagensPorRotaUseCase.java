@@ -10,11 +10,11 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
 import java.util.List;
 import java.util.UUID;
 
-public class BuscarInformacoesDaLinhaUseCase {
+public class BuscarViagensDisponiveisPorRotaUseCase {
     private final LinhaRepository linhaRepository;
     private final ViagemRepository viagemRepository;
 
-    public BuscarInformacoesDaLinhaUseCase(LinhaRepository linhaRepository, ViagemRepository viagemRepository) {
+    public BuscarViagensDisponiveisPorRotaUseCase(LinhaRepository linhaRepository, ViagemRepository viagemRepository) {
         this.linhaRepository = linhaRepository;
         this.viagemRepository = viagemRepository;
     }

@@ -1,12 +1,9 @@
-package br.com.rodoviaria.spring_clean_arch.application.mapper.viagem;
+package br.com.rodoviaria.spring_clean_arch.application.mapper;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemPorLinhaResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemPorPassageiroResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagensDisponiveisResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.linha.LinhaMapper;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.onibus.OnibusMapper;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.passageiro.PassageiroMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.application.mapper.onibus;
+package br.com.rodoviaria.spring_clean_arch.application.mapper;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.onibus.OnibusResponse;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Onibus;

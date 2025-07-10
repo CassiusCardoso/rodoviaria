@@ -1,11 +1,10 @@
 // Em: br/com/rodoviaria/spring_clean_arch/application/mapper/ticket/TicketMapper.java
 
-package br.com.rodoviaria.spring_clean_arch.application.mapper.ticket;
+package br.com.rodoviaria.spring_clean_arch.application.mapper;
 
 // Imports do MapStruct
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.PassageiroPorViagemResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.passageiro.PassageiroMapper;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.onibus.Placa;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Placa;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

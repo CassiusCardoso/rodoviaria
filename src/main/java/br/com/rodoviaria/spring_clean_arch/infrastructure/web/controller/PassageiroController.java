@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.web.controller;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.web.controller.passageiro;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.AtualizarInformacoesPassageiroRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.AutenticarPassageiroRequest;
