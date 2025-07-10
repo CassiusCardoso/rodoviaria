@@ -1,4 +1,4 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.linha;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.LinhaModel;

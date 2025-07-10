@@ -1,7 +1,7 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.onibus;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Onibus;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.onibus.Placa;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Placa;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.OnibusModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

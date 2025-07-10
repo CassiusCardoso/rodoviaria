@@ -1,8 +1,6 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.ticket;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.passageiro.PassageiroPersistenceMapper;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.viagem.ViagemPersistenceMapper;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.TicketModel;
 import org.mapstruct.Mapper;
 

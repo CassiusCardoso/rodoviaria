@@ -1,13 +1,12 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.passageiro;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Cpf;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Email;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Senha;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Telefone;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Cpf;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Telefone;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.PassageiroModel;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring") // Adicione componentModel = "spring" para o Spring injetá-lo

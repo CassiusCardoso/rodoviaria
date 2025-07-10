@@ -1,8 +1,6 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.viagem;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.linha.LinhaPersistenceMapper;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.onibus.OnibusPersistenceMapper;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.ViagemModel;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
