@@ -12,18 +12,18 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroReposit
 public class AutenticarPassageiroUseCase {
     private final PassageiroRepository passageiroRepository;
     private final SenhaEncoderPort encoder;
-    private final TokenServicePort service;
+    private final TokenServicePort tokenService;
 
-    public AutenticarPassageiroUseCase(PassageiroRepository passageiroRepository, SenhaEncoderPort encoder, TokenServicePort service ) {
+    public AutenticarPassageiroUseCase(PassageiroRepository passageiroRepository, SenhaEncoderPort encoder, TokenServicePort tokenService ) {
         this.passageiroRepository = passageiroRepository;
         this.encoder = encoder;
-        this.service = service;
+        this.tokenService = tokenService;
     }
 
     public AutenticarPassageiroResponse execute(AutenticarPassageiroRequest request){
         // Verificar se o passageiro existe pelo email
         Passageiro passageiro = passageiroRepository.buscarPorEmail(request.email())
-                .orElseThrow(() -> new AutorizacaoInvalidaException("Email ou senha inválidos."));
+                .orElseThrow(() -> new AutorizacaoInvalidaException("Email inválido."));
 
 
         // Verificar se a conta está ativa
@@ -40,7 +40,7 @@ public class AutenticarPassageiroUseCase {
 
         // 4. GERAR O TOKEN DE ACESSO JWT
         // Se a senha estiver correta, usamos o TokenServicePort para gerar o token.
-        String token = service.gerarToken(passageiro);
+        String token = tokenService.gerarToken(passageiro);
 
         // Retornar a resposta com token
         return new AutenticarPassageiroResponse(

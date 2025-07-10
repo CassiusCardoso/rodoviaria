@@ -2,16 +2,15 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.passageiro;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.AtualizarInformacoesPassageiroRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.AtualizarInformacoesPassageiroResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.passageiro.PassageiroMapper;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.PassageiroMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
-import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.PassageiroInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Cpf;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Email;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Senha;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Telefone;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Cpf;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Telefone;
 
 import java.util.UUID;
 
@@ -22,18 +21,15 @@ public class AtualizarInformacoesPassageiroUseCase {
         this.passageiroRepository = passageiroRepository;
     }
 
-    public AtualizarInformacoesPassageiroResponse execute(AtualizarInformacoesPassageiroRequest request, UUID passageiroId, UUID usuarioLogadoId, Role usuarioRole) {
+    public AtualizarInformacoesPassageiroResponse execute(AtualizarInformacoesPassageiroRequest request, UUID passageiroId) {
         // Verificar se o passageiro existe
         Passageiro passageiroAtual = passageiroRepository.buscarPassageiroPorId(passageiroId)
                 .orElseThrow(() -> new PassageiroInvalidoException("Não encontramos nenhum passageiro com o identificador " + passageiroId + " no sistema."));
 
-        // Adicionar validação de autorização aqui
-        boolean dono = passageiroAtual.getId().equals(usuarioLogadoId);
-        boolean admin = usuarioRole == Role.ADMINISTRADOR;
-
-        if (!dono && !admin) {
-            throw new AutorizacaoInvalidaException("O usuário não tem permissão para alterar estas informações.");
+        if (!passageiroAtual.getAtivo()) {
+            throw new PassageiroInvalidoException("Não é possível atualizar as informações de uma conta desativada.");
         }
+
 
         // 2. CONVERTER E VALIDAR OS DADOS DO REQUEST EM VALUE OBJECTS
         Email novoEmail = new Email(request.email());
@@ -53,7 +49,6 @@ public class AtualizarInformacoesPassageiroUseCase {
                     novaSenha, // Passa o VO Senha
                     novoCpf, // Passa o VO Cpf
                     novoTelefone, // Passa o VO Telefone
-                    passageiroAtual.getRole(),
                     passageiroAtual.getAtivo()
             );
 

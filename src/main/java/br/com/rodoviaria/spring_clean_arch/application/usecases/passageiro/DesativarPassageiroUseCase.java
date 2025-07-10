@@ -14,15 +14,11 @@ public class DesativarPassageiroUseCase {
         this.passageiroRepository = passageiroRepository;
     }
 
-    public void execute(UUID usuarioLogadoId, UUID passageiroId){
+    public void execute(UUID passageiroId){
         // Buscar a instância do objeto Passageiro para cancelar.
         Passageiro passageiro = passageiroRepository.buscarPassageiroPorId(passageiroId)
                 .orElseThrow(() -> new PassageiroInvalidoException("Passageiro com o identificador informado não existe."));
 
-        // Validar a autorização no sistema
-        if(!usuarioLogadoId.equals(passageiro.getId())){
-            throw new AutorizacaoInvalidaException("O usuário não tem permissar para desativar o passageiro");
-        }
 
         // Validar se o passageiro já está inativo
         if(passageiro.getAtivo() ==  false) {

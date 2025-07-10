@@ -5,15 +5,14 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.passageiro;
 // Imports...
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.CadastrarPassageiroRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.PassageiroResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.passageiro.PassageiroMapper;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.PassageiroMapper;
 import br.com.rodoviaria.spring_clean_arch.application.ports.out.senha.SenhaEncoderPort;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
-import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Cpf;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Email;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Senha;
-import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.passageiro.Telefone;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Cpf;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
+import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Telefone;
 
 import java.util.UUID;
 
@@ -28,7 +27,16 @@ public class CadastrarPassageiroUseCase {
 
     public PassageiroResponse execute(CadastrarPassageiroRequest request) {
 
-        // ... verificações de duplicidade de e-mail e CPF (continuam iguais) ...
+        // **CORREÇÃO: ADICIONAR AS VERIFICAÇÕES DE DUPLICIDADE AQUI**
+        // BUGS RELATADOS NOS TESTES - 10:49 10/07
+        passageiroRepository.buscarPorEmail(request.email()).ifPresent(p -> {
+            throw new IllegalArgumentException("Email já cadastrado.");
+        });
+        passageiroRepository.buscarPorCpf(request.cpf()).ifPresent(p -> {
+            throw new IllegalArgumentException("CPF já cadastrado.");
+        });
+
+        // Fim da correção
 
         // ... criação dos VOs de Email, Cpf e Telefone (continuam iguais) ...
         Email email = new Email(request.email());
@@ -43,7 +51,6 @@ public class CadastrarPassageiroUseCase {
 
         // Cria o Value Object Senha com a senha JÁ CODIFICADA.
         Senha senhaSegura = new Senha(senhaCodificada);
-
         // 5. CRIAR A ENTIDADE DE DOMÍNIO
         Passageiro novoPassageiro = new Passageiro(
                 UUID.randomUUID(),
@@ -52,7 +59,6 @@ public class CadastrarPassageiroUseCase {
                 senhaSegura, // <<-- AGORA PASSA A SENHA SEGURA
                 cpf,
                 telefone,
-                Role.PASSAGEIRO,
                 true // Um novo passageiro sempre nasce ativo
         );
 
