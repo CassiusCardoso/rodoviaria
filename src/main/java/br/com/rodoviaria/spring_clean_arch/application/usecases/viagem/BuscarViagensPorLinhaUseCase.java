@@ -1,22 +1,14 @@
 package br.com.rodoviaria.spring_clean_arch.application.usecases.viagem;
 
-import br.com.rodoviaria.spring_clean_arch.application.dto.request.viagem.ViagemRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemPorLinhaResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.viagem.ViagemMapper;
-import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
-import br.com.rodoviaria.spring_clean_arch.domain.entities.Onibus;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.ViagemMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
-import br.com.rodoviaria.spring_clean_arch.domain.exceptions.onibus.OnibusInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.LinhaInvalidaException;
-import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.ViagemInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
-import br.com.rodoviaria.spring_clean_arch.domain.repositories.OnibusRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class BuscarViagensPorLinhaUseCase {
     private final ViagemRepository viagemRepository;

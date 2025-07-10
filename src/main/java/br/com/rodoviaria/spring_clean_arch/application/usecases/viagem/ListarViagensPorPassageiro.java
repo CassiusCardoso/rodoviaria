@@ -1,10 +1,9 @@
 package br.com.rodoviaria.spring_clean_arch.application.usecases.viagem;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemPorPassageiroResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.viagem.ViagemMapper;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.ViagemMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.PassageiroInvalidoException;
-import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.ViagemInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
 

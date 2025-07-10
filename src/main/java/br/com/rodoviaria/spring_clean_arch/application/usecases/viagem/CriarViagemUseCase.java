@@ -2,7 +2,7 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.viagem;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.viagem.ViagemRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.viagem.ViagemMapper;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.ViagemMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Onibus;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
@@ -44,7 +44,7 @@ public class CriarViagemUseCase {
                 UUID.randomUUID(),
                 request.dataPartida(),
                 dataChegada,
-                StatusViagem.CONCLUIDA,
+                StatusViagem.AGENDADA, // EDITADO 07:27 10/07 - ESTAVA CONCLUIDA.
                 linha,
                 onibus
         );

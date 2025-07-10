@@ -1,7 +1,6 @@
 package br.com.rodoviaria.spring_clean_arch.application.usecases.viagem;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
-import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import br.com.rodoviaria.spring_clean_arch.domain.enums.StatusViagem;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.StatusViagemInvalidoException;
@@ -17,13 +16,8 @@ public class CancelarViagemUseCase {
         this.viagemRepository = viagemRepository;
     }
 
-    public void execute(UUID viagemId, Role usarioRole){
+    public void execute(UUID viagemId){
 
-        // Validação para role
-        if(usarioRole != Role.ADMINISTRADOR){
-            throw new AutorizacaoInvalidaException("Apenas administradores podem cancelar uma viagem.");
-
-        }
         // Buscar a entidade viagem para ser cancelada
         Viagem viagem = viagemRepository.buscarViagemPorId(viagemId)
                 .orElseThrow(() -> new ViagemInvalidaException("Não encontramos nenhuma viagem com o identificador " + viagemId));
