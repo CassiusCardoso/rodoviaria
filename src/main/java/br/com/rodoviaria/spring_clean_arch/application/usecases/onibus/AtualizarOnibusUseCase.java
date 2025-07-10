@@ -1,14 +1,10 @@
 package br.com.rodoviaria.spring_clean_arch.application.usecases.onibus;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.onibus.AtualizarOnibusRequest;
-import br.com.rodoviaria.spring_clean_arch.application.dto.request.onibus.CadastrarOnibusRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.onibus.OnibusResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.onibus.OnibusMapper;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.OnibusMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Onibus;
-import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
-import br.com.rodoviaria.spring_clean_arch.domain.enums.StatusViagem;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.onibus.OnibusInvalidoException;
-import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.ViagemInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.OnibusRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
 

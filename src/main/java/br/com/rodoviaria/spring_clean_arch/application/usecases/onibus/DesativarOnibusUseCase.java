@@ -1,7 +1,6 @@
 package br.com.rodoviaria.spring_clean_arch.application.usecases.onibus;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Onibus;
-import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.onibus.OnibusInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.OnibusRepository;
@@ -17,15 +16,11 @@ public class DesativarOnibusUseCase {
         this.viagemRepository = viagemRepository;
     }
 
-    public void execute(UUID onibusId, Role usuarioRole){
+    public void execute(UUID onibusId){
         // Buscar a instância de um ônibus
         Onibus onibus = onibusRepository.buscarOnibusPorId(onibusId)
                 .orElseThrow(() -> new OnibusInvalidoException("Ônibus com o identificador informado não existe."));
 
-        // Verificando se o role é admin
-        if(usuarioRole != Role.ADMINISTRADOR){
-            throw new AutorizacaoInvalidaException("Apenas administradores podem listar todos os ônibus.");
-        }
 
         // Verificando se o ônibus já está inativo
         if(!onibus.getAtivo()){
