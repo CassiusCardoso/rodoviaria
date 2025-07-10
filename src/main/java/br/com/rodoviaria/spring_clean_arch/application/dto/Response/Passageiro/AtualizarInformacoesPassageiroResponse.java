@@ -7,7 +7,6 @@ public record AtualizarInformacoesPassageiroResponse(
         String email,
         String cpf,
         String telefone,
-        String role,
         Boolean ativo,           // 2. Adicione o novo campo
         LocalDateTime criadoEm   // 3. Adicione o novo campo
 ) {
