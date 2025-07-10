@@ -1,7 +1,7 @@
 package br.com.rodoviaria.spring_clean_arch.application.usecases.linha;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.linha.LinhaResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.linha.LinhaMapper;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.LinhaMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
 

@@ -6,17 +6,17 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.LinhaInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
 
-public class BuscarLinhaPorOrigemDestinoUseCase {
+import java.util.UUID;
+
+public class BuscarLinhaPorIdUseCase {
     private final LinhaRepository linhaRepository;
-    public BuscarLinhaPorOrigemDestinoUseCase(LinhaRepository linhaRepository) {
+    public BuscarLinhaPorIdUseCase(LinhaRepository linhaRepository) {
         this.linhaRepository = linhaRepository;
     }
 
-    public LinhaResponse execute (String origem, String destino){
-        // Verificando a linha
-        Linha linha = linhaRepository.buscarPorOrigemEDestino(origem, destino)
-                .orElseThrow(() -> new LinhaInvalidaException("Não existe nenhuma linha com origem e destino citados."));
-
+    public LinhaResponse execute(UUID linhaId) {
+        Linha linha = linhaRepository.buscarLinhaPorId(linhaId)
+                .orElseThrow(() -> new LinhaInvalidaException("Linha não encontrada."));
         return LinhaMapper.INSTANCE.toResponse(linha);
     }
 }

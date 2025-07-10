@@ -2,9 +2,8 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.linha;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.linha.AtualizarInformacoesDaLinhaRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.linha.LinhaResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.linha.LinhaMapper;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.LinhaMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
-import br.com.rodoviaria.spring_clean_arch.domain.enums.Role;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.LinhaInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
@@ -16,11 +15,8 @@ public class AtualizarInformacoesDaLinhaUseCase {
     public AtualizarInformacoesDaLinhaUseCase(LinhaRepository linhaRepository) {
         this.linhaRepository = linhaRepository;
     }
-    public LinhaResponse execute(UUID linhaId, AtualizarInformacoesDaLinhaRequest request, Role usuarioRole){
-        // Validando se o role é admin
-        if(usuarioRole != Role.ADMINISTRADOR){
-            throw new AutorizacaoInvalidaException("Somente administradores podem alterar informações de uma linha.");
-        }
+    public LinhaResponse execute(UUID linhaId, AtualizarInformacoesDaLinhaRequest request){
+
         // Pegando a linha específica
         Linha linhaValida = linhaRepository.buscarLinhaPorId(linhaId)
                 .orElseThrow(() -> new LinhaInvalidaException("Não existe nenhuma linha registrada com o identificador" + linhaId));

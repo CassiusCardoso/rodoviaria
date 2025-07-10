@@ -1,7 +1,7 @@
 package br.com.rodoviaria.spring_clean_arch.application.usecases.linha;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.viagem.ViagemMapper;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.ViagemMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.LinhaInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
@@ -10,11 +10,11 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
 import java.util.List;
 import java.util.UUID;
 
-public class BuscarViagensDisponiveisPorRotaUseCase {
+public class BuscarViagensPorRotaUseCase {
     private final LinhaRepository linhaRepository;
     private final ViagemRepository viagemRepository;
 
-    public BuscarViagensDisponiveisPorRotaUseCase(LinhaRepository linhaRepository, ViagemRepository viagemRepository) {
+    public BuscarViagensPorRotaUseCase(LinhaRepository linhaRepository, ViagemRepository viagemRepository) {
         this.linhaRepository = linhaRepository;
         this.viagemRepository = viagemRepository;
     }
