@@ -3,9 +3,10 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.ticket;// Em: b
 // ... outros imports
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.ticket.AtualizarTicketRequest; // Importe o novo DTO
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.ticket.TicketResponse;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.ticket.TicketMapper;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.TicketMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 import br.com.rodoviaria.spring_clean_arch.domain.enums.StatusTicket;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.StatusInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.TicketInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.DataHoraChegadaInvalidaException;
@@ -22,12 +23,16 @@ public class AtualizarTicketUseCase {
     }
 
     // O método agora recebe o ID e o DTO com os novos dados
-    public TicketResponse execute(UUID ticketId, AtualizarTicketRequest request) {
+    public TicketResponse execute(UUID ticketId, AtualizarTicketRequest request, UUID usuarioLogadoId) {
 
         // 1. Buscando o Ticket que já existe (seu código original, está perfeito!)
         Ticket ticketAtual = ticketRepository.buscarTicketPorId(ticketId)
                 .orElseThrow(() -> new TicketInvalidoException("Ticket com ID " + ticketId + " não existe."));
 
+        // 2. VERIFICAÇÃO DE PROPRIEDADE (A LÓGICA QUE FALTAVA)
+        if (!ticketAtual.getPassageiro().getId().equals(usuarioLogadoId)) {
+            throw new AutorizacaoInvalidaException("Você não tem permissão para alterar este ticket.");
+        }
         // 2. Verificando regras de negócio (seu código original, perfeito!)
         if(ticketAtual.getViagem().getDataPartida().isBefore(LocalDateTime.now())){ // Usei getData_partida() que é mais preciso
             throw new DataHoraChegadaInvalidaException("Você não pode alterar informações de um ticket para uma viagem que já ocorreu.");

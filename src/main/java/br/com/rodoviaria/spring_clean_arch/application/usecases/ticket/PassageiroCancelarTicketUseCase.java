@@ -9,19 +9,14 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class CancelarTicketUseCase {
+public class PassageiroCancelarTicketUseCase {
 
     private final TicketRepository ticketRepository;
 
-    public CancelarTicketUseCase(TicketRepository ticketRepository) {
+    public PassageiroCancelarTicketUseCase(TicketRepository ticketRepository) {
         this.ticketRepository = ticketRepository;
     }
 
-    /**
-     * Executa o caso de uso para cancelar um ticket.
-     * @param ticketId O ID do ticket a ser cancelado.
-     * @param usuarioLogadoId O ID do usuário que está realizando a operação (para autorização).
-     */
     public void execute(UUID ticketId, UUID usuarioLogadoId) {
 
         // 1. Busca o ticket que será cancelado.
