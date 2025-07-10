@@ -1,11 +1,11 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.repository.ticket;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.repository;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.ticket.TicketPersistenceMapper;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.TicketPersistenceMapper;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.TicketModel;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.ticket.TicketJpaRepository;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.TicketJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

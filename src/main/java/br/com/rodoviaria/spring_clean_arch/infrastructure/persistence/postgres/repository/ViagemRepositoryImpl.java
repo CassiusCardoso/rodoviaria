@@ -1,10 +1,10 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.repository.viagem;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.repository;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.viagem.ViagemPersistenceMapper;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.ViagemPersistenceMapper;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.ViagemModel;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.viagem.ViagemJpaRepository;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.ViagemJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;

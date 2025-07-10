@@ -1,10 +1,10 @@
-package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.repository.passageiro;
+package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.repository;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.passageiro.PassageiroPersistenceMapper;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.PassageiroPersistenceMapper;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.PassageiroModel;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.passageiro.PassageiroJpaRepository;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.PassageiroJpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
