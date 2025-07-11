@@ -13,11 +13,13 @@ public class AutenticarAdminUseCase {
     private final AdministradorRepository administradorRepository;
     private final SenhaEncoderPort encoder;
     private final TokenServicePort tokenService;
+    private final AdministradorMapper administradorMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
 
-    public AutenticarAdminUseCase(AdministradorRepository administradorRepository, SenhaEncoderPort encoder, TokenServicePort tokenService){
+    public AutenticarAdminUseCase(AdministradorRepository administradorRepository, SenhaEncoderPort encoder, TokenServicePort tokenService, AdministradorMapper administradorMapper){
         this.administradorRepository = administradorRepository;
         this.encoder = encoder;
         this.tokenService = tokenService;
+        this.administradorMapper = administradorMapper;
     }
 
     public AutenticarAdminResponse execute(AutenticarAdminRequest request){
@@ -38,6 +40,6 @@ public class AutenticarAdminUseCase {
         String token = tokenService.gerarToken(admin);
 
         // Retorna a resposta usando o mapper
-        return AdministradorMapper.INSTANCE.toResponse(admin, token);
+        return administradorMapper.toResponse(admin, token);
     }
 }
