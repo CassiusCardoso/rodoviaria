@@ -11,8 +11,11 @@ import java.util.List;
 public class ListarTodosOnibusUseCase {
 
     private final OnibusRepository onibusRepository;
-    public ListarTodosOnibusUseCase(OnibusRepository onibusRepository) {
+    private final OnibusMapper onibusMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
+
+    public ListarTodosOnibusUseCase(OnibusRepository onibusRepository, OnibusMapper onibusMapper) {
         this.onibusRepository = onibusRepository;
+        this.onibusMapper = onibusMapper;
     }
 
     public List<OnibusResponse> execute(){
@@ -24,7 +27,7 @@ public class ListarTodosOnibusUseCase {
 
         // 3. MAPEIA A LISTA DE ENTIDADES PARA UMA LISTA DE DTOS
         return todosOsOnibus.stream()
-                .map(OnibusMapper.INSTANCE::toResponse)
+                .map(onibusMapper::toResponse)
                 .toList();
     }
 }

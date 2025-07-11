@@ -13,10 +13,12 @@ import java.util.UUID;
 public class AtualizarOnibusUseCase {
     private final OnibusRepository onibusRepository;
     private final ViagemRepository viagemRepository;
+    private final OnibusMapper onibusMapper;
 
-    public AtualizarOnibusUseCase(OnibusRepository onibusRepository, ViagemRepository viagemRepository) {
+    public AtualizarOnibusUseCase(OnibusRepository onibusRepository, ViagemRepository viagemRepository, OnibusMapper onibusMapper) {
         this.onibusRepository = onibusRepository;
         this.viagemRepository = viagemRepository;
+        this.onibusMapper = onibusMapper;
     }
 
     public OnibusResponse execute(AtualizarOnibusRequest request, UUID onibusId){
@@ -45,6 +47,6 @@ public class AtualizarOnibusUseCase {
         Onibus onibusSalvo =  onibusRepository.salvar(onibusAtualizado);
         // RETORNANDO O RESPONSE
         // Usamos o Mapper para converter a entidade atualizada para o DTO de resposta.
-        return OnibusMapper.INSTANCE.toResponse(onibusSalvo);
+        return onibusMapper.toResponse(onibusSalvo);
     }
 }

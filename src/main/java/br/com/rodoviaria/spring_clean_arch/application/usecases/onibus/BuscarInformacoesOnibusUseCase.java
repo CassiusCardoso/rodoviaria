@@ -9,9 +9,11 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.OnibusRepository;
 import java.util.UUID;
 
 public class BuscarInformacoesOnibusUseCase {
-    private OnibusRepository onibusRepository;
-    public BuscarInformacoesOnibusUseCase(OnibusRepository onibusRepository) {
+    private final OnibusRepository onibusRepository;
+    private final OnibusMapper onibusMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
+    public BuscarInformacoesOnibusUseCase(OnibusRepository onibusRepository, OnibusMapper onibusMapper) {
         this.onibusRepository = onibusRepository;
+        this.onibusMapper = onibusMapper;
     }
 
     public OnibusResponse execute(UUID onibusId){

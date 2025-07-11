@@ -12,9 +12,11 @@ import java.util.UUID;
 
 public class CadastrarOnibusUseCase {
     private final OnibusRepository onibusRepository;
+    private final OnibusMapper onibusMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
 
-    public CadastrarOnibusUseCase(OnibusRepository onibusRepository) {
+    public CadastrarOnibusUseCase(OnibusRepository onibusRepository, OnibusMapper onibusMapper) {
         this.onibusRepository = onibusRepository;
+        this.onibusMapper = onibusMapper;
     }
 
     public OnibusResponse execute(CadastrarOnibusRequest request) {
@@ -39,7 +41,7 @@ public class CadastrarOnibusUseCase {
         Onibus onibusCadastrado = onibusRepository.salvar(novoOnibus);
 
         // MAPEAR PARA O DTO DE RESPOSTA E RETORNAR
-        return OnibusMapper.INSTANCE.toResponse(onibusCadastrado);
+        return onibusMapper.toResponse(onibusCadastrado);
 
     }
 }
