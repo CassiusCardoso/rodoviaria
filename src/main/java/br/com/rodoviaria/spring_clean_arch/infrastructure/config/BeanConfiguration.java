@@ -1,5 +1,6 @@
 package br.com.rodoviaria.spring_clean_arch.infrastructure.config;
 
+import br.com.rodoviaria.spring_clean_arch.application.mapper.*;
 import br.com.rodoviaria.spring_clean_arch.application.ports.out.senha.SenhaEncoderPort;
 import br.com.rodoviaria.spring_clean_arch.application.ports.out.senha.TokenServicePort;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.admin.AutenticarAdminUseCase;
@@ -37,9 +38,10 @@ public class BeanConfiguration {
     public AutenticarAdminUseCase autenticarAdminUseCase(
             AdministradorRepository administradorRepository,
             SenhaEncoderPort senhaEncoderPort,
-            TokenServicePort tokenServicePort
+            TokenServicePort tokenServicePort,
+            AdministradorMapper administradorMapper
     ) {
-        return new AutenticarAdminUseCase(administradorRepository, senhaEncoderPort, tokenServicePort);
+        return new AutenticarAdminUseCase(administradorRepository, senhaEncoderPort, tokenServicePort, administradorMapper);
     }
 
     @Bean
@@ -50,8 +52,9 @@ public class BeanConfiguration {
     @Bean
     public CadastrarPassageiroUseCase cadastrarPassageiroUseCase(
             PassageiroRepository passageiroRepository,
-            SenhaEncoderPort encoder) {
-        return new CadastrarPassageiroUseCase(passageiroRepository, encoder);
+            SenhaEncoderPort encoder,
+            PassageiroMapper passageiroMapper) {
+        return new CadastrarPassageiroUseCase(passageiroRepository, encoder, passageiroMapper);
     }
 
     @Bean
@@ -62,21 +65,25 @@ public class BeanConfiguration {
 
     @Bean
     public AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase(
-            PassageiroRepository passageiroRepository) {
-        return new AtualizarInformacoesPassageiroUseCase(passageiroRepository);
+            PassageiroRepository passageiroRepository,
+            PassageiroMapper passageiroMapper) {
+        return new AtualizarInformacoesPassageiroUseCase(passageiroRepository, passageiroMapper);
     }
 
     @Bean
     public ListarPassageirosDeUmaViagemUseCase listarPassageirosDeUmaViagemUseCase(
             TicketRepository ticketRepository,
-            ViagemRepository viagemRepository) {
-        return new ListarPassageirosDeUmaViagemUseCase(ticketRepository, viagemRepository);
+            ViagemRepository viagemRepository,
+            TicketMapper ticketMapper
+            ) {
+        return new ListarPassageirosDeUmaViagemUseCase(ticketRepository, viagemRepository, ticketMapper);
     }
 
     @Bean
     public BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase(
-            PassageiroRepository passageiroRepository) {
-        return new BuscarInformacoesPassageiroUseCase(passageiroRepository);
+            PassageiroRepository passageiroRepository,
+            PassageiroMapper passageiroMapper) {
+        return new BuscarInformacoesPassageiroUseCase(passageiroRepository, passageiroMapper);
     }
 
     @Bean
@@ -91,23 +98,26 @@ public class BeanConfiguration {
     @Bean
     public AtualizarOnibusUseCase atualizarOnibusUseCase(
             OnibusRepository onibusRepository,
-            ViagemRepository viagemRepository
+            ViagemRepository viagemRepository,
+            OnibusMapper onibusMapper
     ) {
-        return new AtualizarOnibusUseCase(onibusRepository, viagemRepository);
+        return new AtualizarOnibusUseCase(onibusRepository, viagemRepository, onibusMapper);
     }
 
     @Bean
     public BuscarInformacoesOnibusUseCase buscarInformacoesOnibusUseCase(
-            OnibusRepository onibusRepository
+            OnibusRepository onibusRepository,
+            OnibusMapper onibusMapper
     ) {
-        return new BuscarInformacoesOnibusUseCase(onibusRepository);
+        return new BuscarInformacoesOnibusUseCase(onibusRepository, onibusMapper);
     }
 
     @Bean
     public CadastrarOnibusUseCase cadastrarOnibusUseCase(
-            OnibusRepository onibusRepository
+            OnibusRepository onibusRepository,
+            OnibusMapper onibusMapper
     ) {
-        return new CadastrarOnibusUseCase(onibusRepository);
+        return new CadastrarOnibusUseCase(onibusRepository, onibusMapper);
     }
 
     @Bean
@@ -120,31 +130,35 @@ public class BeanConfiguration {
 
     @Bean
     public ListarTodosOnibusUseCase listarTodosOnibusUseCase(
-            OnibusRepository onibusRepository
+            OnibusRepository onibusRepository,
+            OnibusMapper onibusMapper
     ) {
-        return new ListarTodosOnibusUseCase(onibusRepository);
+        return new ListarTodosOnibusUseCase(onibusRepository, onibusMapper);
     }
 
     // Linha
     @Bean
     public BuscarViagensPorRotaUseCase buscarInformacoesDaLinhaUseCase(
             LinhaRepository linhaRepository,
-            ViagemRepository viagemRepository
+            ViagemRepository viagemRepository,
+            ViagemMapper viagemMapper
     ) {
-        return new BuscarViagensPorRotaUseCase(linhaRepository, viagemRepository);
+        return new BuscarViagensPorRotaUseCase(linhaRepository, viagemRepository, viagemMapper);
     }
 
     @Bean
     public AtualizarInformacoesDaLinhaUseCase atualizarInformacoesDaLinhaUseCase(
-            LinhaRepository linhaRepository) {
-        return new AtualizarInformacoesDaLinhaUseCase(linhaRepository);
+            LinhaRepository linhaRepository,
+            LinhaMapper linhaMapper) {
+        return new AtualizarInformacoesDaLinhaUseCase(linhaRepository, linhaMapper);
     }
 
     @Bean
     public ListarTodasLinhasUseCase listarTodasLinhasUseCase(
-            LinhaRepository linhaRepository
+            LinhaRepository linhaRepository,
+            LinhaMapper linhaMapper
     ) {
-        return new ListarTodasLinhasUseCase(linhaRepository);
+        return new ListarTodasLinhasUseCase(linhaRepository, linhaMapper);
     }
 
     @Bean
@@ -154,19 +168,20 @@ public class BeanConfiguration {
 
     @Bean
     public BuscarLinhaPorOrigemDestinoUseCase buscarLinhaPorOrigemDestinoUseCase(
-            LinhaRepository linhaRepository
+            LinhaRepository linhaRepository,
+            LinhaMapper linhaMapper
     ) {
-        return new BuscarLinhaPorOrigemDestinoUseCase(linhaRepository);
+        return new BuscarLinhaPorOrigemDestinoUseCase(linhaRepository, linhaMapper);
     }
 
     @Bean
-    public CadastrarLinhaUseCase cadastarLinhaUseCase(LinhaRepository linhaRepository) {
-        return new CadastrarLinhaUseCase(linhaRepository);
+    public CadastrarLinhaUseCase cadastarLinhaUseCase(LinhaRepository linhaRepository, LinhaMapper linhaMapper) {
+        return new CadastrarLinhaUseCase(linhaRepository, linhaMapper);
     }
 
     @Bean
-    public BuscarLinhaPorIdUseCase buscarLinhaPorIdUseCase(LinhaRepository linhaRepository) {
-        return new BuscarLinhaPorIdUseCase(linhaRepository);
+    public BuscarLinhaPorIdUseCase buscarLinhaPorIdUseCase(LinhaRepository linhaRepository, LinhaMapper linhaMapper) {
+        return new BuscarLinhaPorIdUseCase(linhaRepository, linhaMapper);
     }
 
     @Bean
@@ -180,37 +195,38 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public AtualizarTicketUseCase atualizarTicketUseCase(TicketRepository ticketRepository) {
-        return new AtualizarTicketUseCase(ticketRepository);
+    public AtualizarTicketUseCase atualizarTicketUseCase(TicketRepository ticketRepository, TicketMapper ticketMapper) {
+        return new AtualizarTicketUseCase(ticketRepository, ticketMapper);
     }
 
     @Bean
     public ComprarTicketUseCase comprarTicketUseCase(
             ViagemRepository viagemRepository,
             TicketRepository ticketRepository,
-            PassageiroRepository passageiroRepository) {
-        return new ComprarTicketUseCase(viagemRepository, ticketRepository, passageiroRepository);
+            PassageiroRepository passageiroRepository,
+            TicketMapper ticketMapper) {
+        return new ComprarTicketUseCase(viagemRepository, ticketRepository, passageiroRepository, ticketMapper);
     }
 
     @Bean
-    public ListarMeusTicketsUseCase listarMeusTicketsUseCase(TicketRepository ticketRepository) {
-        return new ListarMeusTicketsUseCase(ticketRepository);
+    public ListarMeusTicketsUseCase listarMeusTicketsUseCase(TicketRepository ticketRepository, TicketMapper ticketMapper) {
+        return new ListarMeusTicketsUseCase(ticketRepository, ticketMapper);
     }
 
     @Bean
-    public BuscarDetalhesDoTicketUseCase buscarDetalhesDoTicketUseCase(TicketRepository ticketRepository) {
-        return new BuscarDetalhesDoTicketUseCase(ticketRepository);
+    public BuscarDetalhesDoTicketUseCase buscarDetalhesDoTicketUseCase(TicketRepository ticketRepository, TicketMapper ticketMapper) {
+        return new BuscarDetalhesDoTicketUseCase(ticketRepository, ticketMapper);
     }
 
     // Viagem
     @Bean
-    public AtualizarViagemUseCase atualizarViagemUseCase(ViagemRepository viagemRepository, OnibusRepository onibusRepository) {
-        return new AtualizarViagemUseCase(viagemRepository, onibusRepository);
+    public AtualizarViagemUseCase atualizarViagemUseCase(ViagemRepository viagemRepository, OnibusRepository onibusRepository, ViagemMapper viagemMapper) {
+        return new AtualizarViagemUseCase(viagemRepository, onibusRepository, viagemMapper);
     }
 
     @Bean
-    public BuscarViagensDisponiveisUseCase buscarViagensDisponiveisUseCase(ViagemRepository viagemRepository) {
-        return new BuscarViagensDisponiveisUseCase(viagemRepository);
+    public BuscarViagensDisponiveisUseCase buscarViagensDisponiveisUseCase(ViagemRepository viagemRepository, ViagemMapper viagemMapper) {
+        return new BuscarViagensDisponiveisUseCase(viagemRepository, viagemMapper);
     }
 
     @Bean
@@ -219,17 +235,17 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ListarViagensPorPassageiro listarViagensPorPassageiro(ViagemRepository viagemRepository, PassageiroRepository passageiroRepository){
-        return new ListarViagensPorPassageiro(viagemRepository, passageiroRepository);
+    public ListarViagensPorPassageiro listarViagensPorPassageiro(ViagemRepository viagemRepository, PassageiroRepository passageiroRepository, ViagemMapper viagemMapper){
+        return new ListarViagensPorPassageiro(viagemRepository, passageiroRepository, viagemMapper);
     }
 
     @Bean
-    public CriarViagemUseCase criarViagemUseCase(ViagemRepository viagemRepository, OnibusRepository onibusRepository, LinhaRepository linhaRepository){
-        return new CriarViagemUseCase(viagemRepository, linhaRepository, onibusRepository);
+    public CriarViagemUseCase criarViagemUseCase(ViagemRepository viagemRepository, OnibusRepository onibusRepository, LinhaRepository linhaRepository, ViagemMapper viagemMapper){
+        return new CriarViagemUseCase(viagemRepository, linhaRepository, onibusRepository, viagemMapper);
     }
     @Bean
-    public BuscarViagensPorLinhaUseCase buscarViagensPorLinhaUseCase(ViagemRepository viagemRepository, LinhaRepository linhaRepository){
-        return new BuscarViagensPorLinhaUseCase(viagemRepository, linhaRepository);
+    public BuscarViagensPorLinhaUseCase buscarViagensPorLinhaUseCase(ViagemRepository viagemRepository, LinhaRepository linhaRepository, ViagemMapper viagemMapper){
+        return new BuscarViagensPorLinhaUseCase(viagemRepository, linhaRepository, viagemMapper);
     }
 }
 
