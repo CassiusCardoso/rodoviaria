@@ -14,10 +14,12 @@ public class ListarViagensPorPassageiro {
 
     private final ViagemRepository viagemRepository;
     private final PassageiroRepository passageiroRepository;
+    private final ViagemMapper viagemMapper; // EDIT 11/07 15:05 Mapper injetado
 
-    public ListarViagensPorPassageiro(ViagemRepository viagemRepository, PassageiroRepository passageiroRepository) {
+    public ListarViagensPorPassageiro(ViagemRepository viagemRepository, PassageiroRepository passageiroRepository, ViagemMapper viagemMapper) {
         this.viagemRepository = viagemRepository;
         this.passageiroRepository = passageiroRepository;
+        this.viagemMapper = viagemMapper;
     }
 
     public List<ViagemPorPassageiroResponse> execute(UUID passageiroID){
@@ -34,7 +36,7 @@ public class ListarViagensPorPassageiro {
         // Se a lista for vazia, o stream vai retornar uma lista vazia, o que é o comportamento correto.
 
         return viagemPorPassageiro.stream()
-                .map(ViagemMapper.INSTANCE::toViagemPorPassageiroResponse) // <<-- Usamos o novo método aqui!)
+                .map(viagemMapper::toViagemPorPassageiroResponse) // <<-- Usamos o novo método aqui!)
                 .toList();
     }
 }
