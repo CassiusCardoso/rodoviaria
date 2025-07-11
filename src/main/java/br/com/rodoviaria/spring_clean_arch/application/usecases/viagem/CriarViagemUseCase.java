@@ -21,11 +21,14 @@ public class CriarViagemUseCase {
     private final ViagemRepository viagemRepository;
     private final LinhaRepository linhaRepository;
     private final OnibusRepository onibusRepository;
+    private final ViagemMapper viagemMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
 
-    public CriarViagemUseCase(ViagemRepository viagemRepository,  LinhaRepository linhaRepository, OnibusRepository onibusRepository) {
+
+    public CriarViagemUseCase(ViagemRepository viagemRepository,  LinhaRepository linhaRepository, OnibusRepository onibusRepository, ViagemMapper viagemMapper) {
         this.viagemRepository = viagemRepository;
         this.linhaRepository = linhaRepository;
         this.onibusRepository = onibusRepository;
+        this.viagemMapper = viagemMapper;
     }
     public ViagemResponse execute(ViagemRequest request) {
         // Buscar uma entidade viagem
@@ -54,7 +57,7 @@ public class CriarViagemUseCase {
 
         // 6. MAPEAR PARA RESPONSE E RETORNAR
         // Será necessário criar o ViagemMapper, similar ao que fizemos para Ticket
-        return ViagemMapper.INSTANCE.toResponse(viagemSalva);
+        return viagemMapper.toResponse(viagemSalva);
 
     }
 }

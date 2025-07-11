@@ -20,10 +20,12 @@ import java.util.UUID;
 public class AtualizarViagemUseCase {
     private final ViagemRepository viagemRepository;
     private final OnibusRepository onibusRepository;
+    private final ViagemMapper viagemMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
 
-    public  AtualizarViagemUseCase(ViagemRepository viagemRepository, OnibusRepository onibusRepository) {
+    public  AtualizarViagemUseCase(ViagemRepository viagemRepository, OnibusRepository onibusRepository, ViagemMapper viagemMapper) {
         this.viagemRepository = viagemRepository;
         this.onibusRepository = onibusRepository;
+        this.viagemMapper = viagemMapper;
     }
 
     public ViagemResponse execute(UUID viagemId, AtualizarViagemRequest request){
@@ -63,7 +65,7 @@ public class AtualizarViagemUseCase {
 
         // Salvar e retornar (persistência)
         Viagem viagemSalva = viagemRepository.salvar(viagemAtual);
-        return ViagemMapper.INSTANCE.toResponse(viagemSalva);
+        return viagemMapper.toResponse(viagemSalva);
     }
 
 }

@@ -13,10 +13,12 @@ import java.util.UUID;
 public class BuscarViagensPorLinhaUseCase {
     private final ViagemRepository viagemRepository;
     private final LinhaRepository linhaRepository;
+    private final ViagemMapper viagemMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
 
-    public BuscarViagensPorLinhaUseCase(ViagemRepository viagemRepository, LinhaRepository linhaRepository) {
+    public BuscarViagensPorLinhaUseCase(ViagemRepository viagemRepository, LinhaRepository linhaRepository, ViagemMapper viagemMapper) {
         this.viagemRepository = viagemRepository;
         this.linhaRepository = linhaRepository;
+        this.viagemMapper = viagemMapper;
     }
 
     public List<ViagemPorLinhaResponse> execute(UUID linhaId) {
@@ -35,7 +37,7 @@ public class BuscarViagensPorLinhaUseCase {
 
 
         // Convertendo a lista de viagens para uma lista de ViagemPorLinhaResponse
-        return viagensPorLinha.stream().map(ViagemMapper.INSTANCE::toViagemPorLinhaResponse) // <<-- Usamos o novo método aqui!
+        return viagensPorLinha.stream().map(viagemMapper::toViagemPorLinhaResponse) // <<-- Usamos o novo método aqui!
                 .toList();
 
     }

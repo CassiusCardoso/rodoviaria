@@ -10,9 +10,10 @@ import java.util.List;
 
 public class BuscarViagensDisponiveisUseCase {
     private final ViagemRepository viagemRepository;
-
-    public BuscarViagensDisponiveisUseCase(ViagemRepository viagemRepository) {
+    private final ViagemMapper viagemMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
+    public BuscarViagensDisponiveisUseCase(ViagemRepository viagemRepository, ViagemMapper viagemMapper) {
         this.viagemRepository = viagemRepository;
+        this.viagemMapper = viagemMapper;
     }
 
     public List<ViagensDisponiveisResponse> execute(BuscarViagensDisponiveisRequest request){
@@ -22,7 +23,7 @@ public class BuscarViagensDisponiveisUseCase {
         /// 2. Converte a lista de entidades para a lista de DTOs de forma limpa,
         // usando o novo método do mapper.
         return viagens.stream()
-                .map(ViagemMapper.INSTANCE::toViagensDisponiveisResponse)
+                .map(viagemMapper::toViagensDisponiveisResponse)
                 .toList();
     }
 }

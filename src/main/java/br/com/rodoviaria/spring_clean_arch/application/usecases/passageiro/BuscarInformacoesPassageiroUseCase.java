@@ -10,9 +10,14 @@ import java.util.UUID;
 
 public class BuscarInformacoesPassageiroUseCase {
     private final PassageiroRepository passageiroRepository;
-    public BuscarInformacoesPassageiroUseCase(PassageiroRepository passageiroRepository) {
+    private final PassageiroMapper passageiroMapper; // 1. Adicione o mapper como dependência
+
+    // 2. Injete o mapper no construtor
+    public BuscarInformacoesPassageiroUseCase(PassageiroRepository passageiroRepository, PassageiroMapper passageiroMapper) {
         this.passageiroRepository = passageiroRepository;
+        this.passageiroMapper = passageiroMapper;
     }
+
 
     public PassageiroResponse execute (UUID usuarioLogadoId){
         // Verificando se o passageiro existe
@@ -24,6 +29,6 @@ public class BuscarInformacoesPassageiroUseCase {
         // É impossível que a variável 'passageiro' contenha dados de outro usuário.
 
         // 3. Mapeia para o DTO de resposta e retorna
-        return PassageiroMapper.INSTANCE.toResponse(passageiro);
+        return passageiroMapper.toResponse(passageiro);
     }
 }
