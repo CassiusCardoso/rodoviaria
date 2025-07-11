@@ -17,9 +17,11 @@ import java.util.UUID;
 
 public class AtualizarTicketUseCase {
     private final TicketRepository ticketRepository;
+    private final TicketMapper ticketMapper;
 
-    public AtualizarTicketUseCase(TicketRepository ticketRepository) {
+    public AtualizarTicketUseCase(TicketRepository ticketRepository, TicketMapper ticketMapper) {
         this.ticketRepository = ticketRepository;
+        this.ticketMapper = ticketMapper;
     }
 
     // O método agora recebe o ID e o DTO com os novos dados
@@ -62,6 +64,6 @@ public class AtualizarTicketUseCase {
 
         // 5. RETORNANDO O RESPONSE
         // Usamos o Mapper para converter a entidade atualizada para o DTO de resposta.
-        return TicketMapper.INSTANCE.toResponse(ticketSalvo);
+        return ticketMapper.toResponse(ticketSalvo);
     }
 }

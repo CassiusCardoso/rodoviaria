@@ -22,13 +22,15 @@ public class ComprarTicketUseCase {
     private final ViagemRepository viagemRepository;
     private final TicketRepository ticketRepository;
     private final PassageiroRepository passageiroRepository;
+    private final TicketMapper ticketMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
     // Pode ter um mapper aqui também
 
     // Injentar as dependências (o mundo exterior nos dará a implementação)
-    public ComprarTicketUseCase(ViagemRepository viagemRepository,  TicketRepository ticketRepository, PassageiroRepository passageiroRepository) {
+    public ComprarTicketUseCase(ViagemRepository viagemRepository,  TicketRepository ticketRepository, PassageiroRepository passageiroRepository, TicketMapper ticketMapper) {
         this.viagemRepository = viagemRepository;
         this.ticketRepository = ticketRepository;
         this.passageiroRepository = passageiroRepository;
+        this.ticketMapper = ticketMapper;
     }
     // Método de execução (a lógica do caso de uso)
     public TicketResponse execute(ComprarTicketRequest request) {
@@ -65,6 +67,6 @@ public class ComprarTicketUseCase {
         // PERSISR A NOVA ENTIDADE
         Ticket ticketSalvo = ticketRepository.salvar(novoTicket);
         // Mapper para converter Entity em DTO
-        return TicketMapper.INSTANCE.toResponse(ticketSalvo);
+        return ticketMapper.toResponse(ticketSalvo);
     }
 }

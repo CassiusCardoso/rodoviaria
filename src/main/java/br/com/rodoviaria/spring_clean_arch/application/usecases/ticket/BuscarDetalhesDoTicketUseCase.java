@@ -14,9 +14,11 @@ import java.util.UUID;
 
 public class BuscarDetalhesDoTicketUseCase {
     private final TicketRepository ticketRepository;
+    private final TicketMapper ticketMapper;
 
-    public BuscarDetalhesDoTicketUseCase(TicketRepository ticketRepository) {
+    public BuscarDetalhesDoTicketUseCase(TicketRepository ticketRepository, TicketMapper ticketMapper) {
         this.ticketRepository = ticketRepository;
+        this.ticketMapper = ticketMapper;
     }
 
     public TicketResponse execute(UUID ticketId, UUID usuarioLogadoId) {
@@ -33,6 +35,6 @@ public class BuscarDetalhesDoTicketUseCase {
 
         // 3. CONVERTENDO PARA RESPONSE E RETORNANDO (O passo que faltava)
         // Não há etapa de "salvar". Apenas convertemos o que já buscamos.
-        return TicketMapper.INSTANCE.toResponse(ticketBuscado);
+        return ticketMapper.toResponse(ticketBuscado);
     }
 }

@@ -2,6 +2,7 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.ticket;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.ticket.TicketResponse;
 import br.com.rodoviaria.spring_clean_arch.application.mapper.TicketMapper;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.ViagemMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.TicketInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
@@ -12,9 +13,12 @@ import java.util.UUID;
 public class ListarMeusTicketsUseCase {
 
     private final TicketRepository ticketRepository;
+    private final TicketMapper ticketMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
 
-    public ListarMeusTicketsUseCase(TicketRepository ticketRepository) {
+
+    public ListarMeusTicketsUseCase(TicketRepository ticketRepository, TicketMapper ticketMapper) {
         this.ticketRepository = ticketRepository;
+        this.ticketMapper = ticketMapper;
     }
 
     /**
@@ -38,7 +42,7 @@ public class ListarMeusTicketsUseCase {
 
         // 3. Converte a lista de Entidades para uma lista de DTOs usando Streams e o Mapper.
         return tickets.stream()
-                .map(TicketMapper.INSTANCE::toResponse)
+                .map(ticketMapper::toResponse)
                 .toList();
     }
 }
