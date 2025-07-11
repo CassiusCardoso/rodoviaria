@@ -13,10 +13,12 @@ import java.util.UUID;
 public class ListarPassageirosDeUmaViagemUseCase {
     private final TicketRepository ticketRepository;
     private final ViagemRepository viagemRepository;
+    private final TicketMapper ticketMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
 
-    public  ListarPassageirosDeUmaViagemUseCase(TicketRepository ticketRepository, ViagemRepository viagemRepository){
+    public  ListarPassageirosDeUmaViagemUseCase(TicketRepository ticketRepository, ViagemRepository viagemRepository, TicketMapper ticketMapper) {
         this.ticketRepository = ticketRepository;
         this.viagemRepository = viagemRepository;
+        this.ticketMapper = ticketMapper;
     }
 
     public List<PassageiroPorViagemResponse> execute(UUID viagemId){
@@ -34,7 +36,7 @@ public class ListarPassageirosDeUmaViagemUseCase {
 
         // 3. Converter a lista de Tickets para a lista de DTOs de resposta.
         return ticketsDaViagem.stream()
-                .map(TicketMapper.INSTANCE::toPassageiroPorViagemResponse)
+                .map(ticketMapper::toPassageiroPorViagemResponse)
                 .toList();
     }
 }

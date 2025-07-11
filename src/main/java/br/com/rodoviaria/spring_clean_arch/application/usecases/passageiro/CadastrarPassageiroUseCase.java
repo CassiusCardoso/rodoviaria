@@ -19,10 +19,12 @@ import java.util.UUID;
 public class CadastrarPassageiroUseCase {
     private final PassageiroRepository passageiroRepository;
     private final SenhaEncoderPort encoder; // 2. ADICIONE A DEPENDÊNCIA
+    private final PassageiroMapper passageiroMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
 
-    public CadastrarPassageiroUseCase(PassageiroRepository passageiroRepository, SenhaEncoderPort encoder) {
+    public CadastrarPassageiroUseCase(PassageiroRepository passageiroRepository, SenhaEncoderPort encoder, PassageiroMapper passageiroMapper) {
         this.passageiroRepository = passageiroRepository;
         this.encoder = encoder;// 3. INJETE NO CONSTRUTOR
+        this.passageiroMapper = passageiroMapper;
     }
 
     public PassageiroResponse execute(CadastrarPassageiroRequest request) {
@@ -64,6 +66,6 @@ public class CadastrarPassageiroUseCase {
 
         // ... Persistir e Mapear para o Response (continuam iguais) ...
         Passageiro passageiroSalvo = passageiroRepository.salvar(novoPassageiro);
-        return PassageiroMapper.INSTANCE.toResponse(passageiroSalvo);
+        return passageiroMapper.toResponse(passageiroSalvo);
     }
 }

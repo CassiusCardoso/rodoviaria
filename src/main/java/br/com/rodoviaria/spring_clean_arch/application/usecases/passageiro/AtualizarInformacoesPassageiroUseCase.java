@@ -16,9 +16,11 @@ import java.util.UUID;
 
 public class AtualizarInformacoesPassageiroUseCase {
     private final PassageiroRepository passageiroRepository;
+    private final PassageiroMapper passageiroMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
 
-    public AtualizarInformacoesPassageiroUseCase(PassageiroRepository passageiroRepository){
+    public AtualizarInformacoesPassageiroUseCase(PassageiroRepository passageiroRepository, PassageiroMapper passageiroMapper){
         this.passageiroRepository = passageiroRepository;
+        this.passageiroMapper = passageiroMapper;
     }
 
     public AtualizarInformacoesPassageiroResponse execute(AtualizarInformacoesPassageiroRequest request, UUID passageiroId) {
@@ -56,6 +58,6 @@ public class AtualizarInformacoesPassageiroUseCase {
             Passageiro novoPassageiro = passageiroRepository.salvar(passageiroAtualizado);
 
             // 5. CONVERTER A ENTIDADE SALVA PARA O DTO DE RESPOSTA USANDO O MAPPER
-            return PassageiroMapper.INSTANCE.toAtualizarInformacoesResponse(novoPassageiro);
+            return passageiroMapper.toAtualizarInformacoesResponse(novoPassageiro);
         }
     }
