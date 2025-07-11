@@ -1,6 +1,7 @@
 package br.com.rodoviaria.spring_clean_arch.application.usecases.passageiro;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.PassageiroResponse;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.PassageiroMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.PassageiroInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
@@ -26,15 +27,20 @@ import static org.mockito.Mockito.*;
 public class BuscarInformacoesPassageiroUseCaseTest {
     @Mock
     private PassageiroRepository repository;
+
+    @Mock
+    private PassageiroMapper passageiroMapper;
+
     private UUID passageiroId;
     private Passageiro passageiro;
+
     @InjectMocks
     private BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase;
 
     @BeforeEach
     void setUp(){
         passageiroId = UUID.randomUUID();
-        Passageiro passageiroExistente = new Passageiro(
+        passageiro = new Passageiro(
                 passageiroId, "Las", new Email("las@gmail.com"), new Senha("12345@g"), new Cpf("389.708.991-20"), new Telefone("(11) 98888-7777"), true
         );
     }
@@ -46,18 +52,21 @@ public class BuscarInformacoesPassageiroUseCaseTest {
         // ARRRANGE
         when(repository.buscarPassageiroPorId(passageiroId)).thenReturn(Optional.of(passageiro));
 
-        // ACT - executar o caso de uso
-        PassageiroResponse response = buscarInformacoesPassageiroUseCase.execute(passageiroId);
+        // Crie um DTO de resposta falso que o mapper deverá retornar
+        PassageiroResponse responseFalso = new PassageiroResponse(passageiroId, "John Doe", "john.doe@gmail.com", "111.222.333-44", "(11) 98888-7777", true, null);
 
-        //
-        assertNotNull(response);
-        assertEquals(passageiroId, response.id());
-        assertEquals("Las", response.nome());
-        assertEquals("las@gmail.com", response.email());
+        // Mock: Quando o mapper.toResponse for chamado, retorne a resposta falsa.
+        when(passageiroMapper.toResponse(any(Passageiro.class))).thenReturn(responseFalso);
+
+        // ACT
+        PassageiroResponse responseReal = buscarInformacoesPassageiroUseCase.execute(passageiroId);
+
+        assertNotNull(responseReal);
+        assertEquals("John Doe", responseReal.nome());
 
         // CONFIRMAR QUE O MÉTODO VERIFY FOI CHAMADO EXATAMENTE UMA VEZ
         verify(repository, times(1)).buscarPassageiroPorId(passageiroId);
-
+        verify(passageiroMapper, times(1)).toResponse(any(Passageiro.class));
     }
 
     @Test
