@@ -12,8 +12,11 @@ import java.util.UUID;
 
 public class CadastrarLinhaUseCase {
     private final LinhaRepository linhaRepository;
-    public CadastrarLinhaUseCase(LinhaRepository linhaRepository) {
+    private final LinhaMapper linhaMapper;
+
+    public CadastrarLinhaUseCase(LinhaRepository linhaRepository, LinhaMapper linhaMapper) {
         this.linhaRepository = linhaRepository;
+        this.linhaMapper = linhaMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
     }
     public LinhaResponse execute(CadastrarLinhaRequest request){
 
@@ -35,7 +38,7 @@ public class CadastrarLinhaUseCase {
         Linha linhaCadastrada = linhaRepository.salvar(novaLinha);
 
         // Mapear para o DTO de resposta
-        return LinhaMapper.INSTANCE.toResponse(linhaCadastrada);
+        return linhaMapper.toResponse(linhaCadastrada);
 
 
     }

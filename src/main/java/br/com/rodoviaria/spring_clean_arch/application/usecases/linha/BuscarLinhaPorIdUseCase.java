@@ -10,13 +10,16 @@ import java.util.UUID;
 
 public class BuscarLinhaPorIdUseCase {
     private final LinhaRepository linhaRepository;
-    public BuscarLinhaPorIdUseCase(LinhaRepository linhaRepository) {
+    private final LinhaMapper linhaMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
+
+    public BuscarLinhaPorIdUseCase(LinhaRepository linhaRepository, LinhaMapper linhaMapper) {
         this.linhaRepository = linhaRepository;
+        this.linhaMapper = linhaMapper;
     }
 
     public LinhaResponse execute(UUID linhaId) {
         Linha linha = linhaRepository.buscarLinhaPorId(linhaId)
                 .orElseThrow(() -> new LinhaInvalidaException("Linha não encontrada."));
-        return LinhaMapper.INSTANCE.toResponse(linha);
+        return linhaMapper.toResponse(linha);
     }
 }

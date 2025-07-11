@@ -10,8 +10,11 @@ import java.util.stream.Collectors;
 
 public class ListarTodasLinhasUseCase {
     private final LinhaRepository linhaRepository;
-    public ListarTodasLinhasUseCase(LinhaRepository linhaRepository) {
+    private final LinhaMapper linhaMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
+
+    public ListarTodasLinhasUseCase(LinhaRepository linhaRepository, LinhaMapper linhaMapper) {
         this.linhaRepository = linhaRepository;
+        this.linhaMapper = linhaMapper;
     }
 
     public List<LinhaResponse> execute(){
@@ -20,7 +23,7 @@ public class ListarTodasLinhasUseCase {
 
         // Mapear o LinhaResponse para linha
         return todasAsLinhas.stream()
-                .map(LinhaMapper.INSTANCE::toResponse)
+                .map(linhaMapper::toResponse)
                 .collect(Collectors.toList());
     }
 }

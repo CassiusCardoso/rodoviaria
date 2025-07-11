@@ -12,8 +12,10 @@ import java.util.UUID;
 
 public class AtualizarInformacoesDaLinhaUseCase {
     private final LinhaRepository linhaRepository;
-    public AtualizarInformacoesDaLinhaUseCase(LinhaRepository linhaRepository) {
+    private final LinhaMapper linhaMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
+    public AtualizarInformacoesDaLinhaUseCase(LinhaRepository linhaRepository, LinhaMapper linhaMapper) {
         this.linhaRepository = linhaRepository;
+        this.linhaMapper = linhaMapper;
     }
     public LinhaResponse execute(UUID linhaId, AtualizarInformacoesDaLinhaRequest request){
 
@@ -32,7 +34,7 @@ public class AtualizarInformacoesDaLinhaUseCase {
 
         Linha linhaSalva = linhaRepository.salvar(linhaAtualizada);
 
-        return LinhaMapper.INSTANCE.toResponse(linhaSalva);
+        return linhaMapper.toResponse(linhaSalva);
 
     }
 }
