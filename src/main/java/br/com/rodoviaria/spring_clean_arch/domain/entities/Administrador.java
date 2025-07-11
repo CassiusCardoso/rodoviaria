@@ -52,4 +52,15 @@ public class Administrador {
     public LocalDateTime getCriadoEm() {
         return criadoEm;
     }
+
+    public Administrador desativar() {
+        return new Administrador(
+                this.id,
+                this.nome,
+                this.email,
+                this.senha,
+                false,
+                this.criadoEm
+        );
+    }
 }
