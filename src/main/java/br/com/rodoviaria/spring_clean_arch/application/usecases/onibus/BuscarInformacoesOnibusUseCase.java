@@ -21,7 +21,7 @@ public class BuscarInformacoesOnibusUseCase {
         Onibus onibusBuscado = onibusRepository.buscarOnibusPorId(onibusId)
                 .orElseThrow(() -> new OnibusInvalidoException("Ônibus com o identificador informado não existe no sistema."));
 
-        return OnibusMapper.INSTANCE.toResponse(onibusBuscado);
+        return this.onibusMapper.toResponse(onibusBuscado);
 
     }
 }
