@@ -17,8 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.beans.BeanProperty;
-
 @Configuration
 public class BeanConfiguration {
 
@@ -235,8 +233,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ListarViagensPorPassageiro listarViagensPorPassageiro(ViagemRepository viagemRepository, PassageiroRepository passageiroRepository, ViagemMapper viagemMapper){
-        return new ListarViagensPorPassageiro(viagemRepository, passageiroRepository, viagemMapper);
+    public ListarViagensPorPassageiroUseCase listarViagensPorPassageiro(ViagemRepository viagemRepository, PassageiroRepository passageiroRepository, ViagemMapper viagemMapper){
+        return new ListarViagensPorPassageiroUseCase(viagemRepository, passageiroRepository, viagemMapper);
     }
 
     @Bean
