@@ -28,7 +28,7 @@ import br.com.rodoviaria.spring_clean_arch.application.usecases.ticket.AdminCanc
 import br.com.rodoviaria.spring_clean_arch.application.usecases.viagem.AtualizarViagemUseCase;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.viagem.CancelarViagemUseCase;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.viagem.CriarViagemUseCase;
-import br.com.rodoviaria.spring_clean_arch.application.usecases.viagem.ListarViagensPorPassageiro;
+import br.com.rodoviaria.spring_clean_arch.application.usecases.viagem.ListarViagensPorPassageiroUseCase;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AdminAutenticado;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,9 +65,9 @@ public class AdminController {
     private final CriarViagemUseCase criarViagemUseCase;
     private final AtualizarViagemUseCase atualizarViagemUseCase;
     private final CancelarViagemUseCase cancelarViagemUseCase;
-    private final ListarViagensPorPassageiro listarViagensPorPassageiro;
+    private final ListarViagensPorPassageiroUseCase listarViagensPorPassageiro;
 
-    public AdminController(AutenticarAdminUseCase autenticarAdminUseCase, CadastrarOnibusUseCase cadastrarOnibusUseCase, ListarTodosOnibusUseCase listarTodosOnibusUseCase, DesativarOnibusUseCase desativarOnibusUseCase, AtualizarOnibusUseCase atualizarOnibusUseCase, AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase, DesativarPassageiroUseCase desativarPassageiroUseCase, BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase, DesativarLinhaUseCase desativarLinhaUseCase, AtualizarInformacoesDaLinhaUseCase atualizarInformacoesDaLinhaUseCase, CadastrarLinhaUseCase cadastrarLinhaUseCase, AdminCancelarTicketUseCase adminCancelarTicketUseCase, CriarViagemUseCase criarViagemUseCase, AtualizarViagemUseCase atualizarViagemUseCase, CancelarViagemUseCase cancelarViagemUseCase, ListarViagensPorPassageiro listarViagensPorPassageiro){
+    public AdminController(AutenticarAdminUseCase autenticarAdminUseCase, CadastrarOnibusUseCase cadastrarOnibusUseCase, ListarTodosOnibusUseCase listarTodosOnibusUseCase, DesativarOnibusUseCase desativarOnibusUseCase, AtualizarOnibusUseCase atualizarOnibusUseCase, AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase, DesativarPassageiroUseCase desativarPassageiroUseCase, BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase, DesativarLinhaUseCase desativarLinhaUseCase, AtualizarInformacoesDaLinhaUseCase atualizarInformacoesDaLinhaUseCase, CadastrarLinhaUseCase cadastrarLinhaUseCase, AdminCancelarTicketUseCase adminCancelarTicketUseCase, CriarViagemUseCase criarViagemUseCase, AtualizarViagemUseCase atualizarViagemUseCase, CancelarViagemUseCase cancelarViagemUseCase, ListarViagensPorPassageiroUseCase listarViagensPorPassageiro){
         this.autenticarAdminUseCase = autenticarAdminUseCase;
         // ONIBUS
         this.cadastrarOnibusUseCase = cadastrarOnibusUseCase;

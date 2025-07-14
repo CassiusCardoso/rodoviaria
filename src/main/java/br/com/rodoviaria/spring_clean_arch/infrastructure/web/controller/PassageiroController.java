@@ -8,7 +8,7 @@ import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.A
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.PassageiroResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemPorPassageiroResponse;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.passageiro.*;
-import br.com.rodoviaria.spring_clean_arch.application.usecases.viagem.ListarViagensPorPassageiro;
+import br.com.rodoviaria.spring_clean_arch.application.usecases.viagem.ListarViagensPorPassageiroUseCase;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.UsuarioAutenticado;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +16,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/passageiros")
@@ -28,7 +27,7 @@ public class PassageiroController {
     private final BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase;
     private final AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase;
     private final DesativarPassageiroUseCase desativarPassageiroUseCase;
-    private final ListarViagensPorPassageiro listarViagensPorPassageiro;
+    private final ListarViagensPorPassageiroUseCase listarViagensPorPassageiro;
 
     public PassageiroController(
             AutenticarPassageiroUseCase autenticarPassageiroUseCase,
@@ -36,7 +35,7 @@ public class PassageiroController {
             BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase,
             AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase,
             DesativarPassageiroUseCase desativarPassageiroUseCase,
-            ListarViagensPorPassageiro listarViagensPorPassageiro
+            ListarViagensPorPassageiroUseCase listarViagensPorPassageiro
     ) {
         this.autenticarPassageiroUseCase = autenticarPassageiroUseCase;
         this.cadastrarPassageiroUseCase = cadastrarPassageiroUseCase;
