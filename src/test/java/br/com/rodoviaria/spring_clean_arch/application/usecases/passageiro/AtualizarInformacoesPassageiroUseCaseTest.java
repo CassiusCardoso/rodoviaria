@@ -53,7 +53,7 @@ public class AtualizarInformacoesPassageiroUseCaseTest {
 
     @Test
     @DisplayName("Deve atualizar um passageiro após receber uma requisição válida")
-    void deveAtualizarPassageiroComSucesso_QuandoRequisicaoValida(){
+    void deveAtualizarPassageiroComSucesso_QuandoRequisicaoForValida(){
 
         // ARRANGE
         AtualizarInformacoesPassageiroRequest request = new AtualizarInformacoesPassageiroRequest(
