@@ -18,6 +18,11 @@ public class PassageiroCancelarTicketUseCase {
     }
 
     public void execute(UUID ticketId, UUID usuarioLogadoId) {
+        // Garante que os IDs não são nulos antes de qualquer outra lógica.
+        if (ticketId == null || usuarioLogadoId == null) {
+            // Lançar IllegalArgumentException é a prática mais comum para argumentos de método inválidos.
+            throw new TicketInvalidoException("Os IDs do ticket e do usuário não podem ser nulos.");
+        }
 
         // 1. Busca o ticket que será cancelado.
         Ticket ticket = ticketRepository.buscarTicketPorId(ticketId)

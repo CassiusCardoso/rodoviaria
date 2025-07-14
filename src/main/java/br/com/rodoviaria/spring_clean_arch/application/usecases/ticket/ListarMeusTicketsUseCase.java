@@ -28,17 +28,15 @@ public class ListarMeusTicketsUseCase {
      */
     public List<TicketResponse> execute(UUID passageiroId) {
 
+        // EDIT 14/07 - 09:26 AVALIDAÇÃO AQUI
+        if (passageiroId == null) {
+            throw new IllegalArgumentException("O ID do passageiro não pode ser nulo.");
+        }
+
         // 1. Busca a lista de entidades de domínio diretamente pelo repositório.
         // O repositório já garante que só virão tickets do passageiro correto.
         List<Ticket> tickets = ticketRepository.listarTicketsPorPassageiroId(passageiroId);
 
-        // 2. Validação (Opcional, mas boa prática):
-        // Se a lista estiver vazia, você pode optar por retornar uma lista vazia
-        // ou lançar uma exceção, dependendo da sua regra de negócio.
-        // Lançar exceção pode ser mais informativo para o usuário.
-        if (tickets.isEmpty()) {
-            throw new TicketInvalidoException("Nenhum ticket encontrado para o passageiro com ID " + passageiroId);
-        }
 
         // 3. Converte a lista de Entidades para uma lista de DTOs usando Streams e o Mapper.
         return tickets.stream()
