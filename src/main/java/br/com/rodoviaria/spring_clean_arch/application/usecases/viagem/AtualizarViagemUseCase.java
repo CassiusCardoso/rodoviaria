@@ -64,7 +64,7 @@ public class AtualizarViagemUseCase {
         );
 
         // Salvar e retornar (persistência)
-        Viagem viagemSalva = viagemRepository.salvar(viagemAtual);
+        Viagem viagemSalva = viagemRepository.salvar(novaViagem);
         return viagemMapper.toResponse(viagemSalva);
     }
 

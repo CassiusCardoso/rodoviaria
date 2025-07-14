@@ -10,13 +10,13 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
 import java.util.List;
 import java.util.UUID;
 
-public class ListarViagensPorPassageiro {
+public class ListarViagensPorPassageiroUseCase {
 
     private final ViagemRepository viagemRepository;
     private final PassageiroRepository passageiroRepository;
     private final ViagemMapper viagemMapper; // EDIT 11/07 15:05 Mapper injetado
 
-    public ListarViagensPorPassageiro(ViagemRepository viagemRepository, PassageiroRepository passageiroRepository, ViagemMapper viagemMapper) {
+    public ListarViagensPorPassageiroUseCase(ViagemRepository viagemRepository, PassageiroRepository passageiroRepository, ViagemMapper viagemMapper) {
         this.viagemRepository = viagemRepository;
         this.passageiroRepository = passageiroRepository;
         this.viagemMapper = viagemMapper;
