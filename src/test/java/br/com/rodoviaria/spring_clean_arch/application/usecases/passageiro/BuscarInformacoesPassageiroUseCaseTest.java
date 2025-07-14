@@ -35,6 +35,7 @@ public class BuscarInformacoesPassageiroUseCaseTest {
     private Passageiro passageiro;
 
     @InjectMocks
+
     private BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase;
 
     @BeforeEach
