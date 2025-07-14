@@ -9,7 +9,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface PassageiroMapper {
-    PassageiroMapper INSTANCE = Mappers.getMapper(PassageiroMapper.class);
 
     // Mapeamento para o DTO principal
     @Mapping(source = "email.email", target = "email")

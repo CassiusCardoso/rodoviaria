@@ -8,7 +8,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface OnibusMapper {
-    OnibusMapper INSTANCE = Mappers.getMapper(OnibusMapper.class);
 
     // Diz ao MapStruct: para preencher o campo 'placa' do DTO,
     // pegue o objeto 'placa' da entidade e acesse seu atributo 'valor'.

@@ -2,6 +2,7 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.passageiro;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.AtualizarInformacoesPassageiroRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.AtualizarInformacoesPassageiroResponse;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.PassageiroMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.NomeInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.PassageiroInvalidoException;
@@ -30,6 +31,9 @@ import static org.mockito.Mockito.*;
 public class AtualizarInformacoesPassageiroUseCaseTest {
     @Mock
     private PassageiroRepository repository;
+
+    @Mock // <-- ADICIONE ESTA ANOTAÇÃO
+    private PassageiroMapper passageiroMapper;
 
     @InjectMocks
     private AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase;
@@ -67,6 +71,10 @@ public class AtualizarInformacoesPassageiroUseCaseTest {
 
         // Quando o método 'salvar' for chamado, retornar o passageiro atualizado
         when(repository.salvar(any(Passageiro.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // ADICIONE ESTA LINHA DENTRO DO TESTE PARA SIMULAR O COMPORTAMENTO DO MAPPER
+        when(passageiroMapper.toAtualizarInformacoesResponse(any(Passageiro.class)))
+                .thenReturn(new AtualizarInformacoesPassageiroResponse("John Doe Novo", "john.doe.novo@gmail.com", "129.425.841-90", "(11) 98888-7777", true, null));
 
         // ACT
         AtualizarInformacoesPassageiroResponse response = atualizarInformacoesPassageiroUseCase.execute(request, passageiroId);

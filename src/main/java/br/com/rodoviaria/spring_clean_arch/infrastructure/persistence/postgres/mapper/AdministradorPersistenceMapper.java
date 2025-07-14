@@ -7,9 +7,8 @@ import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.m
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring") // Adicione componentModel = "spring" para o Spring injetá-lo
+@Mapper
 public interface AdministradorPersistenceMapper {
-    AdministradorPersistenceMapper INSTANCE = Mappers.getMapper(AdministradorPersistenceMapper.class);
     AdministradorModel toModel(Administrador administrador);
     Administrador toDomain(AdministradorModel model);
 

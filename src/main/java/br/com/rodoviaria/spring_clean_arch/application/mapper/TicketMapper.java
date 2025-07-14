@@ -17,7 +17,6 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 @Mapper(uses = {PassageiroMapper.class}) // Removido TicketMapper.class do uses
 public interface TicketMapper {
 
-    TicketMapper INSTANCE = Mappers.getMapper(TicketMapper.class);
 
     // Mapeamento para TicketResponse
     @Mapping(source = "status", target = "statusViagem")

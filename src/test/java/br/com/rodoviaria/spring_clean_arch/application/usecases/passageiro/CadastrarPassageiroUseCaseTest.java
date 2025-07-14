@@ -2,6 +2,7 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.passageiro;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.CadastrarPassageiroRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.PassageiroResponse;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.PassageiroMapper;
 import br.com.rodoviaria.spring_clean_arch.application.ports.out.senha.SenhaEncoderPort;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,6 +28,9 @@ public class CadastrarPassageiroUseCaseTest {
 
     @Mock // Cria um mock para a interface do encoder da senha.
     private SenhaEncoderPort senhaEncoder;
+
+    @Mock
+    private PassageiroMapper passageiroMapper;
 
     @InjectMocks // Cria uma instância real do UseCase e injeta as dependencias necessárias citadas acima
     private CadastrarPassageiroUseCase cadastrarPassageiroUseCase;
@@ -57,6 +62,11 @@ public class CadastrarPassageiroUseCaseTest {
         // Quando o repositório .salvar() for chamado com qualquer objeto Passageiro,
         // retornar o Passageiro
         when(repository.salvar(any(Passageiro.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        // --- CORREÇÃO AQUI ---
+        // Simule o que o mapper deve retornar. Isso evita o NullPointerException.
+        when(passageiroMapper.toResponse(any(Passageiro.class)))
+                .thenReturn(new PassageiroResponse(UUID.randomUUID(), request.nome(), request.email(), request.cpf(), request.telefone(), true, null));
 
         // --- ACT (Para agir) ---
         // Executar o método que preciso testar, nesse caso é o cadastrarPassageiro

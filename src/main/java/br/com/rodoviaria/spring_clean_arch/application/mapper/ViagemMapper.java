@@ -16,7 +16,6 @@ public interface ViagemMapper {
 
     // 2. INSTÂNCIA DE ACESSO:
     // Permite que a gente chame o mapper de forma fácil: ViagemMapper.INSTANCE.toResponse(...)
-    ViagemMapper INSTANCE = Mappers.getMapper(ViagemMapper.class);
 
     // Agora sem as anotações @Mapping desnecessárias!
     // O MapStruct vai associar todos os campos automaticamente:

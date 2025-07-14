@@ -16,7 +16,7 @@ import java.time.ZoneOffset;
 @Service // Anotação para o Spring gerenciá-lo como um serviço
 public class JwtTokenServiceAdapter implements TokenServicePort {
 
-    @Value("${api.security.token.secret}") // Pega a chave do application.properties
+    @Value("${api.security.token.secret}") // Pega a chave do application.properties.old
     private String secret;
 
     @Override

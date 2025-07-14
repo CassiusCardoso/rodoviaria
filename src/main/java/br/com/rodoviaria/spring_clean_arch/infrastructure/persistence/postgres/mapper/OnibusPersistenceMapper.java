@@ -7,11 +7,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface OnibusPersistenceMapper {
 
-    // CORREÇÃO: Usar Mappers.getMapper() para obter a instância
-    OnibusPersistenceMapper INSTANCE = Mappers.getMapper(OnibusPersistenceMapper.class);
     // CORREÇÃO: Adicione esta anotação @Mapping
     /**
      * Diz ao MapStruct: "Para preencher o campo 'placa' do OnibusModel,

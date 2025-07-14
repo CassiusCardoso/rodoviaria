@@ -8,7 +8,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface AdministradorMapper {
-    AdministradorMapper INSTANCE = Mappers.getMapper(AdministradorMapper.class);
 
     @Mapping(source = "admin.email.email", target = "email") // Mapeia o VO para a String do DTO
     AutenticarAdminResponse toResponse(Administrador admin, String token);

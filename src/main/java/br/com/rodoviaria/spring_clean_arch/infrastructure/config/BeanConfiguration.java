@@ -11,14 +11,47 @@ import br.com.rodoviaria.spring_clean_arch.application.usecases.ticket.*;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.viagem.*;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.*;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.adapters.BCryptSenhaEncoderAdapter;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.*;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AdminAutenticaoService;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AutenticacaoService;
+import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class BeanConfiguration {
+
+    // == BEANS DE MAPPER DE PERSISTÊNCIA ==
+    @Bean
+    public AdministradorPersistenceMapper administradorPersistenceMapper() {
+        return Mappers.getMapper(AdministradorPersistenceMapper.class);
+    }
+
+    @Bean
+    public LinhaPersistenceMapper linhaPersistenceMapper() {
+        return Mappers.getMapper(LinhaPersistenceMapper.class);
+    }
+
+    @Bean
+    public OnibusPersistenceMapper onibusPersistenceMapper() {
+        return Mappers.getMapper(OnibusPersistenceMapper.class);
+    }
+
+    @Bean
+    public PassageiroPersistenceMapper passageiroPersistenceMapper() {
+        return Mappers.getMapper(PassageiroPersistenceMapper.class);
+    }
+
+    @Bean
+    public TicketPersistenceMapper ticketPersistenceMapper() {
+        return Mappers.getMapper(TicketPersistenceMapper.class);
+    }
+
+    @Bean
+    public ViagemPersistenceMapper viagemPersistenceMapper() {
+        return Mappers.getMapper(ViagemPersistenceMapper.class);
+    }
 
     // == BEANS DE SEGURANÇA ==
     @Bean

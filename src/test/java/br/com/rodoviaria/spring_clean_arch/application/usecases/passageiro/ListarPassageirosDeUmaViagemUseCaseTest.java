@@ -1,6 +1,7 @@
 package br.com.rodoviaria.spring_clean_arch.application.usecases.passageiro;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.PassageiroPorViagemResponse;
+import br.com.rodoviaria.spring_clean_arch.application.mapper.TicketMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.ViagemInvalidaException;
@@ -31,6 +32,10 @@ public class ListarPassageirosDeUmaViagemUseCaseTest {
     @Mock
     private TicketRepository ticketRepository;
 
+    @Mock
+    private TicketMapper ticketMapper;
+
+
     private UUID viagemId;
     @InjectMocks
     private ListarPassageirosDeUmaViagemUseCase listarPassageirosDeUmaViagemUseCase;
@@ -55,6 +60,11 @@ public class ListarPassageirosDeUmaViagemUseCaseTest {
         // O TicketMapper será chamado, mas como é um singleton estático (MapStruct), ele funciona sem mock.
         List<Ticket> ticketsFalsos = List.of(mock(Ticket.class), mock(Ticket.class));
         when(ticketRepository.listarTicketsPorViagem(viagemId)).thenReturn(ticketsFalsos);
+
+        // --- CORREÇÃO AQUI ---
+        // Simule o que o mapper deve retornar para evitar o NullPointerException.
+        when(ticketMapper.toPassageiroPorViagemResponse(any(Ticket.class)))
+                .thenReturn(new PassageiroPorViagemResponse(UUID.randomUUID(), viagemId, "Nome Teste", "(11) 99999-9999", "Origem", "Destino", "ABC1234"));
 
         // ACT
         List<PassageiroPorViagemResponse> resultado = listarPassageirosDeUmaViagemUseCase.execute(viagemId);
