@@ -53,16 +53,17 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    @Order(2) // Prioridade 2: Regras para o resto da aplicação
+    @Order(2)
     public SecurityFilterChain appFilterChain(HttpSecurity http, SecurityFilter securityFilter) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         // Endpoints públicos
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // <-- ADICIONE AQUI
                         .requestMatchers(HttpMethod.POST, "/passageiros/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/passageiros").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/linhas/**").permitAll() // Consultas de linhas/viagens são públicas
+                        .requestMatchers(HttpMethod.GET, "/linhas/**").permitAll()
 
                         // Qualquer outra requisição precisa de autenticação (de passageiro)
                         .anyRequest().authenticated()
