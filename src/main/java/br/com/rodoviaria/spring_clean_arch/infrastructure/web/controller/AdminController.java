@@ -1,5 +1,6 @@
 package br.com.rodoviaria.spring_clean_arch.infrastructure.web.controller;
 
+import br.com.rodoviaria.spring_clean_arch.application.dto.request.admin.AutenticarAdminRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.linha.AtualizarInformacoesDaLinhaRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.linha.CadastrarLinhaRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.onibus.AtualizarOnibusRequest;
@@ -7,6 +8,7 @@ import br.com.rodoviaria.spring_clean_arch.application.dto.request.onibus.Cadast
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.AtualizarInformacoesPassageiroRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.viagem.AtualizarViagemRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.viagem.ViagemRequest;
+import br.com.rodoviaria.spring_clean_arch.application.dto.response.admin.AutenticarAdminResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.linha.LinhaResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.onibus.OnibusResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.AtualizarInformacoesPassageiroResponse;
@@ -102,6 +104,18 @@ public class AdminController {
         this.atualizarViagemUseCase = atualizarViagemUseCase;
         this.cancelarViagemUseCase = cancelarViagemUseCase;
         this.listarViagensPorPassageiro = listarViagensPorPassageiro;
+    }
+
+    // ▼▼▼ ADICIONE O NOVO MÉTODO AQUI ▼▼▼
+    @PostMapping("/login")
+    @Operation(summary = "Autentica um administrador", description = "Autentica um administrador com email e senha, retornando um token JWT. Este endpoint é público.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Autenticação bem-sucedida"),
+            @ApiResponse(responseCode = "401", description = "Credenciais inválidas ou conta desativada")
+    })
+    public ResponseEntity<AutenticarAdminResponse> autenticarAdmin(@RequestBody AutenticarAdminRequest request) {
+        AutenticarAdminResponse response = autenticarAdminUseCase.execute(request);
+        return ResponseEntity.ok(response);
     }
 
     // ========== GERENCIAMENTO DE ÔNIBUS ==========
