@@ -1,11 +1,10 @@
-version: '3.8'
 services:
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - "5672:5672" # Porta AMQP
-      - "15672:15672" # Porta do painel de gerenciamento
+      - "5672:5672"
+      - "15672:15672"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
@@ -21,6 +20,8 @@ services:
       - POSTGRES_PASSWORD=021204
     ports:
       - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
     networks:
       - rodoviaria-network
 
@@ -42,3 +43,6 @@ services:
 networks:
   rodoviaria-network:
     driver: bridge
+
+volumes:
+  postgres-data:
