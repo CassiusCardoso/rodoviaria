@@ -1,5 +1,6 @@
 package br.com.rodoviaria.spring_clean_arch.infrastructure.config;
 
+import br.com.rodoviaria.spring_clean_arch.application.usecases.admin.AutenticarAdminUseCase;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.AdministradorRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.adapters.JwtTokenServiceAdapter;
@@ -31,8 +32,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AdminSecurityFilter adminSecurityFilter(JwtTokenServiceAdapter tokenService, AdministradorRepository repository) {
-        return new AdminSecurityFilter(tokenService, repository);
+    public AdminSecurityFilter adminSecurityFilter(AutenticarAdminUseCase autenticarAdminUseCase) {
+        return new AdminSecurityFilter(autenticarAdminUseCase);
     }
 
     // --- Cadeias de Segurança ---
@@ -64,7 +65,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/passageiros/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/passageiros").permitAll()
                         .requestMatchers(HttpMethod.GET, "/linhas/**").permitAll()
-
+                        .requestMatchers("/admin/login").permitAll() // EDIT 15/07 16:37  ADICIONADO PARA RESOLVER PROBLEMA DA ROTA ADMIN/LOGIN DE AUTENTICAR UM ADMIN
                         // Qualquer outra requisição precisa de autenticação (de passageiro)
                         .anyRequest().authenticated()
                 )

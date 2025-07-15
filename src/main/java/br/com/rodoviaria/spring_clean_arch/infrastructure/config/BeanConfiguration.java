@@ -12,7 +12,7 @@ import br.com.rodoviaria.spring_clean_arch.application.usecases.viagem.*;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.*;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.adapters.BCryptSenhaEncoderAdapter;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.*;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AdminAutenticaoService;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AdminAutenticacaoService;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AutenticacaoService;
 import org.mapstruct.factory.Mappers;
 // IMPORTS CORRIGIDOS E ADICIONADOS
@@ -137,8 +137,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public AdminAutenticaoService adminAutenticaoService(AdministradorRepository administradorRepository) {
-        return new AdminAutenticaoService(administradorRepository);
+    public AdminAutenticacaoService adminAutenticaoService(AdministradorRepository administradorRepository) {
+        return new AdminAutenticacaoService(administradorRepository);
     }
 
     // ADMIN
