@@ -22,6 +22,37 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class BeanConfiguration {
 
+    // BEANS DE MAPPER DOMAIN PARA OS CASOS DE USO
+    @Bean
+    public AdministradorMapper administradorMapper() {
+        return Mappers.getMapper(AdministradorMapper.class);
+    }
+
+    @Bean OnibusMapper onibusMapper(){
+        return Mappers.getMapper(OnibusMapper.class);
+    }
+
+    @Bean
+    public LinhaMapper linhaMapper() {
+        return Mappers.getMapper(LinhaMapper.class);
+    }
+
+    @Bean
+    public PassageiroMapper passageiroMapper() {
+        return Mappers.getMapper(PassageiroMapper.class);
+    }
+
+    @Bean
+    public TicketMapper ticketMapper() {
+        return Mappers.getMapper(TicketMapper.class);
+    }
+
+    @Bean
+    public ViagemMapper viagemMapper() {
+        return Mappers.getMapper(ViagemMapper.class);
+    }
+
+
     // == BEANS DE MAPPER DE PERSISTÊNCIA ==
     @Bean
     public AdministradorPersistenceMapper administradorPersistenceMapper() {
@@ -74,6 +105,7 @@ public class BeanConfiguration {
     ) {
         return new AutenticarAdminUseCase(administradorRepository, senhaEncoderPort, tokenServicePort, administradorMapper);
     }
+
 
     @Bean
     public SenhaEncoderPort senhaEncoderPort(PasswordEncoder encoder) {
