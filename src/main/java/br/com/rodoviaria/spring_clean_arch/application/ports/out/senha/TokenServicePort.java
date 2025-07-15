@@ -7,4 +7,6 @@ public interface TokenServicePort {
     String gerarToken(Passageiro passageiro);
     String gerarToken(Administrador administrador);
 
+
+    String validarToken(String token);
 }
