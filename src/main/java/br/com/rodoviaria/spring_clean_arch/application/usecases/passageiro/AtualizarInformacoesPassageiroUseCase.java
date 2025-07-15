@@ -4,7 +4,6 @@ import br.com.rodoviaria.spring_clean_arch.application.dto.request.passageiro.At
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.AtualizarInformacoesPassageiroResponse;
 import br.com.rodoviaria.spring_clean_arch.application.mapper.PassageiroMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
-import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.PassageiroInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Cpf;
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 public class AtualizarInformacoesPassageiroUseCase {
     private final PassageiroRepository passageiroRepository;
-    private final PassageiroMapper passageiroMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
+    private final PassageiroMapper passageiroMapper;
 
     public AtualizarInformacoesPassageiroUseCase(PassageiroRepository passageiroRepository, PassageiroMapper passageiroMapper){
         this.passageiroRepository = passageiroRepository;
@@ -24,7 +23,6 @@ public class AtualizarInformacoesPassageiroUseCase {
     }
 
     public AtualizarInformacoesPassageiroResponse execute(AtualizarInformacoesPassageiroRequest request, UUID passageiroId) {
-        // Verificar se o passageiro existe
         Passageiro passageiroAtual = passageiroRepository.buscarPassageiroPorId(passageiroId)
                 .orElseThrow(() -> new PassageiroInvalidoException("Não encontramos nenhum passageiro com o identificador " + passageiroId + " no sistema."));
 
@@ -32,32 +30,30 @@ public class AtualizarInformacoesPassageiroUseCase {
             throw new PassageiroInvalidoException("Não é possível atualizar as informações de uma conta desativada.");
         }
 
-
-        // 2. CONVERTER E VALIDAR OS DADOS DO REQUEST EM VALUE OBJECTS
         Email novoEmail = new Email(request.email());
-        Senha novaSenha = new Senha(request.senha());
         Cpf novoCpf = new Cpf(request.cpf());
         Telefone novoTelefone = new Telefone(request.telefone());
 
-        // EDIT 04/07 10:42
-        if (!passageiroAtual.getAtivo()) {
-            throw new PassageiroInvalidoException("Não é possível atualizar as informações de uma conta desativada.");
-        }
-            // 3. Criar uma nova entidade com os dados atualizados
-            Passageiro passageiroAtualizado = new Passageiro(
-                    passageiroAtual.getId(),
-                    request.nome(), //  Novo valor do request
-                    novoEmail, // Passa o VO Email
-                    novaSenha, // Passa o VO Senha
-                    novoCpf, // Passa o VO Cpf
-                    novoTelefone, // Passa o VO Telefone
-                    passageiroAtual.getAtivo()
-            );
+        // --- CORREÇÃO AQUI ---
+        // 1. Valida o formato da nova senha em texto plano.
+        Senha.validarFormato(request.senha());
+        // 2. Carrega a senha (ainda em texto plano) no ValueObject.
+        // A criptografia acontecerá mais tarde se necessário.
+        Senha novaSenha = Senha.carregar(request.senha());
+        // OBS: Se a senha precisar ser criptografada na atualização,
+        // o encoder seria chamado aqui antes de carregar.
 
-            // Persistir o passageiroAtualizado no banco de dados
-            Passageiro novoPassageiro = passageiroRepository.salvar(passageiroAtualizado);
+        Passageiro passageiroAtualizado = new Passageiro(
+                passageiroAtual.getId(),
+                request.nome(),
+                novoEmail,
+                novaSenha, // Agora estamos passando um objeto Senha criado corretamente
+                novoCpf,
+                novoTelefone,
+                passageiroAtual.getAtivo()
+        );
 
-            // 5. CONVERTER A ENTIDADE SALVA PARA O DTO DE RESPOSTA USANDO O MAPPER
-            return passageiroMapper.toAtualizarInformacoesResponse(novoPassageiro);
-        }
+        Passageiro novoPassageiro = passageiroRepository.salvar(passageiroAtualizado);
+        return passageiroMapper.toAtualizarInformacoesResponse(novoPassageiro);
     }
+}
