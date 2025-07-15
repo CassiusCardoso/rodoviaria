@@ -1,21 +1,22 @@
 package br.com.rodoviaria.spring_clean_arch.infrastructure.web.controller;
 
-import br.com.rodoviaria.spring_clean_arch.application.dto.request.onibus.AtualizarOnibusRequest;
-import br.com.rodoviaria.spring_clean_arch.application.dto.request.onibus.CadastrarOnibusRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.onibus.OnibusResponse;
-import br.com.rodoviaria.spring_clean_arch.application.usecases.onibus.*;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AdminAutenticado;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.security.UsuarioAutenticado;
-import org.springframework.http.HttpStatus;
+import br.com.rodoviaria.spring_clean_arch.application.usecases.onibus.BuscarInformacoesOnibusUseCase;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/onibus")
+@Tag(name = "Ônibus", description = "Endpoints para consulta pública de informações de ônibus")
 public class OnibusController {
     private final BuscarInformacoesOnibusUseCase buscarInformacoesOnibusUseCase;
 
@@ -25,16 +26,14 @@ public class OnibusController {
         this.buscarInformacoesOnibusUseCase = buscarInformacoesOnibusUseCase;
     }
 
-
-    // PRECISA SER ADMIN PARA LISTAR TODOS OS ÔNIBUS (PERGUNTA PARA RESPONDER AMANHÃ DIA 09
-    // 22:41 08/07
-
-
-    @GetMapping("/{id}")
-    public ResponseEntity<OnibusResponse> buscar(@PathVariable UUID onibusId){
+    @GetMapping("/{onibusId}")
+    @Operation(summary = "Busca um ônibus por ID", description = "Retorna os detalhes públicos de um ônibus específico. Este endpoint é de acesso público.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Ônibus encontrado", content = @Content(schema = @Schema(implementation = OnibusResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Ônibus não encontrado", content = @Content)
+    })
+    public ResponseEntity<OnibusResponse> buscar(@Parameter(description = "ID do ônibus a ser buscado") @PathVariable UUID onibusId){
         OnibusResponse onibusResponse = buscarInformacoesOnibusUseCase.execute(onibusId);
         return ResponseEntity.ok(onibusResponse);
     }
-
-
 }
