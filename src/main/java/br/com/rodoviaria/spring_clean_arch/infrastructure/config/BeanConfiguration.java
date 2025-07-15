@@ -15,12 +15,58 @@ import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.m
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AdminAutenticaoService;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AutenticacaoService;
 import org.mapstruct.factory.Mappers;
+// IMPORTS CORRIGIDOS E ADICIONADOS
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Properties;
+
 
 @Configuration
 public class BeanConfiguration {
+
+    // Beans do RabbitMQ
+    // ====
+
+    public static final String EXCHANGE_NAME = "rodoviaria-exchange";
+    public static final String QUEUE_TICKET_EMAIL = "ticket_email_notification_queue";
+    public static final String ROUTING_KEY_TICKET_EMAIL = "ticket.email.notification";
+
+    @Bean
+    public JavaMailSender javaMailSender(){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("cassiuscardosoo@gmail.com");
+        mailSender.setPassword("nshx tdjq ctbd hekp");
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        return mailSender;
+    }
+    @Bean
+    public Queue queue(){
+        return new Queue(QUEUE_TICKET_EMAIL, true); // true = fila durável
+    }
+
+    @Bean
+    public TopicExchange exchange(){
+        return new TopicExchange(EXCHANGE_NAME);
+    }
+    @Bean
+    public Binding binding(Queue queue, TopicExchange exchange){
+        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY_TICKET_EMAIL);
+    }
 
     // BEANS DE MAPPER DOMAIN PARA OS CASOS DE USO
     @Bean
@@ -267,8 +313,9 @@ public class BeanConfiguration {
             ViagemRepository viagemRepository,
             TicketRepository ticketRepository,
             PassageiroRepository passageiroRepository,
-            TicketMapper ticketMapper) {
-        return new ComprarTicketUseCase(viagemRepository, ticketRepository, passageiroRepository, ticketMapper);
+            TicketMapper ticketMapper,
+            RabbitTemplate rabbitTemplate) {
+        return new ComprarTicketUseCase(viagemRepository, ticketRepository, passageiroRepository, ticketMapper, rabbitTemplate);
     }
 
     @Bean
