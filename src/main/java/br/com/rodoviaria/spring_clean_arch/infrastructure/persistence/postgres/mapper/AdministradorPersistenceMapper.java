@@ -1,3 +1,4 @@
+// Conteúdo para AdministradorPersistenceMapper.java
 package br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper;
 
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Administrador;
@@ -5,14 +6,12 @@ import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.AdministradorModel;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface AdministradorPersistenceMapper {
     AdministradorModel toModel(Administrador administrador);
     Administrador toDomain(AdministradorModel model);
 
-    // Métodos para converter Value Objects
     default String mapEmailToString(Email email) {
         return email == null ? null : email.getEmail();
     }
@@ -25,7 +24,9 @@ public interface AdministradorPersistenceMapper {
         return senha == null ? null : senha.getSenhaHash();
     }
 
+    // --- CORREÇÃO AQUI ---
     default Senha mapStringToSenha(String senha) {
-        return senha == null ? null : new Senha(senha);
+        // Usa o método de fábrica para carregar o hash sem validar o formato.
+        return senha == null ? null : Senha.carregar(senha);
     }
 }
