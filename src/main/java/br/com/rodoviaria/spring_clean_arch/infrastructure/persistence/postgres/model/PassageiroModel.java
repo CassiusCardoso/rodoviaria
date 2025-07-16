@@ -15,6 +15,8 @@ public class PassageiroModel {
     @GeneratedValue(strategy = GenerationType.UUID) // Diz ao BD para gerar o UUID
     private UUID id;
     private String nome;
+
+    @Column(unique = true)
     private String email;
     private String senha;
     private String cpf;

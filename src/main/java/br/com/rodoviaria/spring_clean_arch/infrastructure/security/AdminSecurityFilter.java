@@ -1,7 +1,9 @@
 package br.com.rodoviaria.spring_clean_arch.infrastructure.security;
 
+import jakarta.servlet.FilterChain;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.admin.AutenticarAdminUseCase;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AdminAutenticado;import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,12 +27,6 @@ public class AdminSecurityFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        String path = request.getRequestURI();
-        if (path.equals("/admin/login")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
@@ -38,11 +34,15 @@ public class AdminSecurityFilter extends OncePerRequestFilter {
             AdminAutenticado admin = autenticarAdminUseCase.autenticar(token);
 
             if (admin != null) {
-                filterChain.doFilter(request, response);
-                return;
+                // ---> INÍCIO DA CORREÇÃO <---
+                // Avisa ao Spring Security que este usuário está autenticado
+                var authentication = new UsernamePasswordAuthenticationToken(admin, null, admin.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // ---> FIM DA CORREÇÃO <---
             }
         }
 
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        // Continua a execução da cadeia de filtros
+        filterChain.doFilter(request, response);
     }
 }

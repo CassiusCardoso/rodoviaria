@@ -38,15 +38,11 @@ public class TicketModel {
 
     private LocalDate dataCompra;
 
-    // RELACIONAMENTO: Muitos tickets podem pertencer a um único passageiro.
-    // Esta anotação cria a coluna "passageiro_id" na tabela de tickets.
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "passageiro_id")
     private PassageiroModel passageiro;
 
-    // RELACIONAMENTO: Muitos tickets podem pertencer a uma única viagem.
-    // Esta anotação cria a coluna "viagem_id" na tabela de tickets.
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "viagem_id")
     private ViagemModel viagem;
 
@@ -64,6 +60,7 @@ public class TicketModel {
         this.status = status;
         this.dataCompra = dataCompra;
         this.passageiro = passageiro;
+        this.viagem = viagem;
     }
     public UUID getId() {
         return id;
@@ -73,6 +70,34 @@ public class TicketModel {
     }
     public String getDocumentoPassageiroTicket() {
         return documentoPassageiroTicket;
+    }
+
+    public BigDecimal getPreco() {
+        return preco;
+    }
+
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
+    }
+
+    public int getNumeroAssento() {
+        return numeroAssento;
+    }
+
+    public LocalDate getDataCompra() {
+        return dataCompra;
+    }
+
+    public PassageiroModel getPassageiro() {
+        return passageiro;
+    }
+
+    public StatusTicket getStatus() {
+        return status;
+    }
+
+    public ViagemModel getViagem() {
+        return viagem;
     }
 
     // EDIT 18:01 08/07

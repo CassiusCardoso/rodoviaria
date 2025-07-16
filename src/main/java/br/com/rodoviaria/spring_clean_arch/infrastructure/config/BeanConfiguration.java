@@ -15,6 +15,7 @@ import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.m
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AdminAutenticacaoService;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AutenticacaoService;
 import org.mapstruct.factory.Mappers;
+import br.com.rodoviaria.spring_clean_arch.application.usecases.admin.CriarAdminUseCase;
 // IMPORTS CORRIGIDOS E ADICIONADOS
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -152,6 +153,17 @@ public class BeanConfiguration {
         return new AutenticarAdminUseCase(administradorRepository, senhaEncoderPort, tokenServicePort, administradorMapper);
     }
 
+    // Localize a seção de beans de "ADMIN"
+
+    // ▼▼▼ ADICIONE ESTE NOVO BEAN AQUI ▼▼▼
+    @Bean
+    public CriarAdminUseCase criarAdminUseCase(
+            AdministradorRepository administradorRepository,
+            PasswordEncoder passwordEncoder,
+            AdministradorMapper administradorMapper
+    ) {
+        return new CriarAdminUseCase(administradorRepository, passwordEncoder, administradorMapper);
+    }
 
     @Bean
     public SenhaEncoderPort senhaEncoderPort(PasswordEncoder encoder) {

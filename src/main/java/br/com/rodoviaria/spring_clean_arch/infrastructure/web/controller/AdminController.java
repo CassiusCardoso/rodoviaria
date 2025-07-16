@@ -16,6 +16,7 @@ import br.com.rodoviaria.spring_clean_arch.application.dto.response.passageiro.P
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemPorPassageiroResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.ViagemResponse;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.admin.AutenticarAdminUseCase;
+import br.com.rodoviaria.spring_clean_arch.application.usecases.admin.CriarAdminUseCase;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.linha.AtualizarInformacoesDaLinhaUseCase;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.linha.CadastrarLinhaUseCase;
 import br.com.rodoviaria.spring_clean_arch.application.usecases.linha.DesativarLinhaUseCase;
@@ -79,7 +80,9 @@ public class AdminController {
     private final CancelarViagemUseCase cancelarViagemUseCase;
     private final ListarViagensPorPassageiroUseCase listarViagensPorPassageiro;
 
-    public AdminController(AutenticarAdminUseCase autenticarAdminUseCase, CadastrarOnibusUseCase cadastrarOnibusUseCase, ListarTodosOnibusUseCase listarTodosOnibusUseCase, DesativarOnibusUseCase desativarOnibusUseCase, AtualizarOnibusUseCase atualizarOnibusUseCase, AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase, DesativarPassageiroUseCase desativarPassageiroUseCase, BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase, DesativarLinhaUseCase desativarLinhaUseCase, AtualizarInformacoesDaLinhaUseCase atualizarInformacoesDaLinhaUseCase, CadastrarLinhaUseCase cadastrarLinhaUseCase, AdminCancelarTicketUseCase adminCancelarTicketUseCase, CriarViagemUseCase criarViagemUseCase, AtualizarViagemUseCase atualizarViagemUseCase, CancelarViagemUseCase cancelarViagemUseCase, ListarViagensPorPassageiroUseCase listarViagensPorPassageiro){
+    private final CriarAdminUseCase criarAdminUseCase;
+
+    public AdminController(AutenticarAdminUseCase autenticarAdminUseCase, CadastrarOnibusUseCase cadastrarOnibusUseCase, ListarTodosOnibusUseCase listarTodosOnibusUseCase, DesativarOnibusUseCase desativarOnibusUseCase, AtualizarOnibusUseCase atualizarOnibusUseCase, AtualizarInformacoesPassageiroUseCase atualizarInformacoesPassageiroUseCase, DesativarPassageiroUseCase desativarPassageiroUseCase, BuscarInformacoesPassageiroUseCase buscarInformacoesPassageiroUseCase, DesativarLinhaUseCase desativarLinhaUseCase, AtualizarInformacoesDaLinhaUseCase atualizarInformacoesDaLinhaUseCase, CadastrarLinhaUseCase cadastrarLinhaUseCase, AdminCancelarTicketUseCase adminCancelarTicketUseCase, CriarViagemUseCase criarViagemUseCase, AtualizarViagemUseCase atualizarViagemUseCase, CancelarViagemUseCase cancelarViagemUseCase, ListarViagensPorPassageiroUseCase listarViagensPorPassageiro, CriarAdminUseCase criarAdminUseCase){
         this.autenticarAdminUseCase = autenticarAdminUseCase;
         // ONIBUS
         this.cadastrarOnibusUseCase = cadastrarOnibusUseCase;
@@ -104,6 +107,10 @@ public class AdminController {
         this.atualizarViagemUseCase = atualizarViagemUseCase;
         this.cancelarViagemUseCase = cancelarViagemUseCase;
         this.listarViagensPorPassageiro = listarViagensPorPassageiro;
+
+        this.criarAdminUseCase = criarAdminUseCase;
+
+
     }
 
     // ▼▼▼ ADICIONE O NOVO MÉTODO AQUI ▼▼▼

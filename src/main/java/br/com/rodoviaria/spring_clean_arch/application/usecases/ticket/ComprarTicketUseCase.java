@@ -83,8 +83,7 @@ public class ComprarTicketUseCase {
             rabbitTemplate.convertAndSend(BeanConfiguration.EXCHANGE_NAME, BeanConfiguration.ROUTING_KEY_TICKET_EMAIL, emailData);
             log.info("Mensagem publicada com sucesso.");
         } catch(Exception e){
-            log.error("Falha ao enviar notificação de compra para a fila. Ticket ID: {}\", ticketSalvo.getId(), e");
-        }
+            log.error("Falha ao enviar notificação de compra para a fila. Ticket ID: {}", ticketSalvo.getId(), e);        }
 
         // Mapper para converter Entity em DTO
         return ticketMapper.toResponse(ticketSalvo);

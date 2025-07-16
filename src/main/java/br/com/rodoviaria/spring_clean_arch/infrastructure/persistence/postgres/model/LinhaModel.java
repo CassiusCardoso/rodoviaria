@@ -14,7 +14,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="linhas")
+@Table(name="linhas", uniqueConstraints={
+        @UniqueConstraint(columnNames = {"origem", "destino"})
+})
 public class LinhaModel {
     @Id
     // --- ADICIONE ESTA ANOTAÇÃO ---

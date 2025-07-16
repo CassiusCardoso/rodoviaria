@@ -20,14 +20,11 @@ public class ViagemModel {
     @Enumerated(EnumType.STRING)
     private StatusViagem statusViagem;
 
-    // RELACIONAMENTO: Muitas viagens podem pertencer à mesma linha.
-    // @JoinColumn cria a chave estrangeira "linha_id" na tabela "viagens".
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "linha_id")
     private LinhaModel linha;
 
-    // RELACIONAMENTO: Muitos viagens podem usar o mesmo ônibus.
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "onibus_id")
     private OnibusModel onibus;
 
