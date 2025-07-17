@@ -1,5 +1,6 @@
 package br.com.rodoviaria.spring_clean_arch.domain.repositories;
 
+import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 
 import java.time.LocalDateTime;
@@ -31,4 +32,11 @@ public interface ViagemRepository {
 
     boolean existeViagemFuturaNaoCanceladaParaOnibus(UUID onibusId);
 
+
+    // ▼▼▼ ADICIONE ESTA ASSINATURA DE MÉTODO ▼▼▼
+    boolean existeViagemSobrepostaParaOnibus(UUID onibusId, LocalDateTime dataPartida, LocalDateTime dataChegada);
+
+    // ▼▼▼ NOVO MÉTODO ▼▼▼
+    boolean existsByLinhaAndDataPartida(Linha linha, LocalDateTime dataPartida);
 }
+
