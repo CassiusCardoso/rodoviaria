@@ -5,9 +5,11 @@ import br.com.rodoviaria.spring_clean_arch.application.mapper.OnibusMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Onibus;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.onibus.OnibusInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.OnibusRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class BuscarInformacoesOnibusUseCase {
     private final OnibusRepository onibusRepository;
     private final OnibusMapper onibusMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento

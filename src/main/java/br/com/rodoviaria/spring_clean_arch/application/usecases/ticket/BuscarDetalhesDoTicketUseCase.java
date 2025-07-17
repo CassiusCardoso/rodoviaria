@@ -9,9 +9,11 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.TicketInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class BuscarDetalhesDoTicketUseCase {
     private final TicketRepository ticketRepository;
     private final TicketMapper ticketMapper;

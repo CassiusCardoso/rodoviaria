@@ -19,9 +19,11 @@ import br.com.rodoviaria.spring_clean_arch.infrastructure.config.BeanConfigurati
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class ComprarTicketUseCase {
     // Declarar as dependências (contratos de domínio)
     private final ViagemRepository viagemRepository;

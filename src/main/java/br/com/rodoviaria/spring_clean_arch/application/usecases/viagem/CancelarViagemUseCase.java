@@ -6,9 +6,11 @@ import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.Autoriza
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.StatusViagemInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.ViagemInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class CancelarViagemUseCase {
     private final ViagemRepository viagemRepository;
 

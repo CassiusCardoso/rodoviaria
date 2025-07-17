@@ -5,9 +5,11 @@ import br.com.rodoviaria.spring_clean_arch.application.mapper.OnibusMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Onibus;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.OnibusRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ListarTodosOnibusUseCase {
 
     private final OnibusRepository onibusRepository;

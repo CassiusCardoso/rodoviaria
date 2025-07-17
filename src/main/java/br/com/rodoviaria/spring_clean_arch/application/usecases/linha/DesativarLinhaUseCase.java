@@ -4,9 +4,11 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.LinhaInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class DesativarLinhaUseCase {
     private final LinhaRepository linhaRepository;
     public DesativarLinhaUseCase(LinhaRepository linhaRepository) {

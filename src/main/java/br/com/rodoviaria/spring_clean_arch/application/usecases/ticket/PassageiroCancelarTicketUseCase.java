@@ -5,10 +5,13 @@ import br.com.rodoviaria.spring_clean_arch.domain.enums.StatusTicket;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.TicketInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+
+@Service
 public class PassageiroCancelarTicketUseCase {
 
     private final TicketRepository ticketRepository;

@@ -7,9 +7,11 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Onibus;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.onibus.OnibusInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.OnibusRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class AtualizarOnibusUseCase {
     private final OnibusRepository onibusRepository;
     private final ViagemRepository viagemRepository;

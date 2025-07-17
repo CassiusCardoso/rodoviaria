@@ -6,10 +6,12 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.LinhaInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class BuscarViagensPorLinhaUseCase {
     private final ViagemRepository viagemRepository;
     private final LinhaRepository linhaRepository;

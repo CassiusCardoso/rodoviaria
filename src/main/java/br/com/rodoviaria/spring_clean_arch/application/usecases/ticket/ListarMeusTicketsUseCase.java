@@ -6,10 +6,13 @@ import br.com.rodoviaria.spring_clean_arch.application.mapper.ViagemMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.TicketInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+
+@Service
 public class ListarMeusTicketsUseCase {
 
     private final TicketRepository ticketRepository;

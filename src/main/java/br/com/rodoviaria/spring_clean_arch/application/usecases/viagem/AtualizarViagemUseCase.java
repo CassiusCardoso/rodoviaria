@@ -13,10 +13,12 @@ import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.StatusViagem
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.ViagemInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.OnibusRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Service
 public class AtualizarViagemUseCase {
     private final ViagemRepository viagemRepository;
     private final OnibusRepository onibusRepository;

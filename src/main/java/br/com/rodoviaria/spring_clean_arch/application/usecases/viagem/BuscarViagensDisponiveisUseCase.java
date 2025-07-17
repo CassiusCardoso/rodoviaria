@@ -5,9 +5,11 @@ import br.com.rodoviaria.spring_clean_arch.application.dto.response.viagem.Viage
 import br.com.rodoviaria.spring_clean_arch.application.mapper.ViagemMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BuscarViagensDisponiveisUseCase {
     private final ViagemRepository viagemRepository;
     private final ViagemMapper viagemMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento

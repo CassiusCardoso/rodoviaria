@@ -6,9 +6,10 @@ import br.com.rodoviaria.spring_clean_arch.application.ports.out.senha.SenhaEnco
 import br.com.rodoviaria.spring_clean_arch.application.ports.out.senha.TokenServicePort;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
-import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.PassageiroInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class AutenticarPassageiroUseCase {
     private final PassageiroRepository passageiroRepository;
     private final SenhaEncoderPort encoder;

@@ -5,9 +5,11 @@ import br.com.rodoviaria.spring_clean_arch.application.mapper.PassageiroMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.PassageiroInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class BuscarInformacoesPassageiroUseCase {
     private final PassageiroRepository passageiroRepository;
     private final PassageiroMapper passageiroMapper; // 1. Adicione o mapper como dependência

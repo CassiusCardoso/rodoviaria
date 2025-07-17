@@ -6,10 +6,12 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.PassageiroInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class ListarViagensPorPassageiroUseCase {
 
     private final ViagemRepository viagemRepository;

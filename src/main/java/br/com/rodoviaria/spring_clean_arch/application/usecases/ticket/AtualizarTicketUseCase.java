@@ -11,10 +11,12 @@ import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.StatusInvali
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.TicketInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.DataHoraChegadaInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Service
 public class AtualizarTicketUseCase {
     private final TicketRepository ticketRepository;
     private final TicketMapper ticketMapper;

@@ -5,7 +5,9 @@ import br.com.rodoviaria.spring_clean_arch.application.mapper.LinhaMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.LinhaInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BuscarLinhaPorOrigemDestinoUseCase {
     private final LinhaRepository linhaRepository;
     private final LinhaMapper linhaMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento

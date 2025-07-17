@@ -3,23 +3,25 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.admin;
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.admin.CriarAdminRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.admin.AdminResponse;
 import br.com.rodoviaria.spring_clean_arch.application.mapper.AdministradorMapper;
+import br.com.rodoviaria.spring_clean_arch.application.ports.out.senha.SenhaEncoderPort;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Administrador;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.AdministradorRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Service
 public class CriarAdminUseCase {
 
     private final AdministradorRepository administradorRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final SenhaEncoderPort senhaEncoderPort;
     private final AdministradorMapper administradorMapper;
 
-    public CriarAdminUseCase(AdministradorRepository administradorRepository, PasswordEncoder passwordEncoder, AdministradorMapper administradorMapper) {
+    public CriarAdminUseCase(AdministradorRepository administradorRepository, SenhaEncoderPort senhaEncoderPort, AdministradorMapper administradorMapper) {
         this.administradorRepository = administradorRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.senhaEncoderPort = senhaEncoderPort;
         this.administradorMapper = administradorMapper;
     }
 
@@ -30,7 +32,7 @@ public class CriarAdminUseCase {
         });
 
         // Pega a senha normal e a criptografa
-        String senhaCriptografada = passwordEncoder.encode(request.senha());
+        String senhaCriptografada = senhaEncoderPort.encode(request.senha());
 
         // Cria a nova entidade Administrador
         Administrador novoAdmin = new Administrador(
