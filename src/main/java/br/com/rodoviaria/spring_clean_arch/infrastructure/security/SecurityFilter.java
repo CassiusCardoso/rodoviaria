@@ -27,29 +27,35 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = this.recuperarToken(request);
-        if (token != null) {
-            // Valida o token e pega o email (subject)
-            var email = tokenService.validarToken(token);
-            // CORREÇÃO: Faça a busca e depois converta (mapeie) o resultado
-            passageiroRepository.buscarPorEmail(email)
-                    .ifPresent(passageiro -> { // Usa ifPresent para tratar o Optional de forma segura
-                        // Cria o "adaptador" UserDetails a partir da sua entidade de domínio
-                        UserDetails usuario = new UsuarioAutenticado(passageiro);
-
-                        var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    });
+        if (token != null && !token.isEmpty()) {
+            try {
+                // Valida o token e pega o email (subject)
+                var email = tokenService.validarToken(token);
+                // Verifica se o email não é nulo ou vazio
+                if (email != null && !email.isEmpty()) {
+                    passageiroRepository.buscarPorEmail(email)
+                            .filter(passageiro -> passageiro.getAtivo()) // Verifica se está ativo
+                            .ifPresent(passageiro -> {
+                                // Cria o "adaptador" UserDetails a partir da sua entidade de domínio
+                                UserDetails usuario = new UsuarioAutenticado(passageiro);
+                                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                                SecurityContextHolder.getContext().setAuthentication(authentication);
+                            });
+                }
+            } catch (Exception e) {
+                // Log do erro se necessário, mas não bloqueia a requisição
+                // Token inválido será tratado como não autenticado
+            }
         }
         filterChain.doFilter(request, response);
     }
 
     private String recuperarToken(HttpServletRequest request) {
         var authHeader = request.getHeader("Authorization");
-        if (authHeader == null) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return null;
         }
         // Remove o prefixo "Bearer " do token
         return authHeader.replace("Bearer ", "");
     }
-
 }

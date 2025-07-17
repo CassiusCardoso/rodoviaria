@@ -5,13 +5,16 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroReposit
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class AutenticacaoService implements UserDetailsService {
 
     private final PassageiroRepository passageiroRepository;
-    public AutenticacaoService(PassageiroRepository passageiroRepository){
+
+    public AutenticacaoService(PassageiroRepository passageiroRepository) {
         this.passageiroRepository = passageiroRepository;
     }
 
@@ -28,10 +31,14 @@ public class AutenticacaoService implements UserDetailsService {
             throw new UsernameNotFoundException("Dados inválidos!");
         }
 
-        // Se o passageiro for encontrado, nós o convertemos para o nosso UsuarioAutenticado
-        // que o Spring Security consegue entender.
         Passageiro passageiro = passageiroOptional.get();
+
+        // Verifica se o passageiro está ativo
+        if (!passageiro.getAtivo()) {
+            throw new UsernameNotFoundException("Conta inativa!");
+        }
+
+        // Se o passageiro for encontrado e estiver ativo, nós o convertemos para o nosso UsuarioAutenticado
         return new UsuarioAutenticado(passageiro);
     }
-
 }

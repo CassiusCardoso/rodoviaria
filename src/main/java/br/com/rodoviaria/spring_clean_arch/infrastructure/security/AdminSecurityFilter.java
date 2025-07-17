@@ -1,48 +1,57 @@
 package br.com.rodoviaria.spring_clean_arch.infrastructure.security;
 
+import br.com.rodoviaria.spring_clean_arch.domain.repositories.AdministradorRepository;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.adapters.JwtTokenServiceAdapter;
 import jakarta.servlet.FilterChain;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import br.com.rodoviaria.spring_clean_arch.application.usecases.admin.AutenticarAdminUseCase;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Component;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component
 public class AdminSecurityFilter extends OncePerRequestFilter {
 
-    private final AutenticarAdminUseCase autenticarAdminUseCase;
+    private final JwtTokenServiceAdapter tokenService;
+    private final AdministradorRepository administradorRepository;
 
-    public AdminSecurityFilter(AutenticarAdminUseCase autenticarAdminUseCase) {
-        this.autenticarAdminUseCase = autenticarAdminUseCase;
+    public AdminSecurityFilter(JwtTokenServiceAdapter tokenService, AdministradorRepository administradorRepository) {
+        this.tokenService = tokenService;
+        this.administradorRepository = administradorRepository;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
-
-        String authorizationHeader = request.getHeader("Authorization");
-
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7);
-            AdminAutenticado admin = autenticarAdminUseCase.autenticar(token);
-
-            if (admin != null) {
-                // ---> INÍCIO DA CORREÇÃO <---
-                // Avisa ao Spring Security que este usuário está autenticado
-                var authentication = new UsernamePasswordAuthenticationToken(admin, null, admin.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                // ---> FIM DA CORREÇÃO <---
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        var token = recuperarToken(request);
+        if (token != null && !token.isEmpty()) {
+            try {
+                var email = tokenService.validarToken(token);
+                // Verifica se o email não é nulo ou vazio
+                if (email != null && !email.isEmpty()) {
+                    administradorRepository.buscarPorEmail(email)
+                            .filter(admin -> admin.getAtivo()) // Verifica se está ativo
+                            .ifPresent(administrador -> {
+                                UserDetails usuario = new AdminAutenticado(administrador);
+                                var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                                SecurityContextHolder.getContext().setAuthentication(authentication);
+                            });
+                }
+            } catch (Exception e) {
+                // Log do erro se necessário, mas não bloqueia a requisição
+                // Token inválido será tratado como não autenticado
             }
         }
-
-        // Continua a execução da cadeia de filtros
         filterChain.doFilter(request, response);
+    }
+
+    private String recuperarToken(HttpServletRequest request) {
+        var authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return null;
+        }
+        return authHeader.replace("Bearer ", "");
     }
 }
