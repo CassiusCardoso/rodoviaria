@@ -14,7 +14,7 @@ import br.com.rodoviaria.spring_clean_arch.application.dto.response.ticket.Ticke
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.ticket.TicketResponse;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 
-@Mapper(uses = {PassageiroMapper.class}) // Removido TicketMapper.class do uses
+@Mapper(componentModel = "spring", uses = {PassageiroMapper.class}) // <--- ADICIONADO
 public interface TicketMapper {
 
 

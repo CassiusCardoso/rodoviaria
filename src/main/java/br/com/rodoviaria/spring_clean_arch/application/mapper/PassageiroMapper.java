@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring") // <--- ADICIONADO
 public interface PassageiroMapper {
 
     // Mapeamento para o DTO principal

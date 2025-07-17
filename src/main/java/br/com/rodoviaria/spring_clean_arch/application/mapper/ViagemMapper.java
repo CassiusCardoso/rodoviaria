@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 // 1. ANOTAÇÃO PRINCIPAL:
 // Diz ao MapStruct para processar esta interface.
 // O 'uses' diz que este mapper pode precisar usar outros mappers para completar seu trabalho.
-@Mapper(uses = { OnibusMapper.class, LinhaMapper.class, PassageiroMapper.class })
+@Mapper(componentModel = "spring", uses = { OnibusMapper.class, LinhaMapper.class, PassageiroMapper.class }) // <--- ADICIONADO
 public interface ViagemMapper {
 
     // 2. INSTÂNCIA DE ACESSO:

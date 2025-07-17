@@ -5,7 +5,8 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring") // <--- ADICIONADO
+
 public interface LinhaMapper {
 
     // O MapStruct vai mapear 'id', 'origem', 'destino', 'duracaoPrevistaMinutos',

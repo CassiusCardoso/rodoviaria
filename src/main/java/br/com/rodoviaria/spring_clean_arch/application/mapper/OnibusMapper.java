@@ -6,7 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring") // <--- ADICIONADO
+
 public interface OnibusMapper {
 
     // Diz ao MapStruct: para preencher o campo 'placa' do DTO,

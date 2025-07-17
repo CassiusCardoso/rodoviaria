@@ -7,7 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring") // <--- ADICIONADO
+
 public interface AdministradorMapper {
 
     @Mapping(source = "admin.email.email", target = "email") // Mapeia o VO para a String do DTO
