@@ -4,19 +4,19 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.TicketPersistenceMapper;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.TicketModel;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.TicketJpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component; // <--- MUDANÇA
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Repository
+@Component // <--- MUDANÇA
 public class TicketRepositoryImpl implements TicketRepository {
     private final TicketJpaRepository jpaRepository;
     private final TicketPersistenceMapper mapper;
+
     public TicketRepositoryImpl(TicketJpaRepository jpaRepository, TicketPersistenceMapper mapper) {
         this.jpaRepository = jpaRepository;
         this.mapper = mapper;
@@ -24,8 +24,8 @@ public class TicketRepositoryImpl implements TicketRepository {
 
     @Override
     public Ticket salvar(Ticket ticket) {
-        TicketModel model = mapper.toModel(ticket);
-        TicketModel ticketSalvo = jpaRepository.save(model);
+        var model = mapper.toModel(ticket);
+        var ticketSalvo = jpaRepository.save(model);
         return mapper.toDomain(ticketSalvo);
     }
 

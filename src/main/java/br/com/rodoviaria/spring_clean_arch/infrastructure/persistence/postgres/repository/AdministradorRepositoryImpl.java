@@ -4,13 +4,12 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Administrador;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.AdministradorRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.AdministradorJpaRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.AdministradorPersistenceMapper;
-import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.AdministradorModel;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component; // <--- MUDANÇA
 
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository
+@Component // <--- MUDANÇA
 public class AdministradorRepositoryImpl implements AdministradorRepository {
     private final AdministradorJpaRepository jpaRepository;
     private final AdministradorPersistenceMapper mapper;
@@ -22,8 +21,8 @@ public class AdministradorRepositoryImpl implements AdministradorRepository {
 
     @Override
     public Administrador salvar(Administrador administrador){
-        AdministradorModel model = mapper.toModel(administrador);
-        AdministradorModel administradorSalvo = jpaRepository.save(model);
+        var model = mapper.toModel(administrador);
+        var administradorSalvo = jpaRepository.save(model);
         return mapper.toDomain(administradorSalvo);
     }
 

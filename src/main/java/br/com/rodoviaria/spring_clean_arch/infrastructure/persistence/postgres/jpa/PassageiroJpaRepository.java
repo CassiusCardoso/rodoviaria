@@ -11,35 +11,16 @@ import java.util.UUID;
 
 @Repository
 public interface PassageiroJpaRepository extends JpaRepository<PassageiroModel, UUID> {
-    // 2. MÉTODOS DE BUSCA CUSTOMIZADOS
-    // A mágica do Spring Data: basta declarar um método seguindo a convenção de nomenclatura,
-    // e o Spring cria a query para você.
 
-    /**
-     * Busca um passageiro pelo seu endereço de e-mail.
-     * O Spring entende "findByEmail" e gera a query: "SELECT * FROM passageiros WHERE email = ?"
-     * @param email O e-mail a ser buscado.
-     * @return um Optional contendo o PassageiroModel, se encontrado.
-     */
     Optional<PassageiroModel> findByEmail(String email);
-
-    /**
-     * Busca um passageiro pelo seu CPF.
-     * O Spring entende "findByCpf" e gera a query: "SELECT * FROM passageiros WHERE cpf = ?"
-     * @param cpf O CPF a ser buscado.
-     * @return um Optional contendo o PassageiroModel, se encontrado.
-     */
     Optional<PassageiroModel> findByCpf(String cpf);
 
-    Optional<PassageiroModel> findByAtivo(Boolean ativo);
+    // ▼▼▼ ALTERADO PARA LISTA ▼▼▼
+    List<PassageiroModel> findByAtivo(Boolean ativo);
 
-    Optional<PassageiroModel> findByNome(String nome);
+    // ▼▼▼ ALTERADO PARA LISTA ▼▼▼
+    List<PassageiroModel> findByNome(String nome);
 
-    /**
-     * Busca passageiros associados a uma viagem específica através dos tickets.
-     * @param viagemId O ID da viagem.
-     * @return Lista de PassageiroModel associados à viagem.
-     */
     @Query("SELECT DISTINCT p FROM PassageiroModel p JOIN p.tickets t JOIN t.viagem v WHERE v.id = :viagemId")
     List<PassageiroModel> findByPassageiroPorViagem(UUID viagemId);
 }

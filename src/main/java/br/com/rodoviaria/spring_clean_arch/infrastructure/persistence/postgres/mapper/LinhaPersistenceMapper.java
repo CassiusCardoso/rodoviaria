@@ -5,7 +5,7 @@ import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.m
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface LinhaPersistenceMapper {
     LinhaModel toModel(Linha linha);
     Linha toDomain(LinhaModel linhaModel);

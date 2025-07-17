@@ -8,7 +8,7 @@ import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Telefone;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.PassageiroModel;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PassageiroPersistenceMapper {
     PassageiroModel toModel(Passageiro passageiro);
     Passageiro toDomain(PassageiroModel model);

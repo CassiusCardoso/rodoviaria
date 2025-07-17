@@ -7,7 +7,7 @@ import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.AdministradorModel;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface AdministradorPersistenceMapper {
     AdministradorModel toModel(Administrador administrador);
     Administrador toDomain(AdministradorModel model);

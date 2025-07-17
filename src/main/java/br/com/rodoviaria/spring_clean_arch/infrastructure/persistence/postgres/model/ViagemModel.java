@@ -20,11 +20,11 @@ public class ViagemModel {
     @Enumerated(EnumType.STRING)
     private StatusViagem statusViagem;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "linha_id")
     private LinhaModel linha;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "onibus_id")
     private OnibusModel onibus;
 

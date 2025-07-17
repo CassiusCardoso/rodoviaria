@@ -36,8 +36,8 @@ public class LinhaModel {
     public LinhaModel(){}
     public LinhaModel(UUID id, String origem, String destino, int duracaoPrevistaMinutos, Boolean ativo, LocalDateTime criadoEm) {
         this.id = id;
-        this.origem = origem;
-        this.destino = destino;
+        this.origem = origem != null ? origem.trim().toUpperCase() : null;
+        this.destino = destino != null ? destino.trim().toUpperCase() : null;
         this.duracaoPrevistaMinutos = duracaoPrevistaMinutos;
         this.ativo = ativo;
         this.criadoEm = criadoEm;

@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface LinhaJpaRepository extends JpaRepository<LinhaModel, UUID> {
 
     Optional<LinhaModel> findByOrigemAndDestino(String origem, String destino);
+
+
 }
