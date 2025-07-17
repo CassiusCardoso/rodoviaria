@@ -1,6 +1,5 @@
 package br.com.rodoviaria.spring_clean_arch.infrastructure.config;
 
-import br.com.rodoviaria.spring_clean_arch.application.usecases.admin.AutenticarAdminUseCase;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.AdministradorRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.adapters.JwtTokenServiceAdapter;
@@ -24,7 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-
     // --- Beans de Filtro ---
     @Bean
     public SecurityFilter securityFilter(JwtTokenServiceAdapter tokenService, PassageiroRepository repository) {
@@ -32,8 +30,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public AdminSecurityFilter adminSecurityFilter(AutenticarAdminUseCase autenticarAdminUseCase) {
-        return new AdminSecurityFilter(autenticarAdminUseCase);
+    public AdminSecurityFilter adminSecurityFilter(JwtTokenServiceAdapter tokenService, AdministradorRepository administradorRepository) {
+        return new AdminSecurityFilter(tokenService, administradorRepository);
     }
 
     // --- Cadeias de Segurança ---
@@ -47,7 +45,7 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/admin/login").permitAll() // Permite login de admin
-                        .anyRequest().hasRole("ADMIN") // Qualquer outra rota /admin/** exige a role ADMIN
+                        .anyRequest().hasAuthority("ROLE_ADMIN") // Qualquer outra rota /admin/** exige a role ADMIN
                 )
                 .addFilterBefore(adminSecurityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -61,11 +59,12 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         // Endpoints públicos
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // <-- ADICIONE AQUI
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/passageiros/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/passageiros").permitAll()
                         .requestMatchers(HttpMethod.GET, "/linhas/**").permitAll()
-                        .requestMatchers("/admin/login").permitAll() // EDIT 15/07 16:37  ADICIONADO PARA RESOLVER PROBLEMA DA ROTA ADMIN/LOGIN DE AUTENTICAR UM ADMIN
+                        // REMOVIDO: .requestMatchers("/admin/login").permitAll()
+                        // Já é tratado pela cadeia adminFilterChain
                         // Qualquer outra requisição precisa de autenticação (de passageiro)
                         .anyRequest().authenticated()
                 )
@@ -75,15 +74,11 @@ public class SecurityConfiguration {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        // Bean necessário para o Spring gerenciar a autenticação
         return configuration.getAuthenticationManager();
     }
 
-    // Você já tem este bean em BeanConfiguration.java, pode mantê-lo lá ou movê-lo para cá.
-    // É comum manter todas as configurações de segurança juntas.
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
