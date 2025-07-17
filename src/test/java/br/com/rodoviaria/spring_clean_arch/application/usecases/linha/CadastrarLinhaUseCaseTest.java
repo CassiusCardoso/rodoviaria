@@ -4,7 +4,7 @@ import br.com.rodoviaria.spring_clean_arch.application.dto.request.linha.Cadastr
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.linha.LinhaResponse;
 import br.com.rodoviaria.spring_clean_arch.application.mapper.LinhaMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
-import br.com.rodoviaria.spring_clean_arch.domain.exceptions.viagem.LinhaInvalidaException;
+import br.com.rodoviaria.spring_clean_arch.domain.exceptions.linha.LinhaDuplicadaException; // Alterado
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -79,11 +79,11 @@ public class CadastrarLinhaUseCaseTest {
         when(linhaRepository.buscarPorOrigemEDestino(request.origem(), request.destino())).thenReturn(Optional.of(mock(Linha.class)));
 
         // ACT & ASSERT
-        LinhaInvalidaException exception = assertThrows(LinhaInvalidaException.class, () -> {
+        LinhaDuplicadaException exception = assertThrows(LinhaDuplicadaException.class, () -> {
             useCase.execute(request);
         });
 
-        assertEquals("Já existe uma linha cadastrada com esta mesma origem e destino.", exception.getMessage()); //
+        assertEquals("Já existe uma linha cadastrada com origem '" + request.origem() + "' e destino '" + request.destino() + "'.", exception.getMessage());
         verify(linhaRepository, never()).salvar(any(Linha.class));
     }
 }

@@ -58,6 +58,34 @@ public class CriarViagemUseCaseTest {
     }
 
     @Test
+    @DisplayName("Deve lançar exceção ao tentar criar viagem com ônibus já alocado")
+    void deveLancarExcecao_QuandoOnibusJaAlocadoEmHorarioConflitante() {
+        // ARRANGE
+        // Configura o mock da linha para retornar uma duração prevista
+        when(linha.getDuracaoPrevistaMinutos()).thenReturn(60); // Supondo 60 minutos de duração
+        when(linhaRepository.buscarLinhaPorId(request.linhaId())).thenReturn(Optional.of(linha));
+        when(onibusRepository.buscarOnibusPorId(request.onibusId())).thenReturn(Optional.of(onibus));
+        when(onibus.getId()).thenReturn(request.onibusId()); // Configura o ID do ônibus
+        when(viagemRepository.existeViagemSobrepostaParaOnibus(
+                eq(request.onibusId()),
+                eq(request.dataPartida()),
+                eq(request.dataPartida().plusMinutes(60)) // Corresponde à duração configurada
+        )).thenReturn(true);
+
+        // ACT & ASSERT
+        assertThrows(OnibusInvalidoException.class, () -> useCase.execute(request));
+
+        // Verifica que o método 'salvar' não foi chamado
+        verify(viagemRepository, never()).salvar(any(Viagem.class));
+        // Verifica que o método 'existeViagemSobrepostaParaOnibus' foi chamado com os argumentos corretos
+        verify(viagemRepository).existeViagemSobrepostaParaOnibus(
+                eq(request.onibusId()),
+                eq(request.dataPartida()),
+                eq(request.dataPartida().plusMinutes(60))
+        );
+    }
+
+    @Test
     @DisplayName("Deve criar viagem com sucesso quando os dados forem válidos")
     void deveCriarViagemComSucesso_QuandoDadosValidos() {
         // ARRANGE
