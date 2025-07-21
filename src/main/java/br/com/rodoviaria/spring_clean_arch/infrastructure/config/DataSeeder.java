@@ -1,47 +1,40 @@
+// Arquivo: DataSeeder.java
+
 package br.com.rodoviaria.spring_clean_arch.infrastructure.config;
 
+import br.com.rodoviaria.spring_clean_arch.application.ports.out.senha.SenhaEncoderPort;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Administrador;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.AdministradorRepository;
+// Importe as classes Email e Senha
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.UUID;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class DataSeeder {
 
     @Bean
-    CommandLineRunner initDatabase(AdministradorRepository adminRepository, PasswordEncoder passwordEncoder) {
+    CommandLineRunner initDatabase(AdministradorRepository adminRepository, SenhaEncoderPort senhaEncoderPort) {
         return args -> {
-            // Defina o e-mail e a senha do seu primeiro administrador
             String adminEmail = "admin@rodoviaria.com";
-            String adminSenhaPlana = "SenhaForte@123"; // Use uma senha forte
-
-            // 1. VERIFICA SE O ADMIN JÁ EXISTE
             if (adminRepository.buscarPorEmail(adminEmail).isEmpty()) {
                 System.out.println(">>> Criando primeiro administrador...");
 
-                // 2. CODIFICA A SENHA NORMAL USANDO O ENCODER DO SPRING
-                String senhaCriptografada = passwordEncoder.encode(adminSenhaPlana);
-
-                // 3. CRIA A ENTIDADE
-                Administrador primeiroAdmin = new Administrador(
-                        UUID.randomUUID(),
+                // CORREÇÃO: Use o método de fábrica estático, passando a implementação do port.
+                Administrador primeiroAdmin = Administrador.criarNovo(
                         "Admin Principal",
-                        new Email(adminEmail),
-                        Senha.carregar(senhaCriptografada), // Carrega o hash, não a senha plana
-                        true
+                        adminEmail,
+                        "SenhaForte@123",
+                        senhaEncoderPort
                 );
 
-                // 4. SALVA NO BANCO
                 adminRepository.salvar(primeiroAdmin);
-                System.out.println(">>> Administrador 'admin@rodoviaria.com' criado com sucesso!");
+                System.out.println(">>> Administrador '" + adminEmail + "' criado com sucesso!");
             } else {
-                System.out.println(">>> Administrador 'admin@rodoviaria.com' já existe. Nenhuma ação necessária.");
+                System.out.println(">>> Administrador '" + adminEmail + "' já existe. Nenhuma ação necessária.");
             }
         };
     }
