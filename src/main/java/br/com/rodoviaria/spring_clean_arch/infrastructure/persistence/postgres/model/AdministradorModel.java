@@ -10,7 +10,6 @@ import java.util.UUID;
 @Table(name = "administradores")
 public class AdministradorModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String nome;
     @Column(unique = true) // Email deve ser único
@@ -39,6 +38,10 @@ public class AdministradorModel {
 
     public String getNome() {
         return nome;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public void setNome(String nome) {

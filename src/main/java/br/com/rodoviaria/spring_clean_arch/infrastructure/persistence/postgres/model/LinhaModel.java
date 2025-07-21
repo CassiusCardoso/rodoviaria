@@ -19,8 +19,6 @@ import java.util.UUID;
 })
 public class LinhaModel {
     @Id
-    // --- ADICIONE ESTA ANOTAÇÃO ---
-    @GeneratedValue(strategy = GenerationType.UUID) // Diz ao BD para gerar o UUID
     private UUID id;
     private String origem;
     private String destino;
@@ -72,6 +70,11 @@ public class LinhaModel {
     }
     // EDIT 18:01 08/07
     // Setters para todos (menos para id e criadoEm)
+
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public void setOrigem(String origem) {
         this.origem = origem;

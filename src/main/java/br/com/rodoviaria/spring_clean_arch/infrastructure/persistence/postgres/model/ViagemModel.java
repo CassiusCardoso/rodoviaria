@@ -11,8 +11,6 @@ import java.util.UUID;
 @Table(name = "viagens")
 public class ViagemModel {
     @Id
-    // --- ADICIONE ESTA ANOTAÇÃO ---
-    @GeneratedValue(strategy = GenerationType.UUID) // Diz ao BD para gerar o UUID
     private UUID id;
     private LocalDateTime dataPartida;
     private LocalDateTime dataHoraChegada;
@@ -73,6 +71,10 @@ public class ViagemModel {
 
     // EDIT 18:01 08/07
     // Setters para todos (menos para id e criadoEm)
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public void setDataPartida(LocalDateTime dataPartida) {
         this.dataPartida = dataPartida;

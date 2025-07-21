@@ -11,8 +11,6 @@ import java.util.UUID;
 @Table(name="onibus")
 public class OnibusModel {
     @Id
-    // --- ADICIONE ESTA ANOTAÇÃO ---
-    @GeneratedValue(strategy = GenerationType.UUID) // Diz ao BD para gerar o UUID
     private UUID id;
     private String placa;
     private String modelo;
@@ -63,6 +61,11 @@ public class OnibusModel {
 
     // EDIT 18:01 08/07
     // Setters para todos (menos para id e criadoEm)
+
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public void setViagens(List<ViagemModel> viagens) {
         this.viagens = viagens;
