@@ -20,6 +20,7 @@ desde o agendamento de uma viagem, até a consulta por modelos de domínio ativo
 - **Persistência**: Spring Data JPA, Hibernate
 - **Segurança**: Spring Security, JWT Token
 - **Mensageria**: RabbitMQ
+- **Template Engine**: Thymeleaf
 - **Testes**: JUnit, Mockito
 - **Ulitários**: MapStruct
 - **Documentação da API**: Swagger (Open API)
