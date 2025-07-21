@@ -18,6 +18,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,8 +52,15 @@ public class AutenticarAdminUseCaseTest {
         String email = "admin@gmail.com";
 
         // CORREÇÃO AQUI:
+        // Use o construtor completo de 6 argumentos para simular
+        // a reconstituição de um objeto vindo do banco de dados.
         administrador = new Administrador(
-                adminId, "Admin", new Email(email), Senha.carregar(senhaCodificada), true // <<-- MUDANÇA
+                adminId,
+                "Admin",
+                new Email(email),
+                Senha.carregar(senhaCodificada),
+                true,
+                LocalDateTime.now() // <-- Adicione o sexto argumento
         );
         request = new AutenticarAdminRequest(email, senhaBruta);
     }
