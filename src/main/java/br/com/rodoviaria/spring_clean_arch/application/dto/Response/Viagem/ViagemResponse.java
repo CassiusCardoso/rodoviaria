@@ -11,7 +11,7 @@ public record ViagemResponse(
         LocalDateTime dataPartida,
         LocalDateTime dataHoraChegada,
         String statusViagem,
-        LinhaResponse linha,
-        OnibusResponse onibus
+        String origem,
+        String destino
 ) {
 }

@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public record TicketEmailResponse(
         UUID id,
+        UUID viagemId,
         String nomePassageiroTicket,
         String email,
         String FormaPagamento,

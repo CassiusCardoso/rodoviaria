@@ -39,7 +39,7 @@ services:
       - SPRING_PROFILES_ACTIVE=main
     networks:
       - rodoviaria-network
-
+    env_file: .env
 networks:
   rodoviaria-network:
     driver: bridge
