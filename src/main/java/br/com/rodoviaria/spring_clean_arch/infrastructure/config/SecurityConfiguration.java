@@ -23,29 +23,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration {
 
-    // --- Beans de Filtro ---
-    @Bean
-    public SecurityFilter securityFilter(JwtTokenServiceAdapter tokenService, PassageiroRepository repository) {
-        return new SecurityFilter(tokenService, repository);
-    }
+    // --- Beans de Filtro REMOVIDOS ---
+    // A anotação @Bean foi removida dos métodos abaixo para
+    // evitar o registro global dos filtros.
 
     @Bean
-    public AdminSecurityFilter adminSecurityFilter(JwtTokenServiceAdapter tokenService, AdministradorRepository administradorRepository) {
-        return new AdminSecurityFilter(tokenService, administradorRepository);
-    }
-
-    // --- Cadeias de Segurança ---
-
-    @Bean
-    @Order(1) // Prioridade 1: Regras do Admin são verificadas primeiro
-    public SecurityFilterChain adminFilterChain(HttpSecurity http, AdminSecurityFilter adminSecurityFilter) throws Exception {
+    @Order(1)
+    public SecurityFilterChain adminFilterChain(HttpSecurity http, JwtTokenServiceAdapter tokenService, AdministradorRepository administradorRepository) throws Exception {
+        // O filtro agora é instanciado aqui dentro
+        AdminSecurityFilter adminSecurityFilter = new AdminSecurityFilter(tokenService, administradorRepository);
         return http
-                .securityMatcher("/admin/**") // Aplica este filtro APENAS para rotas /admin/**
+                .securityMatcher("/admin/**")
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/admin/login").permitAll() // Permite login de admin
-                        .anyRequest().hasAuthority("ROLE_ADMIN") // Qualquer outra rota /admin/** exige a role ADMIN
+                        .requestMatchers(HttpMethod.POST, "/admin/login").permitAll()
+                        .anyRequest().hasAuthority("ROLE_ADMIN")
                 )
                 .addFilterBefore(adminSecurityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
@@ -53,19 +46,18 @@ public class SecurityConfiguration {
 
     @Bean
     @Order(2)
-    public SecurityFilterChain appFilterChain(HttpSecurity http, SecurityFilter securityFilter) throws Exception {
+    public SecurityFilterChain appFilterChain(HttpSecurity http, JwtTokenServiceAdapter tokenService, PassageiroRepository repository) throws Exception {
+        // O filtro agora é instanciado aqui dentro
+        SecurityFilter securityFilter = new SecurityFilter(tokenService, repository);
         return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        // Endpoints públicos
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        // Endpoints públicos (incluindo o Swagger, como corrigido anteriormente)
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/passageiros/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/passageiros").permitAll()
                         .requestMatchers(HttpMethod.GET, "/linhas/**").permitAll()
-                        // REMOVIDO: .requestMatchers("/admin/login").permitAll()
-                        // Já é tratado pela cadeia adminFilterChain
-                        // Qualquer outra requisição precisa de autenticação (de passageiro)
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
