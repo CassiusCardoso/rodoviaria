@@ -25,6 +25,8 @@ public interface ViagemMapper {
     // statusViagem -> statusViagem (Enum para String)
     // onibus -> onibus (usando o OnibusMapper)
     // linha -> linha (usando o LinhaMapper)@Mapping(source="data_hora_chegada", target="dataHoraChegada")
+    @Mapping(source = "linha.origem", target = "origem")   // <-- ADICIONE ESTA LINHA
+    @Mapping(source = "linha.destino", target = "destino") // <-- E ESTA TAMBÉM
     ViagemResponse toResponse(Viagem viagem);
 
     // --- NOVO MÉTODO PARA O NOSSO CASO DE USO ---

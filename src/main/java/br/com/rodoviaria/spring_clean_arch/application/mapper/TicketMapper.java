@@ -23,10 +23,10 @@ public interface TicketMapper {
     @Mapping(source = "formaPagamento", target = "formaPagamento")
     TicketResponse toResponse(Ticket ticket);
 
-    // Mapeamento para TicketEmailResponse
+    @Mapping(source = "viagem.id", target = "viagemId") // <--- ADICIONE ESTA LINHA
     @Mapping(source = "passageiro.email.email", target = "email")
     @Mapping(source = "formaPagamento", target = "FormaPagamento")
-    TicketEmailResponse toTicketEmailResponse(Ticket ticket);
+    TicketEmailResponse toTicketEmailResponse(Ticket ticket); //
 
     // Mapeamento para PassageiroPorViagemResponse
     @Mapping(source = "passageiro.id", target = "passageiroId")
