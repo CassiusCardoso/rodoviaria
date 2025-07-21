@@ -6,9 +6,13 @@ import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.AdministradorModel;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface AdministradorPersistenceMapper {
+
+    // Adicione esta linha para garantir o mapeamento do ID
+    @Mapping(target = "id", source = "id")
     AdministradorModel toModel(Administrador administrador);
     Administrador toDomain(AdministradorModel model);
 

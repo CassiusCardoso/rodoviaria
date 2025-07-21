@@ -9,20 +9,11 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface OnibusPersistenceMapper {
-
-    // CORREÇÃO: Adicione esta anotação @Mapping
-    /**
-     * Diz ao MapStruct: "Para preencher o campo 'placa' do OnibusModel,
-     * pegue o objeto 'placa' da entidade Onibus e acesse seu atributo 'valor'".
-     */
+    @Mapping(target = "id", source = "id") // <-- ADICIONE ESTA LINHA
     @Mapping(source = "placa.valor", target = "placa")
+    @Mapping(target = "viagens", ignore = true)
     OnibusModel toModel(Onibus onibus);
-
-    // Para a conversão de volta, o seu método helper "mapStringToPlaca" já funciona bem.
     Onibus toDomain(OnibusModel onibusModel);
-
-    // --- MÉTODOS DE CONVERSÃO ADICIONADOS ---
-    // (O restante do seu arquivo está correto)
 
     default Placa mapStringToPlaca(String placa) {
         if (placa == null) {
