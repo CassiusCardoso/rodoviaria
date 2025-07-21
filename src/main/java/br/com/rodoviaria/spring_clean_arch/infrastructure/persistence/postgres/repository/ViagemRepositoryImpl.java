@@ -4,13 +4,20 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Viagem;
 import br.com.rodoviaria.spring_clean_arch.domain.enums.StatusViagem;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
-// ▼▼▼ IMPORTS CORRIGIDOS ▼▼▼
 import br.com.rodoviaria.spring_clean_arch.application.mapper.LinhaMapper;
 import br.com.rodoviaria.spring_clean_arch.application.mapper.ViagemMapper;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.ViagemJpaRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.ViagemPersistenceMapper;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.LinhaModel;
-import org.springframework.stereotype.Component;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.OnibusModel;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.model.ViagemModel;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,12 +25,17 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Component
+@Repository
 public class ViagemRepositoryImpl implements ViagemRepository {
 
+    private static final Logger logger = LoggerFactory.getLogger(ViagemRepositoryImpl.class);
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     private final ViagemJpaRepository jpaRepository;
-    private final ViagemPersistenceMapper persistenceMapper; // Usando o mapper de persistência
-    private final LinhaMapper linhaMapper; // Mapper da camada de aplicação para DTOs, se necessário
+    private final ViagemPersistenceMapper persistenceMapper;
+    private final LinhaMapper linhaMapper;
 
     public ViagemRepositoryImpl(ViagemJpaRepository jpaRepository, ViagemPersistenceMapper persistenceMapper, LinhaMapper linhaMapper) {
         this.jpaRepository = jpaRepository;
@@ -32,14 +44,62 @@ public class ViagemRepositoryImpl implements ViagemRepository {
     }
 
     @Override
+    @Transactional
     public Viagem salvar(Viagem viagem) {
-        var viagemModel = persistenceMapper.toModel(viagem);
-        var viagemSalva = jpaRepository.save(viagemModel);
-        return persistenceMapper.toDomain(viagemSalva);
+        logger.info("--- Iniciando método salvar para Viagem ID: {} ---", viagem.getId());
+
+        ViagemModel viagemModel = persistenceMapper.toModel(viagem);
+        if (viagemModel == null) {
+            logger.error("!!! Falha crítica: viagemPersistenceMapper.toModel retornou nulo!");
+            throw new IllegalStateException("viagemPersistenceMapper retornou nulo.");
+        }
+
+        logger.info("Mapeamento para ViagemModel concluído. ID da ViagemModel: {}", viagemModel.getId());
+
+        LinhaModel linhaModel = viagemModel.getLinha();
+        OnibusModel onibusModel = viagemModel.getOnibus();
+
+        // Diagnóstico da LinhaModel
+        if (linhaModel == null) {
+            logger.error("!!! DIAGNÓSTICO: LinhaModel está NULA dentro da ViagemModel !!!");
+        } else {
+            // Supondo que LinhaModel tem um método getOrigem()
+            logger.info(">>> DIAGNÓSTICO LinhaModel: ID = {}, Origem = {}", linhaModel.getId(), linhaModel.getOrigem());
+            if (linhaModel.getId() == null) {
+                logger.error("!!! DIAGNÓSTICO: O ID da LinhaModel está NULO !!!");
+            }
+        }
+
+        // Diagnóstico do OnibusModel
+        if (onibusModel == null) {
+            logger.error("!!! DIAGNÓSTICO: OnibusModel está NULO dentro da ViagemModel !!!");
+        } else {
+            // Supondo que OnibusModel tem um método getPlaca()
+            logger.info(">>> DIAGNÓSTICO OnibusModel: ID = {}, Placa = {}", onibusModel.getId(), onibusModel.getPlaca());
+            if (onibusModel.getId() == null) {
+                logger.error("!!! DIAGNÓSTICO: O ID do OnibusModel está NULO !!!");
+            }
+        }
+
+        // Sua verificação original que causa o erro
+        if (linhaModel == null || linhaModel.getId() == null) {
+            logger.error("Verificação original falhou: LinhaModel é nulo ou não tem ID válido para Viagem id={}", viagem.getId());
+            throw new IllegalStateException("LinhaModel não pode ser nulo ou sem ID válido");
+        }
+        if (onibusModel == null || onibusModel.getId() == null) {
+            logger.error("Verificação original falhou: OnibusModel é nulo ou não tem ID válido para Viagem id={}", viagem.getId());
+            throw new IllegalStateException("OnibusModel não pode ser nulo ou sem ID válido");
+        }
+
+        logger.info("--- Todas as verificações passaram. Salvando no banco de dados... ---");
+        ViagemModel savedModel = jpaRepository.save(viagemModel);
+        logger.info("--- Salvo com sucesso. Mapeando de volta para o domínio. ---");
+        return persistenceMapper.toDomain(savedModel);
     }
 
     @Override
     public Optional<Viagem> buscarViagemPorId(UUID id) {
+        Assert.notNull(id, "O id da viagem não pod ser nulo.");
         return jpaRepository.findById(id).map(persistenceMapper::toDomain);
     }
 
@@ -57,15 +117,10 @@ public class ViagemRepositoryImpl implements ViagemRepository {
 
     @Override
     public boolean existsByLinhaAndDataPartida(Linha linha, LocalDateTime dataPartida) {
-        // Para esta checagem, precisamos converter apenas a Linha de domínio para o modelo de persistência.
-        // Assumindo que você tem um `LinhaPersistenceMapper` para isso.
-        // Se `LinhaMapper` já faz isso, o nome pode ser confuso. Vamos assumir um `LinhaPersistenceMapper`.
-        // Se não tiver, o ideal é criar um ou usar o `LinhaMapper` se ele fizer a conversão para `LinhaModel`.
         LinhaModel linhaModel = new LinhaModel(linha.getId(), linha.getOrigem(), linha.getDestino(), linha.getDuracaoPrevistaMinutos(), linha.getAtivo(), linha.getCriadoEm());
         return jpaRepository.existsByLinhaAndDataPartida(linhaModel, dataPartida);
     }
 
-    // ▼▼▼ IMPLEMENTAÇÃO DO MÉTODO FALTANTE ▼▼▼
     @Override
     public List<Viagem> buscarPorDataOrigemDestino(LocalDateTime data, String origem, String destino) {
         return jpaRepository.findByDataPartidaAndLinhaOrigemAndLinhaDestino(data, origem, destino)
@@ -73,7 +128,7 @@ public class ViagemRepositoryImpl implements ViagemRepository {
                 .map(persistenceMapper::toDomain)
                 .collect(Collectors.toList());
     }
-    // ▼▼▼ IMPLEMENTAÇÃO DO MÉTODO FINAL ▼▼▼
+
     @Override
     public List<Viagem> buscarViagensPorPassageiro(UUID passageiroId) {
         return jpaRepository.findViagensByPassageiroId(passageiroId)
@@ -82,11 +137,8 @@ public class ViagemRepositoryImpl implements ViagemRepository {
                 .collect(Collectors.toList());
     }
 
-    // ▼▼▼ IMPLEMENTAÇÃO DO MÉTODO FINAL ▼▼▼
     @Override
     public boolean existeViagemEmTransitoParaOnibus(UUID onibusId) {
-        // Define quais status não permitem que um ônibus seja desativado, por exemplo.
-        // Ajuste essa lista conforme sua regra de negócio.
         List<StatusViagem> statusAtivos = List.of(StatusViagem.AGENDADA, StatusViagem.EM_TRANSITO);
         return jpaRepository.existsByOnibusIdAndStatusViagemIn(onibusId, statusAtivos);
     }
@@ -99,5 +151,4 @@ public class ViagemRepositoryImpl implements ViagemRepository {
                 LocalDateTime.now()
         );
     }
-
 }

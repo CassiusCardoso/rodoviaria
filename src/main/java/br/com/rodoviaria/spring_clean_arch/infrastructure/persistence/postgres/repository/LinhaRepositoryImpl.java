@@ -5,12 +5,13 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.LinhaJpaRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.LinhaPersistenceMapper;
 import org.springframework.stereotype.Component; // <--- MUDANÇA
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component // <--- MUDANÇA
+@Repository
 public class LinhaRepositoryImpl implements LinhaRepository {
     private final LinhaJpaRepository jpaRepository;
     private final LinhaPersistenceMapper mapper;

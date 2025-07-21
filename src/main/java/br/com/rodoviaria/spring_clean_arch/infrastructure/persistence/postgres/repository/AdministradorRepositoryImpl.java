@@ -5,11 +5,12 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.AdministradorRepo
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.AdministradorJpaRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.AdministradorPersistenceMapper;
 import org.springframework.stereotype.Component; // <--- MUDANÇA
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@Component // <--- MUDANÇA
+@Repository
 public class AdministradorRepositoryImpl implements AdministradorRepository {
     private final AdministradorJpaRepository jpaRepository;
     private final AdministradorPersistenceMapper mapper;

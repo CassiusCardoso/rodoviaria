@@ -6,13 +6,14 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.TicketPersistenceMapper;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.TicketJpaRepository;
 import org.springframework.stereotype.Component; // <--- MUDANÇA
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Component // <--- MUDANÇA
+@Repository
 public class TicketRepositoryImpl implements TicketRepository {
     private final TicketJpaRepository jpaRepository;
     private final TicketPersistenceMapper mapper;

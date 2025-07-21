@@ -5,13 +5,14 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroReposit
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.PassageiroPersistenceMapper;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.PassageiroJpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Component
+@Repository
 public class PassageiroRepositoryImpl implements PassageiroRepository {
     private final PassageiroJpaRepository jpaRepository;
     private final PassageiroPersistenceMapper mapper;

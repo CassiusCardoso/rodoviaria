@@ -5,12 +5,13 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.OnibusRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.jpa.OnibusJpaRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.persistence.postgres.mapper.OnibusPersistenceMapper;
 import org.springframework.stereotype.Component; // <--- MUDANÇA
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component // <--- MUDANÇA
+@Repository
 public class OnibusRepositoryImpl implements OnibusRepository {
     private final OnibusJpaRepository jpaRepository;
     private final OnibusPersistenceMapper mapper;
