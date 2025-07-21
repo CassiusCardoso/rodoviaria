@@ -147,3 +147,9 @@ docker-compose up --build
 ```bash
 mvn test
 ```
+---
+
+## 🙋‍♀️ Autor
+
+👩‍💻 Projeto desenvolvido por [Cassius Cardoso](https://www.linkedin.com/in/cassiuscardosoo/)
+🤝 Fique à vontade para contribuir!
