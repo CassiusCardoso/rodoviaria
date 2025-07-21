@@ -39,7 +39,8 @@ desde o agendamento de uma viagem, até a consulta por modelos de domínio ativo
 ---
 
 ## 📝 Endpoints
-
+- **Documentação**:
+  http://localhost:8081/swagger-ui/index.html
 
 ---
 
