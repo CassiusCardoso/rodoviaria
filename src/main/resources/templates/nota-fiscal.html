@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Nota Fiscal</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; }
+        /* Outros estilos de CSS para sua nota */
+    </style>
+</head>
+<body>
+<div class="invoice-box">
+    <h1>Nota Fiscal - Ticket de Viagem</h1>
+    <p>
+        <b>Passageiro:</b> <span th:text="${ticket.nomePassageiroTicket()}">Nome do Passageiro</span><br/>
+    </p>
+    <hr/>
+    <h2>Detalhes da Viagem</h2>
+    <p>
+        <b>Origem:</b> <span th:text="${viagem.origem()}">Cidade Origem</span><br/>
+        <b>Destino:</b> <span th:text="${viagem.destino()}">Cidade Destino</span><br/>
+        <b>Data de Partida:</b> <span th:text="${#temporals.format(viagem.dataPartida, 'dd/MM/yyyy HH:mm')}">01/01/2025 10:00</span>
+    </p>
+    <h2>Detalhes do Pagamento</h2>
+    <p>
+        <b>Forma de Pagamento:</b> <span th:text="${ticket.FormaPagamento()}">Cartão de Crédito</span><br/>
+        <b>Valor:</b> R$ <span th:text="${#numbers.formatDecimal(ticket.preco(), 1, 'POINT', 2, 'COMMA')}">150,00</span>
+    </p>
+</div>'
+</body>
+</html>
