@@ -6,6 +6,7 @@ import br.com.rodoviaria.spring_clean_arch.application.mapper.LinhaMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Linha;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.linha.LinhaDuplicadaException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.LinhaRepository;
+import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CadastrarLinhaUseCase {
     private static final Logger logger = LoggerFactory.getLogger(CadastrarLinhaUseCase.class);
 

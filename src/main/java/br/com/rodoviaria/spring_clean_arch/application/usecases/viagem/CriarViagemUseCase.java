@@ -16,11 +16,13 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CriarViagemUseCase {
 
     private static final Logger logger = LoggerFactory.getLogger(CriarViagemUseCase.class);

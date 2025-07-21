@@ -9,6 +9,7 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.passageiro.AutorizacaoInvalidaException;
 import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.TicketInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
+import org.springframework.transaction.annotation.Transactional; // <-- IMPORTAR
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class BuscarDetalhesDoTicketUseCase {
         this.ticketMapper = ticketMapper;
     }
 
+    @Transactional(readOnly = true)
     public TicketResponse execute(UUID ticketId, UUID usuarioLogadoId) {
 
         // 1. BUSCANDO A ENTIDADE TICKET

@@ -2,10 +2,9 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.ticket;
 
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.ticket.TicketResponse;
 import br.com.rodoviaria.spring_clean_arch.application.mapper.TicketMapper;
-import br.com.rodoviaria.spring_clean_arch.application.mapper.ViagemMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
-import br.com.rodoviaria.spring_clean_arch.domain.exceptions.ticket.TicketInvalidoException;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
+import org.springframework.transaction.annotation.Transactional; // <-- IMPORTAR
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +28,7 @@ public class ListarMeusTicketsUseCase {
      * @param passageiroId O ID do passageiro cujos tickets serão listados.
      * @return Uma lista de TicketResponse contendo os dados dos tickets.
      */
+    @Transactional(readOnly = true)
     public List<TicketResponse> execute(UUID passageiroId) {
 
         // EDIT 14/07 - 09:26 AVALIDAÇÃO AQUI

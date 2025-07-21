@@ -3,6 +3,8 @@ package br.com.rodoviaria.spring_clean_arch.application.usecases.ticket;
 import br.com.rodoviaria.spring_clean_arch.application.dto.request.ticket.ComprarTicketRequest;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.ticket.TicketEmailResponse;
 import br.com.rodoviaria.spring_clean_arch.application.dto.response.ticket.TicketResponse;
+import br.com.rodoviaria.spring_clean_arch.application.gateway.PdfGeneratorGateway;
+import br.com.rodoviaria.spring_clean_arch.application.gateway.TicketNotificationGateway;
 import br.com.rodoviaria.spring_clean_arch.application.mapper.TicketMapper;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Passageiro;
 import br.com.rodoviaria.spring_clean_arch.domain.entities.Ticket;
@@ -16,6 +18,8 @@ import br.com.rodoviaria.spring_clean_arch.domain.repositories.PassageiroReposit
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.TicketRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.ViagemRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.config.BeanConfiguration;
+import br.com.rodoviaria.spring_clean_arch.infrastructure.config.RabbitMQConfig;
+import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -24,24 +28,26 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class ComprarTicketUseCase {
     // Declarar as dependências (contratos de domínio)
     private final ViagemRepository viagemRepository;
     private final TicketRepository ticketRepository;
     private final PassageiroRepository passageiroRepository;
     private final TicketMapper ticketMapper; // EDIT 11/07 15:05 Mapper adicionado para melhorar o desacomplamento
+    private final PdfGeneratorGateway pdfGeneratorGateway;
 
-    // RABBITMQ EDIT 15/07 09:54
-    private final RabbitTemplate rabbitTemplate; // Injentar o RabbitTemplate
+    private final TicketNotificationGateway ticketNotificationGateway;
     private static final Logger log = LoggerFactory.getLogger(ComprarTicketUseCase.class);
 
     // Injentar as dependências (o mundo exterior nos dará a implementação)
-    public ComprarTicketUseCase(ViagemRepository viagemRepository,  TicketRepository ticketRepository, PassageiroRepository passageiroRepository, TicketMapper ticketMapper, RabbitTemplate rabbitTemplate) {
+    public ComprarTicketUseCase(ViagemRepository viagemRepository,  TicketRepository ticketRepository, PassageiroRepository passageiroRepository, TicketMapper ticketMapper, PdfGeneratorGateway pdfGeneratorGateway, TicketNotificationGateway ticketNotificationGateway) {
         this.viagemRepository = viagemRepository;
         this.ticketRepository = ticketRepository;
         this.passageiroRepository = passageiroRepository;
         this.ticketMapper = ticketMapper;
-        this.rabbitTemplate = rabbitTemplate;
+        this.pdfGeneratorGateway = pdfGeneratorGateway;
+        this.ticketNotificationGateway = ticketNotificationGateway;
     }
     // Método de execução (a lógica do caso de uso)
     public TicketResponse execute(ComprarTicketRequest request) {
@@ -78,16 +84,21 @@ public class ComprarTicketUseCase {
         // PERSISR A NOVA ENTIDADE
         Ticket ticketSalvo = ticketRepository.salvar(novoTicket);
 
-        // ENVIO DA MENSAGEM PARA O RABBITMQ (fila)
-        try{
+        // 4. USAR O GATEWAY PARA ENVIAR A NOTIFICAÇÃO
+        try {
             TicketEmailResponse emailData = ticketMapper.toTicketEmailResponse(ticketSalvo);
-            log.info("Publicando mensagem de notificação de ticket...");
-            rabbitTemplate.convertAndSend(BeanConfiguration.EXCHANGE_NAME, BeanConfiguration.ROUTING_KEY_TICKET_EMAIL, emailData);
-            log.info("Mensagem publicada com sucesso.");
-        } catch(Exception e){
-            log.error("Falha ao enviar notificação de compra para a fila. Ticket ID: {}", ticketSalvo.getId(), e);        }
+            log.info("Enviando notificação de ticket para o gateway...");
 
-        // Mapper para converter Entity em DTO
+            // O Use Case apenas chama o método da interface, sem saber como será enviado.
+            ticketNotificationGateway.enviarNotificacao(emailData);
+
+            log.info("Notificação encaminhada com sucesso para o gateway.");
+        } catch(Exception e) {
+            log.error("Falha ao enviar notificação de compra para o gateway. Ticket ID: {}", ticketSalvo.getId(), e);
+            // Aqui você pode decidir se uma falha na notificação deve ou não reverter a transação.
+            // Por enquanto, apenas logamos o erro e a compra do ticket continua válida.
+        }
+
         return ticketMapper.toResponse(ticketSalvo);
     }
 }

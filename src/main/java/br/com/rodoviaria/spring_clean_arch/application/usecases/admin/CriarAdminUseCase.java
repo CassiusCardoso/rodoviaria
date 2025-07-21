@@ -8,11 +8,13 @@ import br.com.rodoviaria.spring_clean_arch.domain.entities.Administrador;
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.AdministradorRepository;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CriarAdminUseCase {
 
     private final AdministradorRepository administradorRepository;
@@ -34,13 +36,12 @@ public class CriarAdminUseCase {
         // Pega a senha normal e a criptografa
         String senhaCriptografada = senhaEncoderPort.encode(request.senha());
 
-        // Cria a nova entidade Administrador
-        Administrador novoAdmin = new Administrador(
-                UUID.randomUUID(),
+        // CORREÇÃO: Use o método de fábrica estático, passando o encoder.
+        Administrador novoAdmin = Administrador.criarNovo(
                 request.nome(),
-                new Email(request.email()),
-                Senha.carregar(senhaCriptografada),
-                true
+                request.email(),
+                request.senha(),
+                senhaEncoderPort // O Use Case já tem acesso ao port
         );
 
         // Salva no banco de dados

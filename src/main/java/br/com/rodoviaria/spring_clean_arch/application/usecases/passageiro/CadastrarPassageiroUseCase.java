@@ -11,11 +11,13 @@ import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Cpf;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Email;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Senha;
 import br.com.rodoviaria.spring_clean_arch.domain.valueobjects.Telefone;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@Transactional
 public class CadastrarPassageiroUseCase {
     private final PassageiroRepository passageiroRepository;
     private final SenhaEncoderPort encoder;
