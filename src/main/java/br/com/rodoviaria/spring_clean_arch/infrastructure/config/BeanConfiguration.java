@@ -4,10 +4,8 @@ import br.com.rodoviaria.spring_clean_arch.application.ports.out.senha.SenhaEnco
 import br.com.rodoviaria.spring_clean_arch.domain.repositories.AdministradorRepository;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.adapters.BCryptSenhaEncoderAdapter;
 import br.com.rodoviaria.spring_clean_arch.infrastructure.security.AdminAutenticacaoService;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,14 +16,6 @@ import java.util.Properties;
 
 @Configuration
 public class BeanConfiguration {
-
-    // Beans de configuração de serviços externos (RabbitMQ, E-mail)
-    // ESTÁ PERFEITO AQUI, POIS REQUEREM CONFIGURAÇÃO EXPLÍCITA.
-    // =================================================================
-
-    public static final String EXCHANGE_NAME = "rodoviaria-exchange";
-    public static final String QUEUE_TICKET_EMAIL = "ticket_email_notification_queue";
-    public static final String ROUTING_KEY_TICKET_EMAIL = "ticket.email.notification";
 
     @Bean
     public JavaMailSender javaMailSender(){
@@ -42,21 +32,12 @@ public class BeanConfiguration {
         return mailSender;
     }
 
-    @Bean
-    public Queue queue(){
-        return new Queue(QUEUE_TICKET_EMAIL, true); // true = fila durável
-    }
 
-    @Bean
-    public TopicExchange exchange(){
-        return new TopicExchange(EXCHANGE_NAME);
-    }
-
-    @Bean
-    public Binding binding(Queue queue, TopicExchange exchange){
-        return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY_TICKET_EMAIL);
-    }
-
+    /**
+     * Define o conversor de mensagens padrão para JSON (usando Jackson).
+     * Isso é mais seguro e interoperável que a serialização Java padrão
+     * e resolve o erro de 'deserialize unauthorized class'.
+     */
 
     // BEANS DE INFRAESTRUTURA DE SEGURANÇA
     // ESTÁ PERFEITO AQUI, POIS SÃO ADAPTADORES E SERVIÇOS CENTRAIS.
